@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final String placeholder;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
   const CustomTextField({
     super.key,
     required this.label,
     required this.placeholder,
+    this.controller,
+    this.validator,
   });
 
   @override
@@ -18,6 +22,8 @@ class CustomTextField extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: TextFormField(
+          controller: controller,
+          validator: validator,
           decoration: InputDecoration(
             labelText: label,
             labelStyle: TextStyle(

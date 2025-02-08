@@ -54,7 +54,7 @@ class SignUpScreen extends StatelessWidget {
               label: "Phone number",
               placeholder: "Enter phone number",
             ),
-            CustomButton(text: "Sign Up"),
+            CustomButton(onTap: (){},text: "Sign Up"),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
