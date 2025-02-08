@@ -29,40 +29,44 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        return TextFormField(
-          obscureText: _obscureText, // Toggle password visibility
-          decoration: InputDecoration(
-            labelText: widget.label,
-            labelStyle: TextStyle(
-              fontSize: 20,
-              color: Colors.grey[700],
-            ),
-            hintText: widget.placeholder,
-            hintStyle: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-            floatingLabelBehavior:
-                FloatingLabelBehavior.always, // Keeps the label visible
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.grey, width: 1),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.blue, width: 2),
-            ),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscureText ? Icons.visibility_off : Icons.visibility,
-                color: Colors.grey,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: TextFormField(
+            obscureText: _obscureText, // Toggle password visibility
+            decoration: InputDecoration(
+              labelText: widget.label,
+              labelStyle: TextStyle(
+                fontSize: 20,
+                color: Colors.grey[700],
               ),
-              onPressed: _togglePasswordVisibility,
+              hintText: widget.placeholder,
+              hintStyle: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              floatingLabelBehavior:
+                  FloatingLabelBehavior.always, // Keeps the label visible
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.blue, width: 2),
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey,
+                ),
+                onPressed: _togglePasswordVisibility,
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              fillColor: Colors.white,
+              filled: true,
             ),
-            contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            fillColor: Colors.white,
-            filled: true,
           ),
         );
       },
