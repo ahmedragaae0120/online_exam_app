@@ -1,0 +1,21 @@
+name: Notify Slack on PR to Original Repo
+
+on:
+  pull_request:
+    types: [opened]  # يعمل فقط عند فتح Pull Request جديد
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          REPO_NAME: ${{ github.repository }}
+          AUTHOR: ${{ github.actor }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "text": "📢 *New Pull Request!* \n👤 *Author:* '"$AUTHOR"' \n📌 *Repository:* '"$REPO_NAME"' \n📝 *Title:* '"$PR_TITLE"' \n🔗 *Link:* '"$PR_URL"'"
+          }' $SLACK_WEBHOOK_URL
