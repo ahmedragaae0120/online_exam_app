@@ -6,6 +6,7 @@ import 'package:online_exam_app/Shared/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
 
 class ProfileDetailsScreen extends StatelessWidget {
+  static const String routeName = '/ProfileDetailsScreen';
   const ProfileDetailsScreen({super.key});
 
   @override
@@ -153,7 +154,7 @@ class ProfileDetailsScreen extends StatelessWidget {
             /* -------------------------------------------------------------------------- */
             /*                                Update Button                               */
             /* -------------------------------------------------------------------------- */
-            Expanded(child: CustomButton(onTap: (){},text: 'Update'))
+            Expanded(child: CustomButton(onTap: () {}, text: 'Update'))
             /* -------------------------------------------------------------------------- */
           ],
         ),

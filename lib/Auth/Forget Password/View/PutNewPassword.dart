@@ -4,6 +4,7 @@ import 'package:online_exam_app/Shared/custom_password_text_field.dart';
 import 'package:online_exam_app/config.dart';
 
 class PutNewPassword extends StatefulWidget {
+  static const routeName = '/PutNewPassword';
   const PutNewPassword({super.key});
 
   @override
@@ -12,7 +13,8 @@ class PutNewPassword extends StatefulWidget {
 
 class _PutNewPasswordState extends State<PutNewPassword> {
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _validateAndUpdatePassword() {

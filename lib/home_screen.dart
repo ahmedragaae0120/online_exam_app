@@ -7,6 +7,7 @@ import 'package:online_exam_app/Profile_Details/View/profile_details_screen.dart
 import 'package:online_exam_app/Shared/custom_bottom_navigation_bar.dart';
 
 class Homescreen extends StatefulWidget {
+  static const String routeName = '/Homescreen';
   const Homescreen({super.key});
 
   @override
