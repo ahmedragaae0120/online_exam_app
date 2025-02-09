@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam_app/Auth/Forget%20Password/View/EmailVerifecation.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
 import 'package:online_exam_app/config.dart';
 
 class EnterEmailForgetPassword extends StatefulWidget {
+  static const routeName = '/EnterEmailForgetPassword';
   const EnterEmailForgetPassword({super.key});
 
   @override
-  State<EnterEmailForgetPassword> createState() => _EnterEmailForgetPasswordState();
+  State<EnterEmailForgetPassword> createState() =>
+      _EnterEmailForgetPasswordState();
 }
 
 class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
@@ -17,7 +20,7 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
   void _validateAndContinue() {
     if (_formKey.currentState!.validate()) {
       print('Navigating to EmailVerification');
-      Navigator.pushNamed(context, '/EmailVerification');
+      Navigator.pushNamed(context, EmailVerification.routeName);
     }
   }
 
