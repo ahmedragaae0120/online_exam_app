@@ -37,9 +37,10 @@ class _PutNewPasswordState extends State<PutNewPassword> {
         child: Form(
           key: _formKey,
           child: Column(
+            spacing: 24,
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: Config.screenHight! * 0.03),
               Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -47,7 +48,6 @@ class _PutNewPasswordState extends State<PutNewPassword> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ),
-              SizedBox(height: Config.screenHight! * 0.012),
               Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -59,15 +59,12 @@ number at least
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: Config.screenHight! * 0.06),
-
               /* Password Field */
               CustomPasswordField(
                 label: 'New Password',
                 controller: passwordController,
                 validator: Validator.password,
               ),
-              SizedBox(height: Config.screenHight! * 0.02),
 
               /* Confirm Password Field */
               CustomPasswordField(
@@ -75,7 +72,6 @@ number at least
                 controller: confirmPasswordController,
                 validator: (value) => Validator.confirmPassword(value, passwordController.text),
               ),
-              SizedBox(height: Config.screenHight! * 0.06),
 
               /* Continue Button */
               CustomButton(
