@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 class CustomPasswordField extends StatefulWidget {
   final String label;
   final String placeholder = 'Password';
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
   const CustomPasswordField({
     super.key,
+    this.controller,
+    this.validator,
     required this.label,
   });
 
@@ -32,6 +36,8 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: TextFormField(
+            controller: widget.controller,
+            validator: widget.validator,
             obscureText: _obscureText, // Toggle password visibility
             decoration: InputDecoration(
               labelText: widget.label,

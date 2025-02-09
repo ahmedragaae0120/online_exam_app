@@ -153,7 +153,7 @@ class ProfileDetailsScreen extends StatelessWidget {
             /* -------------------------------------------------------------------------- */
             /*                                Update Button                               */
             /* -------------------------------------------------------------------------- */
-            Expanded(child: CustomButton(text: 'Update'))
+            Expanded(child: CustomButton(onTap: (){},text: 'Update'))
             /* -------------------------------------------------------------------------- */
           ],
         ),
