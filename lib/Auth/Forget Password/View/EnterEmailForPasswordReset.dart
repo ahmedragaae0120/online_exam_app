@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/Auth/Forget%20Password/View/EmailVerifecation.dart';
+import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
 import 'package:online_exam_app/config.dart';
@@ -24,16 +25,6 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
     }
   }
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return "Email cannot be empty";
-    }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return "Enter a valid email address";
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +70,7 @@ your account
                     label: 'Email',
                     placeholder: 'Enter your email',
                     controller: emailController,
-                    validator: _validateEmail,
+                    validator:Validator.email,
                   ),
                 ],
               ),

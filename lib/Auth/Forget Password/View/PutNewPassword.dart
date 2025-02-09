@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_password_text_field.dart';
 import 'package:online_exam_app/config.dart';
@@ -24,30 +25,9 @@ class _PutNewPasswordState extends State<PutNewPassword> {
     }
   }
 
-  String? _validatePassword(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return "Password cannot be empty";
-    }
-    if (value.length < 6) {
-      return "Password must be at least 6 characters";
-    }
-    if (!RegExp(r'^(?=.*[A-Z])(?=.*\d)').hasMatch(value)) {
-      return "Password must contain at least one uppercase letter and one number";
-    }
-    return null;
-  }
-
-  String? _validateConfirmPassword(String? value) {
-    if (value != passwordController.text) {
-      return "Passwords do not match";
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     Config().init(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Password"),
@@ -85,7 +65,7 @@ number at least
               CustomPasswordField(
                 label: 'New Password',
                 controller: passwordController,
-                validator: _validatePassword,
+                validator: Validator.password,
               ),
               SizedBox(height: Config.screenHight! * 0.02),
 
@@ -93,7 +73,7 @@ number at least
               CustomPasswordField(
                 label: 'Confirm Password',
                 controller: confirmPasswordController,
-                validator: _validateConfirmPassword,
+                validator: (value) => Validator.confirmPassword(value, passwordController.text),
               ),
               SizedBox(height: Config.screenHight! * 0.06),
 
