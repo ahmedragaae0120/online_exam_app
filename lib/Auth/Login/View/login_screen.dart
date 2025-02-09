@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/Auth/Forget%20Password/View/forget_password_screen.dart';
+import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
 import 'package:online_exam_app/config.dart';
-import 'package:online_exam_app/constants.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const routeName = '/LoginScreen';
   const LoginScreen({super.key});
 
   @override
@@ -19,37 +17,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   void _validateAndLogin() {
     if (_formKey.currentState!.validate()) {
       print("Login Successful");
     }
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Email cannot be empty";
-    }
-    final emailRegex = RegExp(Constants.RegExValidateEmail);
-    if (!emailRegex.hasMatch(value)) {
-      return "Enter a valid email address";
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Password cannot be empty";
-    }
-    if (value.length < 6) {
-      return "Password must be at least 6 characters";
-    }
-    if (!RegExp(r'[A-Z]').hasMatch(value)) {
-      return "Password must contain at least one uppercase letter";
-    }
-    if (!RegExp(r'[0-9]').hasMatch(value)) {
-      return "Password must contain at least one number";
-    }
-    return null;
   }
 
   @override
@@ -85,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 label: 'Email',
                 placeholder: 'Enter your email',
                 controller: emailController,
-                validator: _validateEmail,
+                validator: Validator.email,
               ),
               SizedBox(height: 30),
 
@@ -93,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
               CustomPasswordField(
                 label: 'Password',
                 controller: passwordController,
-                validator: _validatePassword,
+                validator: Validator.password,
               ),
               SizedBox(height: 20),
 
@@ -122,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: TextButton(
                         onPressed: () {
                           Navigator.pushNamed(
-                              context, ForgetPasswordScreen.routeName);
+                              context, '/EnterEmailForgetPassword');
                         },
                         child: Text(
                           "Forget password?",
@@ -153,20 +125,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text("Don't have an account?"),
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
-                    child: GestureDetector(
-                      onTap: () {
-                        print("Sign Up Button Pressed");
-                      },
-                      child: Text(
-                        "Sign up",
-                        style: TextStyle(
-                          color: Colors.blueAccent,
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.blueAccent,
-                          decorationThickness: 2,
-                        ),
-                      ),
-                    ),
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, '/SignUp');
+                          print("Sign Up Button Pressed");
+                        },
+                        child: Text(
+                          "Sign up",
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.blueAccent,
+                            decorationThickness: 2,
+                          ),
+                        )),
                   ),
                 ],
               ),

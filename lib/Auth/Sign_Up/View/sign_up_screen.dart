@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/Auth/Login/View/login_screen.dart';
-import 'package:online_exam_app/Auth/Sign_Up/View/widgets/sign_up_validator.dart';
+import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
@@ -12,6 +12,7 @@ import 'package:online_exam_app/config.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = "/sign_up_screen";
+
   const SignUpScreen({super.key});
 
   @override
@@ -19,11 +20,21 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  static TextEditingController emailController = TextEditingController();
+  static TextEditingController passwordController = TextEditingController();
+  static TextEditingController firstNameController = TextEditingController();
+  static TextEditingController lastNameController = TextEditingController();
+  static TextEditingController phoneNumberController = TextEditingController();
+  static TextEditingController userNameController = TextEditingController();
+  static TextEditingController confirmPasswordController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Config().init(context);
     return Form(
-      key: SignUpValidator.formKey,
+      key: _formKey,
       child: Scaffold(
         appBar: AppBar(
           title: Text("Sign Up"),
@@ -39,54 +50,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
               CustomTextField(
                   label: "user name",
                   placeholder: "Enter your user name",
-                  controller: SignUpValidator.userNameController,
-                  validator: SignUpValidator().userNameValidate),
+                  controller: userNameController,
+                  validator: Validator.userName),
               Row(
                 children: [
-                  CustomTextField(
-                    label: "first name",
-                    placeholder: "Enter first name",
-                    validator: SignUpValidator().firstNameValidate,
-                    controller: SignUpValidator.firstNameController,
+                  Expanded(
+                    child: CustomTextField(
+                      label: "first name",
+                      placeholder: "Enter first name",
+                      validator: Validator.firstName,
+                      controller: firstNameController,
+                    ),
                   ),
-                  CustomTextField(
-                    label: "last name",
-                    placeholder: "Enter last name",
-                    controller: SignUpValidator.lastNameController,
-                    validator: SignUpValidator().lasttNameValidate,
+                  Expanded(
+                    child: CustomTextField(
+                      label: "last name",
+                      placeholder: "Enter last name",
+                      controller: lastNameController,
+                      validator: Validator.lastName,
+                    ),
                   ),
                 ],
               ),
               CustomTextField(
                 label: "Email",
                 placeholder: "Enter your email",
-                controller: SignUpValidator.emailController,
-                validator: SignUpValidator().emaillvalidate,
+                controller: emailController,
+                validator: Validator.email,
               ),
               Row(
                 children: [
-                  CustomPasswordField(
-                    label: "Password",
-                    controller: SignUpValidator.passwordController,
-                    validator: SignUpValidator().passwordValidate,
+                  Expanded(
+                    child: CustomPasswordField(
+                      label: "Password",
+                      controller: passwordController,
+                      validator: Validator.password,
+                    ),
                   ),
-                  CustomPasswordField(
-                    label: "Confirm Password",
-                    controller: SignUpValidator.confirmPasswordController,
-                    validator: SignUpValidator().confirmPasswordValidate,
+                  Expanded(
+                    child: CustomPasswordField(
+                      label: "Confirm Password",
+                      controller: confirmPasswordController,
+                      validator: (value) => Validator.confirmPassword(value, passwordController.text),
+                    ),
                   ),
+
                 ],
               ),
               CustomTextField(
                 label: "Phone number",
                 placeholder: "Enter phone number",
-                controller: SignUpValidator.phoneNumberController,
-                validator: SignUpValidator().phoneNumberValidate,
+                controller: phoneNumberController,
+                validator: Validator.phoneNumber,
               ),
               CustomButton(
                   onTap: () {
-                    if (SignUpValidator.formKey.currentState?.validate() ??
-                        false) {
+                    if (_formKey.currentState?.validate() ?? false) {
                       log("Sign Up Successful");
                     }
                   },
@@ -98,8 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   TextButton(
                     child: Text("Login"),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, LoginScreen.routeName);
+                      Navigator.pushReplacementNamed(context, '/Login');
                     },
                   ),
                 ],

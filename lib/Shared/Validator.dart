@@ -1,19 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:online_exam_app/constants.dart';
 
-class SignUpValidator {
-  static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  static TextEditingController emailController = TextEditingController();
-  static TextEditingController passwordController = TextEditingController();
-  static TextEditingController firstNameController = TextEditingController();
-  static TextEditingController lastNameController = TextEditingController();
-  static TextEditingController phoneNumberController = TextEditingController();
-  static TextEditingController userNameController = TextEditingController();
-  static TextEditingController confirmPasswordController =
-      TextEditingController();
-
-  static GlobalKey<FormState> get formKey => _formKey;
-  String? emaillvalidate(String? value) {
+class Validator {
+  static String? email(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email cannot be empty';
     }
@@ -23,7 +11,7 @@ class SignUpValidator {
     return null;
   }
 
-  String? passwordValidate(String? value) {
+  static String? password(String? value) {
     if (value == null || value.isEmpty) {
       return "Password cannot be empty";
     }
@@ -39,20 +27,18 @@ class SignUpValidator {
     return null;
   }
 
-  String? confirmPasswordValidate(String? value) {
+  static String? confirmPassword(String? value, String password) {
     if (value == null || value.isEmpty) {
       return "Password cannot be empty";
     }
-    if (value.length < 6) {
-      return "Password must be at least 6 characters";
-    }
-    if (value != passwordController.text) {
+
+    if (value != password) {
       return "Passwords do not match";
     }
     return null;
   }
 
-  String? userNameValidate(String? value) {
+  static String? userName(String? value) {
     if (value == null || value.isEmpty) {
       return 'User name cannot be empty';
     }
@@ -62,7 +48,7 @@ class SignUpValidator {
     return null;
   }
 
-  String? firstNameValidate(String? value) {
+  static String? firstName(String? value) {
     if (value == null || value.isEmpty) {
       return 'First name cannot be empty';
     }
@@ -72,7 +58,7 @@ class SignUpValidator {
     return null;
   }
 
-  String? lasttNameValidate(String? value) {
+  static String? lastName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Last name cannot be empty';
     }
@@ -82,7 +68,7 @@ class SignUpValidator {
     return null;
   }
 
-  String? phoneNumberValidate(String? value) {
+  static String? phoneNumber(String? value) {
     if (value == null || value.isEmpty) {
       return 'Phone number cannot be empty';
     }
