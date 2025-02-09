@@ -19,9 +19,9 @@ jobs:
         java-version: '11'
     - name: Build with Maven
       run: mvn install -f MyWebApp/pom.xml
-    - uses: act10ns/slack@v2
-      with:
-        channel: '#mar-2024-weekday-batch'
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
+    - name: Send Slack Notification
+      run: |
+        curl -X POST -H 'Content-type: application/json' --data '{
+          "text": "🚀 *Build Status:* ${{ job.status }}\n📌 *Repository:* ${{ github.repository }}\n🔗 *Commit:* <${{ github.event.head_commit.url }}|${{ github.event.head_commit.message }}>"
+        }' $SLACK_WEBHOOK_URL
       if: always()
