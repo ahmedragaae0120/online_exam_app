@@ -36,7 +36,6 @@ class CustomTextField extends StatelessWidget {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
-
             floatingLabelBehavior: FloatingLabelBehavior.always,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),

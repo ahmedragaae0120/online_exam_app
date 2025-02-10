@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
@@ -20,7 +22,6 @@ class _PutNewPasswordState extends State<PutNewPassword> {
 
   void _validateAndUpdatePassword() {
     if (_formKey.currentState!.validate()) {
-      print('Updating the password...');
       // Add logic to update the password
     }
   }
@@ -70,7 +71,8 @@ number at least
               CustomPasswordField(
                 label: 'Confirm Password',
                 controller: confirmPasswordController,
-                validator: (value) => Validator.confirmPassword(value, passwordController.text),
+                validator: (value) =>
+                    Validator.confirmPassword(value, passwordController.text),
               ),
 
               /* Continue Button */

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:online_exam_app/constants.dart';
 
 class Validator {
@@ -5,7 +7,7 @@ class Validator {
     if (value == null || value.isEmpty) {
       return 'Email cannot be empty';
     }
-    if (!RegExp(Constants.RegExValidateEmail).hasMatch(value)) {
+    if (!RegExp(Constants.regExValidateEmail).hasMatch(value)) {
       return 'Enter a valid email address';
     }
     return null;

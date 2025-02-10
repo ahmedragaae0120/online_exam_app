@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/Auth/Forget%20Password/View/PutNewPassword.dart';
 import 'package:online_exam_app/Auth/Forget%20Password/widgets/custom_verification.dart';
@@ -43,7 +45,6 @@ Please enter your code that send to your
               },
               onComplete: () {
                 Navigator.pushNamed(context, PutNewPassword.routeName);
-                print("Navigator to PutNewPassword");
               },
             ),
             SizedBox(height: Config.screenHight! * 0.02),
@@ -56,7 +57,6 @@ Please enter your code that send to your
                   child: GestureDetector(
                     onTap: () {
                       /// Resend the code
-                      print("Resend the code");
                     },
                     child: Text(
                       "Resend",

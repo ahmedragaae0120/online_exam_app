@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/Auth/Forget%20Password/View/EmailVerifecation.dart';
 import 'package:online_exam_app/Shared/Validator.dart';
@@ -20,11 +22,9 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
 
   void _validateAndContinue() {
     if (_formKey.currentState!.validate()) {
-      print('Navigating to EmailVerification');
       Navigator.pushNamed(context, EmailVerification.routeName);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ your account
                     label: 'Email',
                     placeholder: 'Enter your email',
                     controller: emailController,
-                    validator:Validator.email,
+                    validator: Validator.email,
                   ),
                 ],
               ),

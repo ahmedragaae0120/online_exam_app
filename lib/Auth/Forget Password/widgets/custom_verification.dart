@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, body_might_complete_normally_nullable
+
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -23,7 +25,7 @@ class CustomVerification extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 color: Color(0xffDFE7F7))),
         onCompleted: (value) {
-         onComplete();
+          onComplete();
         },
       ),
     );

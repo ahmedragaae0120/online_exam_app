@@ -3,7 +3,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/Auth/Login/View/login_screen.dart';
 import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_password_text_field.dart';
@@ -20,7 +19,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static TextEditingController emailController = TextEditingController();
   static TextEditingController passwordController = TextEditingController();
   static TextEditingController firstNameController = TextEditingController();
@@ -91,10 +90,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: CustomPasswordField(
                       label: "Confirm Password",
                       controller: confirmPasswordController,
-                      validator: (value) => Validator.confirmPassword(value, passwordController.text),
+                      validator: (value) => Validator.confirmPassword(
+                          value, passwordController.text),
                     ),
                   ),
-
                 ],
               ),
               CustomTextField(

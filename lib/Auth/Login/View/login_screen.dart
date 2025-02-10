@@ -19,9 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _validateAndLogin() {
-    if (_formKey.currentState!.validate()) {
-      print("Login Successful");
-    }
+    if (_formKey.currentState!.validate()) {}
   }
 
   @override
@@ -128,7 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(context, '/SignUp');
-                          print("Sign Up Button Pressed");
                         },
                         child: Text(
                           "Sign up",
