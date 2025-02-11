@@ -1,18 +1,17 @@
-// ignore_for_file: file_names, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 
 class CustomPasswordField extends StatefulWidget {
   final String label;
-  final String placeholder = 'Enter password';
+  final String placeholder;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
 
   const CustomPasswordField({
     super.key,
+    required this.label,
+    this.placeholder = 'Enter password',
     this.controller,
     this.validator,
-    required this.label,
   });
 
   @override
@@ -26,61 +25,45 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
     setState(() {
       _obscureText = !_obscureText;
     });
-    // Debugging log
   }
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        return Flexible(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextFormField(
-              controller: widget.controller,
-              validator: widget.validator,
-              obscureText: _obscureText, // Toggle password visibility
-              decoration: InputDecoration(
-                labelText: widget.label,
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey[700],
-                ),
-                hintText: widget.placeholder,
-                hintStyle: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-                floatingLabelBehavior:
-                    FloatingLabelBehavior.always, // Keeps the label visible
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: Colors.grey, width: 1),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: Colors.blue, width: 2),
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscureText ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey,
-                  ),
-                  onPressed: _togglePasswordVisibility,
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                fillColor: Colors.white,
-                filled: true,
-              ),
-            ),
-          ),
-        );
-      },
+    return Flexible(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: TextFormField(
+          controller: widget.controller,
+          validator: widget.validator,
+          obscureText: _obscureText,
+          decoration: getInputDecoration(context, widget.label, widget.placeholder),
+        ),
+      ),
+    );
+  }
+
+  InputDecoration getInputDecoration(BuildContext context, String label, String hint) {
+    final inputTheme = Theme.of(context).inputDecorationTheme;
+
+    return InputDecoration(
+      labelText: label,
+      hintText: hint,
+      labelStyle: inputTheme.labelStyle,
+      hintStyle: inputTheme.hintStyle,
+      floatingLabelBehavior: inputTheme.floatingLabelBehavior,
+      border: inputTheme.border,
+      enabledBorder: inputTheme.enabledBorder,
+      focusedBorder: inputTheme.focusedBorder,
+      contentPadding: inputTheme.contentPadding,
+      fillColor: inputTheme.fillColor,
+      filled: inputTheme.filled,
+      suffixIcon: IconButton(
+        icon: Icon(
+          _obscureText ? Icons.visibility_off : Icons.visibility,
+          color: Colors.grey,
+        ),
+        onPressed: _togglePasswordVisibility,
+      ),
     );
   }
 }
