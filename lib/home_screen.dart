@@ -1,42 +1,40 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/Auth/Login/View/login_screen.dart';
-import 'package:online_exam_app/Auth/Sign_Up/View/sign_up_screen.dart';
 import 'package:online_exam_app/Profile_Details/View/profile_details_screen.dart';
 import 'package:online_exam_app/Shared/custom_bottom_navigation_bar.dart';
+import 'package:online_exam_app/explorescreen/view/explore_screen.dart';
+import 'package:online_exam_app/resultscreen/view/result_screen.dart';
 
-class Homescreen extends StatefulWidget {
-  static const String routeName = '/Homescreen';
-  const Homescreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  _HomescreenState createState() => _HomescreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomescreenState extends State<Homescreen> {
-  int _currentIndex = 0; // Track the currently selected tab
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    LoginScreen(),
-    SignUpScreen(),
+    ExploreScreen(), // Replace with your actual screen widget
+    ResultScreen(),
     ProfileDetailsScreen(),
   ];
+
+  void _onTabSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex, // Show the selected screen
-        children: _screens, // Keep all screens in memory
-      ),
+      body: _screens[_selectedIndex],
       bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _currentIndex,
-        onTabChange: (index) {
-          setState(() {
-            _currentIndex = index; // Update the selected index
-          });
-        },
+        selectedIndex: _selectedIndex,
+        onTabChange: _onTabSelected,
       ),
     );
   }

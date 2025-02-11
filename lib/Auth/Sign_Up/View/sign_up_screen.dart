@@ -53,21 +53,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: Validator.userName),
               Row(
                 children: [
-                  Expanded(
-                    child: CustomTextField(
-                      label: "first name",
-                      placeholder: "Enter first name",
-                      validator: Validator.firstName,
-                      controller: firstNameController,
-                    ),
+                  CustomTextField(
+                    label: "first name",
+                    placeholder: "Enter first name",
+                    validator: Validator.firstName,
+                    controller: firstNameController,
                   ),
-                  Expanded(
-                    child: CustomTextField(
-                      label: "last name",
-                      placeholder: "Enter last name",
-                      controller: lastNameController,
-                      validator: Validator.lastName,
-                    ),
+                  CustomTextField(
+                    label: "last name",
+                    placeholder: "Enter last name",
+                    controller: lastNameController,
+                    validator: Validator.lastName,
                   ),
                 ],
               ),
@@ -79,20 +75,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               Row(
                 children: [
-                  Expanded(
-                    child: CustomPasswordField(
-                      label: "Password",
-                      controller: passwordController,
-                      validator: Validator.password,
-                    ),
+                  CustomPasswordField(
+                    label: "Password",
+                    controller: passwordController,
+                    validator: Validator.password,
                   ),
-                  Expanded(
-                    child: CustomPasswordField(
-                      label: "Confirm Password",
-                      controller: confirmPasswordController,
-                      validator: (value) => Validator.confirmPassword(
-                          value, passwordController.text),
-                    ),
+                  CustomPasswordField(
+                    label: "Confirm Password",
+                    controller: confirmPasswordController,
+                    validator: (value) => Validator.confirmPassword(
+                        value, passwordController.text),
                   ),
                 ],
               ),

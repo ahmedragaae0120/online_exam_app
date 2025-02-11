@@ -19,15 +19,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Homescreen(),
+      home: LoginScreen(),
       routes: {
+        '/Homescreen': (context) => HomeScreen(),
         '/Login': (context) => LoginScreen(),
         '/SignUp': (context) => SignUpScreen(),
         '/ProfileDetails': (context) => ProfileDetailsScreen(),
         '/EnterEmailForgetPassword': (context) => EnterEmailForgetPassword(),
         '/EmailVerification': (context) => EmailVerification(),
         '/PutNewPassword': (context) => PutNewPassword(),
-
       },
     );
   }

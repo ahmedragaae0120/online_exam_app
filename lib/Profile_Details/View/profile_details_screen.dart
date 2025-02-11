@@ -111,24 +111,20 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 /* -------------------------------------------------------------------------- */
                 Row(
                   children: [
-                    Expanded(
-                      child: CustomTextField(
-                        label: 'First name',
-                        placeholder: 'Mohamed',
-                        validator: Validator.firstName,
-                        controller: firstNameController,
-                      ),
+                    CustomTextField(
+                      label: 'First name',
+                      placeholder: 'Mohamed',
+                      validator: Validator.firstName,
+                      controller: firstNameController,
                     ),
                     SizedBox(
                       width: 15,
                     ),
-                    Expanded(
-                      child: CustomTextField(
-                        label: 'Last name',
-                        placeholder: 'Ahmed',
-                        controller: lastNameController,
-                        validator: Validator.lastName,
-                      ),
+                    CustomTextField(
+                      label: 'Last name',
+                      placeholder: 'Ahmed',
+                      controller: lastNameController,
+                      validator: Validator.lastName,
                     )
                   ],
                 ),

@@ -18,8 +18,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void _validateAndLogin() {
-    if (_formKey.currentState!.validate()) {}
+  void _validateAndLogin(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      Navigator.pushReplacementNamed(context, '/Homescreen');
+    } else {
+      // Optionally handle validation failure
+      print('Validation failed');
+    }
   }
 
   @override
@@ -113,7 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 30),
 
               /* Login Button */
-              CustomButton(onTap: _validateAndLogin, text: 'Login'),
+              CustomButton(
+                  onTap: () => _validateAndLogin(context), text: 'Login'),
               SizedBox(height: 20),
 
               /* Sign Up Option */
