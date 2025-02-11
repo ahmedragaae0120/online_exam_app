@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/Shared/custom_verification.dart';
+import 'package:online_exam_app/Auth/Forget%20Password/View/PutNewPassword.dart';
+import 'package:online_exam_app/Auth/Forget%20Password/widgets/custom_verification.dart';
 import 'package:online_exam_app/config.dart';
-import 'package:pinput/pinput.dart';
 
 class EmailVerification extends StatelessWidget {
+  static const routeName = '/EmailVerification';
   const EmailVerification({super.key});
 
   @override
@@ -41,7 +42,7 @@ Please enter your code that send to your
                 ///===================================================================
               },
               onComplete: () {
-                Navigator.pushNamed(context, '/PutNewPassword');
+                Navigator.pushNamed(context, PutNewPassword.routeName);
                 print("Navigator to PutNewPassword");
               },
             ),

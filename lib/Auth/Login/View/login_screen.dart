@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam_app/Auth/Forget%20Password/View/forget_password_screen.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
 import 'package:online_exam_app/config.dart';
+import 'package:online_exam_app/constants.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/LoginScreen';
   const LoginScreen({super.key});
 
   @override
@@ -26,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (value == null || value.isEmpty) {
       return "Email cannot be empty";
     }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final emailRegex = RegExp(Constants.RegExValidateEmail);
     if (!emailRegex.hasMatch(value)) {
       return "Enter a valid email address";
     }
@@ -110,14 +113,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Text(
                       "Remember me",
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
+                      style:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
                     ),
                     Spacer(),
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/EnterEmailForgetPassword');
+                          Navigator.pushNamed(
+                              context, ForgetPasswordScreen.routeName);
                         },
                         child: Text(
                           "Forget password?",
