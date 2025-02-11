@@ -6,6 +6,7 @@ import 'package:online_exam_app/Auth/Login/View/login_screen.dart';
 import 'package:online_exam_app/Auth/Sign_Up/View/sign_up_screen.dart';
 import 'package:online_exam_app/home_screen.dart';
 import 'package:online_exam_app/Profile_Details/View/profile_details_screen.dart';
+import 'package:online_exam_app/utils/string_manager.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,13 +22,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
       routes: {
-        '/Homescreen': (context) => HomeScreen(),
-        '/Login': (context) => LoginScreen(),
-        '/SignUp': (context) => SignUpScreen(),
-        '/ProfileDetails': (context) => ProfileDetailsScreen(),
-        '/EnterEmailForgetPassword': (context) => EnterEmailForgetPassword(),
-        '/EmailVerification': (context) => EmailVerification(),
-        '/PutNewPassword': (context) => PutNewPassword(),
+        AppStrings.homeScreenRoute: (context) => HomeScreen(),
+        AppStrings.loginScreenRoute: (context) => LoginScreen(),
+        AppStrings.singUpScreenRoute: (context) => SignUpScreen(),
+        AppStrings.profileDetailsScreenRoute: (context) =>
+            ProfileDetailsScreen(),
+        AppStrings.enterEmailForgetPasswordScreenRoute: (context) =>
+            EnterEmailForgetPassword(),
+        AppStrings.emailVerificationScreenRoute: (context) =>
+            EmailVerification(),
+        AppStrings.putNewPasswordScreenRoute: (context) => PutNewPassword(),
       },
     );
   }

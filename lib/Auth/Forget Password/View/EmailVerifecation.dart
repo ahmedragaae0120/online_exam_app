@@ -3,17 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/Auth/Forget%20Password/View/PutNewPassword.dart';
 import 'package:online_exam_app/Auth/Forget%20Password/widgets/custom_verification.dart';
-import 'package:online_exam_app/config.dart';
+import 'package:online_exam_app/utils/config.dart';
+import 'package:online_exam_app/utils/string_manager.dart';
 
 class EmailVerification extends StatelessWidget {
-  static const routeName = '/EmailVerification';
   const EmailVerification({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Password"),
+        title: Text(AppStrings.password),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -24,16 +24,13 @@ class EmailVerification extends StatelessWidget {
             Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Email verification",
+                  AppStrings.emailVerification,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 )),
             SizedBox(height: Config.screenHight! * 0.012),
             Align(
               alignment: Alignment.center,
-              child: Text('''
-Please enter your code that send to your
- email address
-''', textAlign: TextAlign.center),
+              child: Text(AppStrings.sendedCode, textAlign: TextAlign.center),
             ),
             SizedBox(height: Config.screenHight! * 0.05),
             CustomVerification(
@@ -51,7 +48,7 @@ Please enter your code that send to your
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Didn't receive code?"),
+                Text(AppStrings.dontRecieveCode),
                 Padding(
                   padding: const EdgeInsets.only(left: 5),
                   child: GestureDetector(
@@ -59,7 +56,7 @@ Please enter your code that send to your
                       /// Resend the code
                     },
                     child: Text(
-                      "Resend",
+                      AppStrings.resend,
                       style: TextStyle(
                         color: Colors.blueAccent,
                         decoration: TextDecoration.underline,

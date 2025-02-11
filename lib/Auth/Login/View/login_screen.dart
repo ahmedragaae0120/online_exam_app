@@ -3,7 +3,8 @@ import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
-import 'package:online_exam_app/config.dart';
+import 'package:online_exam_app/utils/config.dart';
+import 'package:online_exam_app/utils/string_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,10 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _validateAndLogin(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacementNamed(context, '/Homescreen');
+      Navigator.pushReplacementNamed(context, AppStrings.homeScreenRoute);
     } else {
       // Optionally handle validation failure
-      print('Validation failed');
     }
   }
 
@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          "Login",
+          AppStrings.login,
           style: TextStyle(
             color: Colors.black,
             fontSize: 24,
@@ -57,8 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
               /* Email Field */
               CustomTextField(
-                label: 'Email',
-                placeholder: 'Enter your email',
+                label: AppStrings.email,
+                placeholder: AppStrings.enterYourEmail,
                 controller: emailController,
                 validator: Validator.email,
               ),
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               /* Password Field */
               CustomPasswordField(
-                label: 'Password',
+                label: AppStrings.password,
                 controller: passwordController,
                 validator: Validator.password,
               ),
@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     Text(
-                      "Remember me",
+                      AppStrings.rememberMe,
                       style:
                           TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
                     ),
@@ -96,11 +96,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, '/EnterEmailForgetPassword');
+                          Navigator.pushNamed(context,
+                              AppStrings.enterEmailForgetPasswordScreenRoute);
                         },
                         child: Text(
-                          "Forget password?",
+                          AppStrings.forgetpassword,
                           style: TextStyle(
                             color: Colors.black,
                             decoration: TextDecoration.underline,
@@ -119,22 +119,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
               /* Login Button */
               CustomButton(
-                  onTap: () => _validateAndLogin(context), text: 'Login'),
+                  onTap: () => _validateAndLogin(context),
+                  text: AppStrings.login),
               SizedBox(height: 20),
 
               /* Sign Up Option */
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have an account?"),
+                  Text(
+                    AppStrings.dontHaveAccount,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: TextButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/SignUp');
+                          Navigator.pushReplacementNamed(
+                              context, AppStrings.singUpScreenRoute);
                         },
                         child: Text(
-                          "Sign up",
+                          AppStrings.signUp,
                           style: TextStyle(
                             color: Colors.blueAccent,
                             decoration: TextDecoration.underline,

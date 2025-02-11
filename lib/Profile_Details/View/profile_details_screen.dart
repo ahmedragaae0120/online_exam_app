@@ -7,6 +7,7 @@ import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
+import 'package:online_exam_app/utils/string_manager.dart';
 
 class ProfileDetailsScreen extends StatefulWidget {
   const ProfileDetailsScreen({super.key});
@@ -32,7 +33,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
-            'Profile',
+            AppStrings.profile,
             style: TextStyle(
               color: Colors.black,
               fontSize: 30,
@@ -93,7 +94,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 /*                             User Name TextField                            */
                 /* -------------------------------------------------------------------------- */
                 CustomTextField(
-                  label: 'User Name',
+                  label: AppStrings.userName,
                   placeholder: 'Mohamed123',
                   controller: userNameController,
                   validator: Validator.userName,
@@ -112,7 +113,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 Row(
                   children: [
                     CustomTextField(
-                      label: 'First name',
+                      label: AppStrings.firstName,
                       placeholder: 'Mohamed',
                       validator: Validator.firstName,
                       controller: firstNameController,
@@ -121,7 +122,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                       width: 15,
                     ),
                     CustomTextField(
-                      label: 'Last name',
+                      label: AppStrings.lastName,
                       placeholder: 'Ahmed',
                       controller: lastNameController,
                       validator: Validator.lastName,
@@ -137,7 +138,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 /*                               Email TextField                              */
                 /* -------------------------------------------------------------------------- */
                 CustomTextField(
-                  label: 'Email',
+                  label: AppStrings.email,
                   placeholder: 'Mohamed.Ahmed@gmail.com',
                   controller: emailController,
                   validator: Validator.email,
@@ -152,7 +153,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 /*                             Password TextField                             */
                 /* -------------------------------------------------------------------------- */
                 CustomPasswordField(
-                  label: 'Password',
+                  label: AppStrings.password,
                   controller: passwordController,
                   validator: Validator.password,
                 ),
@@ -167,7 +168,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 /*                           Phone Number TextField                           */
                 /* -------------------------------------------------------------------------- */
                 CustomTextField(
-                  label: 'Phone Number',
+                  label: AppStrings.phoneNumber,
                   placeholder: '1212312312433',
                   controller: phoneNumberController,
                   validator: Validator.phoneNumber,
@@ -186,10 +187,10 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 CustomButton(
                     onTap: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        log("Updates has been done Successful");
+                        log(AppStrings.updatesDoneSucceffully);
                       }
                     },
-                    text: 'Update'),
+                    text: AppStrings.update),
 
                 /* -------------------------------------------------------------------------- */
               ],

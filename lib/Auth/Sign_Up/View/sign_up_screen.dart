@@ -7,7 +7,8 @@ import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
-import 'package:online_exam_app/config.dart';
+import 'package:online_exam_app/utils/config.dart';
+import 'package:online_exam_app/utils/string_manager.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = "/sign_up_screen";
@@ -36,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       key: _formKey,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Sign Up"),
+          title: Text(AppStrings.signUp),
         ),
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -47,41 +48,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               SizedBox(height: Config.screenHight! * 0.01),
               CustomTextField(
-                  label: "user name",
-                  placeholder: "Enter your user name",
+                  label: AppStrings.userName,
+                  placeholder: AppStrings.enterUserName,
                   controller: userNameController,
                   validator: Validator.userName),
               Row(
                 children: [
                   CustomTextField(
-                    label: "first name",
-                    placeholder: "Enter first name",
+                    label: AppStrings.firstName,
+                    placeholder: AppStrings.enterYourFirstName,
                     validator: Validator.firstName,
                     controller: firstNameController,
                   ),
                   CustomTextField(
-                    label: "last name",
-                    placeholder: "Enter last name",
+                    label: AppStrings.lastName,
+                    placeholder: AppStrings.enterYourLastName,
                     controller: lastNameController,
                     validator: Validator.lastName,
                   ),
                 ],
               ),
               CustomTextField(
-                label: "Email",
-                placeholder: "Enter your email",
+                label: AppStrings.email,
+                placeholder: AppStrings.enterYourEmail,
                 controller: emailController,
                 validator: Validator.email,
               ),
               Row(
                 children: [
                   CustomPasswordField(
-                    label: "Password",
+                    label: AppStrings.password,
                     controller: passwordController,
                     validator: Validator.password,
                   ),
                   CustomPasswordField(
-                    label: "Confirm Password",
+                    label: AppStrings.confirmPassword,
                     controller: confirmPasswordController,
                     validator: (value) => Validator.confirmPassword(
                         value, passwordController.text),
@@ -89,26 +90,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               ),
               CustomTextField(
-                label: "Phone number",
-                placeholder: "Enter phone number",
+                label: AppStrings.phoneNumber,
+                placeholder: AppStrings.enterYourPhoneNumber,
                 controller: phoneNumberController,
                 validator: Validator.phoneNumber,
               ),
               CustomButton(
                   onTap: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                      log("Sign Up Successful");
+                      log(AppStrings.signUpSuccessfully);
                     }
                   },
-                  text: "Sign Up"),
+                  text: AppStrings.signUp),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account?"),
+                  Text(
+                    AppStrings.alreadyHaveAnAccount,
+                  ),
                   TextButton(
-                    child: Text("Login"),
+                    child: Text(AppStrings.login),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/Login');
+                      Navigator.pushReplacementNamed(
+                          context, AppStrings.loginScreenRoute);
                     },
                   ),
                 ],

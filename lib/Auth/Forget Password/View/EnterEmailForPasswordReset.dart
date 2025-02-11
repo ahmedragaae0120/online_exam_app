@@ -1,11 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/Auth/Forget%20Password/View/EmailVerifecation.dart';
 import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_text_field.dart';
-import 'package:online_exam_app/config.dart';
+import 'package:online_exam_app/utils/config.dart';
+import 'package:online_exam_app/utils/string_manager.dart';
 
 class EnterEmailForgetPassword extends StatefulWidget {
   static const routeName = '/EnterEmailForgetPassword';
@@ -22,7 +22,7 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
 
   void _validateAndContinue() {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushNamed(context, EmailVerification.routeName);
+      Navigator.pushNamed(context, AppStrings.emailVerificationScreenRoute);
     }
   }
 
@@ -32,7 +32,9 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Password"),
+        title: Text(
+          AppStrings.password,
+        ),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -45,7 +47,7 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Forget password",
+                  AppStrings.forgetpassword,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ),
@@ -53,10 +55,7 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  '''
-Please enter your email associated to 
-your account
-''',
+                  AppStrings.pleaseEnterEmailsAssociatedToUrAccount,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -67,8 +66,8 @@ your account
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   CustomTextField(
-                    label: 'Email',
-                    placeholder: 'Enter your email',
+                    label: AppStrings.email,
+                    placeholder: AppStrings.enterYourEmail,
                     controller: emailController,
                     validator: Validator.email,
                   ),
@@ -79,7 +78,7 @@ your account
               /* Continue Button */
               CustomButton(
                 onTap: _validateAndContinue,
-                text: 'Continue',
+                text: AppStrings.continu,
               ),
             ],
           ),

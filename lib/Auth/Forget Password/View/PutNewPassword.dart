@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:online_exam_app/Shared/Validator.dart';
 import 'package:online_exam_app/Shared/custom_button.dart';
 import 'package:online_exam_app/Shared/custom_password_text_field.dart';
-import 'package:online_exam_app/config.dart';
+import 'package:online_exam_app/utils/config.dart';
+import 'package:online_exam_app/utils/string_manager.dart';
 
 class PutNewPassword extends StatefulWidget {
   static const routeName = '/PutNewPassword';
@@ -31,7 +32,7 @@ class _PutNewPasswordState extends State<PutNewPassword> {
     Config().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Password"),
+        title: Text(AppStrings.password),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -45,31 +46,27 @@ class _PutNewPasswordState extends State<PutNewPassword> {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Reset password",
+                  AppStrings.resetPassword,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ),
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  '''
-Password must not be empty and must contain
-6 characters with an uppercase letter and one
-number at least
-''',
+                  AppStrings.passwordvalid,
                   textAlign: TextAlign.center,
                 ),
               ),
               /* Password Field */
               CustomPasswordField(
-                label: 'New Password',
+                label: AppStrings.continu,
                 controller: passwordController,
                 validator: Validator.password,
               ),
 
               /* Confirm Password Field */
               CustomPasswordField(
-                label: 'Confirm Password',
+                label: AppStrings.confirmPassword,
                 controller: confirmPasswordController,
                 validator: (value) =>
                     Validator.confirmPassword(value, passwordController.text),
@@ -78,7 +75,7 @@ number at least
               /* Continue Button */
               CustomButton(
                 onTap: _validateAndUpdatePassword,
-                text: 'Continue',
+                text: AppStrings.continu,
               ),
             ],
           ),
