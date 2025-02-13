@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/Theme%20app/colors_manager.dart';
+import 'package:online_exam_app/core/theme/colors_manager.dart';
 
 class MyThemeData {
   static ThemeData LightTheme = ThemeData(

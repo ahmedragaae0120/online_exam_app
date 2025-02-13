@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
-import 'package:online_exam_app/utils/constants.dart';
-import 'package:online_exam_app/utils/string_manager.dart';
+import 'package:online_exam_app/core/constants/constants.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 
 class Validator {
   static String? email(String? value) {

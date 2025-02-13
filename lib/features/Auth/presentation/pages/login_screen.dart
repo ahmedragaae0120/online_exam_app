@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/Shared/Validator.dart';
-import 'package:online_exam_app/Shared/custom_button.dart';
-import 'package:online_exam_app/Shared/custom_password_text_field.dart';
-import 'package:online_exam_app/Shared/custom_text_field.dart';
-import 'package:online_exam_app/utils/config.dart';
-import 'package:online_exam_app/utils/string_manager.dart';
+import 'package:online_exam_app/Shared/widgets/Validator.dart';
+import 'package:online_exam_app/Shared/widgets/custom_button.dart';
+import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
+import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
+import 'package:online_exam_app/core/utils/config.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

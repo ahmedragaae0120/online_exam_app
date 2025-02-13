@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/Auth/Forget%20Password/View/EnterEmailForPasswordReset.dart';
+import 'package:online_exam_app/features/Auth/presentation/pages/Forget%20Password/EnterEmailForPasswordReset.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   static const routeName = '/ForgetPasswordScreen';

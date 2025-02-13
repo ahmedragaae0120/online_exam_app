@@ -1,10 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/Auth/Forget%20Password/View/PutNewPassword.dart';
-import 'package:online_exam_app/Auth/Forget%20Password/widgets/custom_verification.dart';
-import 'package:online_exam_app/utils/config.dart';
-import 'package:online_exam_app/utils/string_manager.dart';
+import 'package:online_exam_app/features/Auth/presentation/pages/Forget%20Password/PutNewPassword.dart';
+import 'package:online_exam_app/features/Auth/presentation/widgets/custom_verification.dart';
+import 'package:online_exam_app/core/utils/config.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 
 class EmailVerification extends StatelessWidget {
   const EmailVerification({super.key});
