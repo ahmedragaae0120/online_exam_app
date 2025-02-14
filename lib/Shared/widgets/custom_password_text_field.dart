@@ -36,13 +36,15 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
           controller: widget.controller,
           validator: widget.validator,
           obscureText: _obscureText,
-          decoration: getInputDecoration(context, widget.label, widget.placeholder),
+          decoration:
+              getInputDecoration(context, widget.label, widget.placeholder),
         ),
       ),
     );
   }
 
-  InputDecoration getInputDecoration(BuildContext context, String label, String hint) {
+  InputDecoration getInputDecoration(
+      BuildContext context, String label, String hint) {
     final inputTheme = Theme.of(context).inputDecorationTheme;
 
     return InputDecoration(

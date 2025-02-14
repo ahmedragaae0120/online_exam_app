@@ -14,8 +14,6 @@ class app_colors {
   static const placeHolder = Color(0xffA6A6A6);
   //==================================== const colors ====================================//
 
-
-
   //====================================blue grades ====================================//
   static const blue_10 = Color(0xffccd7eb);
   static const blue_20 = Color(0xffabbcde);
@@ -44,5 +42,4 @@ class app_colors {
   static const black_100 = Color(0xff030303);
 
 //====================================black grades ====================================//
-
 }
