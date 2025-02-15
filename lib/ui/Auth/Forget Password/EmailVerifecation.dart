@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:online_exam_app/ui/Auth/pages/Forget%20Password/PutNewPassword.dart';
+import 'package:online_exam_app/ui/Auth/Forget%20Password/PutNewPassword.dart';
 import 'package:online_exam_app/ui/Auth/widgets/custom_verification.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';

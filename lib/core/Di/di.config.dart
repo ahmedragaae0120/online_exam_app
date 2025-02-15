@@ -17,7 +17,7 @@ import '../../data/data_source_impl/signup_datasource_impl.dart' as _i648;
 import '../../data/repo_impl/signup_repo_impl.dart' as _i430;
 import '../../domain/repo_contract/signup_repo_contract.dart' as _i229;
 import '../../domain/use_cases/signup_usecase.dart' as _i459;
-import '../../ui/Auth/Sign_Up/view_model/cubit/signup_cubit.dart' as _i537;
+import '../../ui/Auth/view_model/cubit/auth_cubit.dart' as _i537;
 import '../api/api_manager.dart' as _i1047;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -38,8 +38,8 @@ extension GetItInjectableX on _i174.GetIt {
         signUpDataSourceContract: gh<_i647.SignUpDataSourceContract>()));
     gh.factory<_i459.SignupUsecase>(() => _i459.SignupUsecase(
         signupRepoContract: gh<_i229.SignupRepoContract>()));
-    gh.factory<_i537.SignupCubit>(
-        () => _i537.SignupCubit(gh<_i459.SignupUsecase>()));
+    gh.factory<_i537.AuthCubit>(
+        () => _i537.AuthCubit(gh<_i459.SignupUsecase>()));
     return this;
   }
 }
