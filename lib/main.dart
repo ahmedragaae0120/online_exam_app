@@ -5,11 +5,11 @@ import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/api/api_manager.dart';
 
 import 'package:online_exam_app/core/theme/Theme%20app.dart';
-import 'package:online_exam_app/ui/Auth/Sign_Up/view_model/cubit/signup_cubit.dart';
-import 'package:online_exam_app/ui/Auth/pages/Forget%20Password/EmailVerifecation.dart';
-import 'package:online_exam_app/ui/Auth/pages/Forget%20Password/EnterEmailForPasswordReset.dart';
-import 'package:online_exam_app/ui/Auth/pages/Forget%20Password/PutNewPassword.dart';
-import 'package:online_exam_app/ui/Auth/pages/login_screen.dart';
+import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
+import 'package:online_exam_app/ui/Auth/Forget%20Password/EmailVerifecation.dart';
+import 'package:online_exam_app/ui/Auth/Forget%20Password/EnterEmailForPasswordReset.dart';
+import 'package:online_exam_app/ui/Auth/Forget%20Password/PutNewPassword.dart';
+import 'package:online_exam_app/ui/Auth/Login/login_screen.dart';
 import 'package:online_exam_app/ui/Auth/Sign_Up/sign_up_screen.dart';
 import 'package:online_exam_app/ui/home_screen.dart';
 import 'package:online_exam_app/ui/Profile_Details/profile_details_screen.dart';
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         AppStrings.homeScreenRoute: (context) => HomeScreen(),
         AppStrings.loginScreenRoute: (context) => LoginScreen(),
         AppStrings.singUpScreenRoute: (context) => BlocProvider(
-              create: (context) => getIt<SignupCubit>(),
+              create: (context) => getIt<AuthCubit>(),
               child: SignUpScreen(),
             ),
         AppStrings.profileDetailsScreenRoute: (context) =>

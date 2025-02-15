@@ -10,7 +10,8 @@ import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
-import 'package:online_exam_app/ui/Auth/Sign_Up/view_model/cubit/signup_cubit.dart';
+import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
+import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = "/sign_up_screen";
@@ -35,7 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     Config().init(context);
-    return BlocListener<SignupCubit, SignupState>(
+    return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is SignupSuccessState) {
           Navigator.pushNamed(context, AppStrings.loginScreenRoute);
@@ -109,14 +110,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 CustomButton(
                     onTap: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        SignupCubit.get(context).SignUp(
+                        AuthCubit.get(context).doIntent(SignUpIntent(
                             username: userNameController.text,
                             firstName: firstNameController.text,
                             lastName: lastNameController.text,
                             email: emailController.text,
                             password: passwordController.text,
                             confirmPassword: confirmPasswordController.text,
-                            phone: phoneNumberController.text);
+                            phone: phoneNumberController.text));
                         // log(AppStrings.signUpSuccessfully);
                       }
                     },

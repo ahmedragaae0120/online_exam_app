@@ -10,7 +10,7 @@ Future<Result<T>> executeApi<T>(Future<T> Function() apiCall) async {
     var result = await apiCall.call();
     return Success(result);
   } on DioException catch (ex) {
-    log(ex.toString());
+    log(ex.message.toString());
     switch (ex.type) {
       case DioExceptionType.badCertificate:
       case DioExceptionType.connectionError:
@@ -43,7 +43,7 @@ Future<Result<T>> executeApi<T>(Future<T> Function() apiCall) async {
         }
     }
   } on Exception catch (ex) {
-    log(ex.toString());
+    // log(ex.toString());
     return Error(ex);
   }
 }

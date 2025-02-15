@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/api/api_endpoints.dart';
 import 'package:online_exam_app/core/api/api_excuter.dart';
@@ -20,23 +22,27 @@ class SignUpDataSourceImpl implements SignUpDataSourceContract {
       required String password,
       required String confirmPassword,
       required String phone}) async {
-    return executeApi<UserResponse>(() async {
-      var apiResponse = await apiManager.postRequest(
-        endPoint: ApiEndpoints.signUpEndpoint,
-        body: {
-          "username": username,
-          "firstName": firstName,
-          "lastName": lastName,
-          "email": email,
-          "password": password,
-          "rePassword": confirmPassword,
-          "phone": phone
-        },
-      );
-      // log(apiResponse.data.toString());
-      var response = UserResponse.fromJson(apiResponse.data ?? {});
-      // log(response.toString());
-      return response;
-    });
+    return await executeApi<UserResponse>(
+      () async {
+        var apiResponse = await apiManager.postRequest(
+          endPoint: ApiEndpoints.signUpEndpoint,
+          body: {
+            "username": username,
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "password": password,
+            "rePassword": confirmPassword,
+            "phone": phone
+          },
+        );
+        log(username.toString());
+        log("Username = $username");
+        // log(apiResponse.data.toString());
+        var response = UserResponse.fromJson(apiResponse.data ?? {});
+        // log(response.toString());
+        return response;
+      },
+    );
   }
 }
