@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
+import 'package:online_exam_app/domain/common/exceptions/server_error.dart';
 import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/use_cases/Forget%20Password%20Use%20Cases/ForgetPassword_Use_Case.dart';
 import 'package:online_exam_app/domain/use_cases/Forget%20Password%20Use%20Cases/resetPassword_UseCase.dart';
@@ -66,7 +67,13 @@ class AuthCubit extends Cubit<AuthState> {
         }
       case Error():
         {
-          emit(SignupErrorState(message: result.exception.toString()));
+          if (result.exception is ClientError) {
+            emit(SignupErrorState(
+                message: (result.exception as ClientError).message ??
+                    "Unknown error"));
+          } else {
+            emit(SignupErrorState(message: result.exception.toString()));
+          }
         }
     }
   }
