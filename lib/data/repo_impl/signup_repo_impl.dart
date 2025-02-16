@@ -7,8 +7,10 @@ import 'package:online_exam_app/domain/repo_contract/signup_repo_contract.dart';
 @Injectable(as: SignupRepoContract)
 class SignupRepoImpl implements SignupRepoContract {
   SignUpDataSourceContract signUpDataSourceContract;
+
   @factoryMethod
   SignupRepoImpl({required this.signUpDataSourceContract});
+
   @override
   Future<Result<UserResponse>> signUp(
       {required String username,
