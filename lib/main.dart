@@ -39,13 +39,21 @@ class MyApp extends StatelessWidget {
               create: (context) => getIt<AuthCubit>(),
               child: SignUpScreen(),
             ),
+        AppStrings.enterEmailForgetPasswordScreenRoute: (context) => BlocProvider(
+          create: (context) => getIt<AuthCubit>(),
+          child: EnterEmailForgetPassword(),
+        ),
+        AppStrings.emailVerificationScreenRoute: (context) => BlocProvider(
+          create: (context) => getIt<AuthCubit>(),
+          child: EmailVerification(),
+        ),
+        AppStrings.putNewPasswordScreenRoute: (context) => BlocProvider(
+          create: (context) => getIt<AuthCubit>(),
+          child: PutNewPassword(),
+        ),
+
         AppStrings.profileDetailsScreenRoute: (context) =>
             ProfileDetailsScreen(),
-        AppStrings.enterEmailForgetPasswordScreenRoute: (context) =>
-            EnterEmailForgetPassword(),
-        AppStrings.emailVerificationScreenRoute: (context) =>
-            EmailVerification(),
-        AppStrings.putNewPasswordScreenRoute: (context) => PutNewPassword(),
       },
       initialRoute: AppStrings.loginScreenRoute,
     );
