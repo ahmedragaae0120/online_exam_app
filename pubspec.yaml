@@ -42,7 +42,6 @@ dependencies:
   get_it:
   flutter_bloc: ^9.0.0
   bloc: ^9.0.0
-  fluttertoast: ^8.2.12
 
 dev_dependencies:
   injectable_generator:

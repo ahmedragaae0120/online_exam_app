@@ -18,7 +18,6 @@ import 'package:online_exam_app/core/utils/string_manager.dart';
 void main() {
   ApiManager.init();
   configureDependencies();
-  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
