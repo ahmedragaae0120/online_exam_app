@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, annotate_overrides, avoid_print
+
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/api/api_endpoints.dart';
 import 'package:online_exam_app/core/api/api_excuter.dart';
@@ -6,7 +8,7 @@ import 'package:online_exam_app/data/data_source_contract/ForgetPassword_dataSou
 import 'package:online_exam_app/domain/common/result.dart';
 
 @Injectable(as: VerifyresetcodeRepoDataSource)
- class Verifyresetcoderepodatasourceimpl
+class Verifyresetcoderepodatasourceimpl
     implements VerifyresetcodeRepoDataSource {
   final ApiManager apiManager;
 
@@ -20,8 +22,7 @@ import 'package:online_exam_app/domain/common/result.dart';
           "resetCode": code,
         },
       );
-      if (apiResponse.data != null &&
-          apiResponse.data["status"] == "Success") {
+      if (apiResponse.data != null && apiResponse.data["status"] == "Success") {
         print("✅✅✅✅✅✅✅✅same code✅✅✅✅✅✅✅✅");
         return true;
       } else {

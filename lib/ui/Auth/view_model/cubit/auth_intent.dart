@@ -1,5 +1,3 @@
-import 'package:online_exam_app/data/model/user_response/user_response.dart';
-
 /// 🌟 Base Auth Intent 🌟
 sealed class AuthIntent {}
 
@@ -30,9 +28,17 @@ class SignUpIntent extends AuthIntent {
 /// =====================================================
 /// 🔑 LOGIN INTENT 🔑
 /// =====================================================
-class LoginIntent extends AuthIntent {
+class SignInIntent extends AuthIntent {
+  final String email;
+  final String password;
+  final bool rememberMe;
+
   /// ✅ Trigger login process ✅
-  LoginIntent();
+  SignInIntent({
+    required this.email,
+    required this.password,
+    required this.rememberMe,
+  });
 }
 
 /// =====================================================

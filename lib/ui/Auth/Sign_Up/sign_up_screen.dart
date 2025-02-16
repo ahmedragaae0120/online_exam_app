@@ -1,7 +1,5 @@
 // ignore_for_file: file_names
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/Validator.dart';
@@ -12,6 +10,8 @@ import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = "/sign_up_screen";
@@ -37,12 +37,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     Config().init(context);
     return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (previous, current) => current is SignupErrorState ||
+              current is SignupSuccessState ||
+              current is SignupLoadingState
+          ? true
+          : false,
       listener: (context, state) {
         if (state is SignupSuccessState) {
           Navigator.pushNamed(context, AppStrings.loginScreenRoute);
+          toastMessage(
+              message: "registered successfully",
+              tybeMessage: TybeMessage.positive);
         }
         if (state is SignupErrorState) {
-          print(state.message);
+          toastMessage(
+            message: state.message.toString(),
+            tybeMessage: TybeMessage.negative,
+          );
         }
       },
       child: Form(
