@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +8,6 @@ import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
-import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
 
@@ -24,9 +23,8 @@ class PutNewPassword extends StatefulWidget {
 class _PutNewPasswordState extends State<PutNewPassword> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
-  TextEditingController();
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,23 +32,22 @@ class _PutNewPasswordState extends State<PutNewPassword> {
 
     void _validateAndUpdatePassword() {
       if (_formKey.currentState!.validate()) {
-        AuthCubit.get(context).doIntent(ResetPassword(email: email, NewPassword: passwordController.text
-
-        ));
+        AuthCubit.get(context).doIntent(
+            ResetPassword(email: email, NewPassword: passwordController.text));
       }
     }
+
     Config().init(context);
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is ResetPasswordLoadingState) {
           showDialog(
             context: context,
-            builder: (context) =>
-                Center(
-                  child: CircularProgressIndicator(
-                    color: app_colors.blue_base,
-                  ),
-                ),
+            builder: (context) => Center(
+              child: CircularProgressIndicator(
+                color: app_colors.blue_base,
+              ),
+            ),
           );
         }
 
@@ -61,7 +58,8 @@ class _PutNewPasswordState extends State<PutNewPassword> {
               barrierDismissible: false, // Prevents closing the dialog manually
               builder: (context) {
                 return Dialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
                   backgroundColor: Colors.green,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -70,9 +68,12 @@ class _PutNewPasswordState extends State<PutNewPassword> {
                       children: [
                         Icon(Icons.check_circle, color: Colors.white, size: 50),
                         SizedBox(height: 10),
-                       const Text(
+                        const Text(
                           "Success!",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                         SizedBox(height: 5),
                         Text(
@@ -99,8 +100,10 @@ class _PutNewPasswordState extends State<PutNewPassword> {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Error : ${state.message}",
-                style: TextStyle(color: Colors.white),),
+              content: Text(
+                "Error : ${state.message}",
+                style: TextStyle(color: Colors.white),
+              ),
               backgroundColor: Colors.red,
             ),
           );
@@ -159,6 +162,5 @@ class _PutNewPasswordState extends State<PutNewPassword> {
         ),
       ),
     );
-
   }
 }

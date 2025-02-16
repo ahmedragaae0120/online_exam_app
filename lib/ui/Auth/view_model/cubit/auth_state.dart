@@ -31,7 +31,8 @@ final class SignupErrorState extends AuthState {
 
 /// ✅ Login Success ✅
 final class LoginSuccessState extends AuthState {
-  LoginSuccessState();
+  UserResponse? userResponse;
+  LoginSuccessState({required this.userResponse});
 }
 
 /// ⏳ Login Loading ⏳

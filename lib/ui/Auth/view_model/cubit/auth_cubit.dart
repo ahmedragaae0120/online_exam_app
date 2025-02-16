@@ -7,8 +7,10 @@ import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/use_cases/Forget%20Password%20Use%20Cases/ForgetPassword_Use_Case.dart';
 import 'package:online_exam_app/domain/use_cases/Forget%20Password%20Use%20Cases/resetPassword_UseCase.dart';
 import 'package:online_exam_app/domain/use_cases/Forget%20Password%20Use%20Cases/verifyResetCodeUseCase.dart';
+import 'package:online_exam_app/domain/use_cases/signin_usecase.dart';
 import 'package:online_exam_app/domain/use_cases/signup_usecase.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
+import 'package:online_exam_app/domain/common/exceptions/server_error.dart';
 
 part 'auth_state.dart';
 
@@ -18,21 +20,20 @@ class AuthCubit extends Cubit<AuthState> {
       {required this.verifyresetcodeUseCase,
       required this.resetpasswordUsecase,
       required this.signupUsecase,
-      required this.forgetPasswordUseCase})
+      required this.forgetPasswordUseCase,
+      required this.signinUsecase})
       : super(AuthInitial());
   @factoryMethod
   SignupUsecase signupUsecase;
   ForgetPasswordUseCase forgetPasswordUseCase;
   VerifyresetcodeUseCase verifyresetcodeUseCase;
   ResetpasswordUsecase resetpasswordUsecase;
+  SigninUsecase signinUsecase;
 
   void doIntent(AuthIntent intent) {
     switch (intent) {
       case SignUpIntent():
         _SignUp(intent: intent);
-        break;
-      case LoginIntent():
-        _login();
         break;
       case ForgetPassword():
         _ForgetPassword(intent: intent);
@@ -42,6 +43,9 @@ class AuthCubit extends Cubit<AuthState> {
         break;
       case ResetPassword():
         _ResetPassword(intent: intent);
+        break;
+      case SignInIntent():
+        _SignIn(intent: intent);
         break;
     }
   }
@@ -66,7 +70,32 @@ class AuthCubit extends Cubit<AuthState> {
         }
       case Error():
         {
-          emit(SignupErrorState(message: result.exception.toString()));
+          if (result.exception is ClientError) {
+            emit(SignupErrorState(
+                message: (result.exception as ClientError).message ??
+                    "Unknown error"));
+          } else {
+            emit(SignupErrorState(message: result.exception.toString()));
+          }
+        }
+    }
+  }
+
+  _SignIn({required SignInIntent intent}) async {
+    emit(LoginLoadingState());
+    final result = await signinUsecase.invoke(
+        email: intent.email,
+        password: intent.password,
+        rememberMe: intent.rememberMe);
+
+    switch (result) {
+      case Success():
+        {
+          emit(LoginSuccessState(userResponse: result.data));
+        }
+      case Error():
+        {
+          emit(LoginErrorState(message: result.exception.toString()));
         }
     }
   }
@@ -124,5 +153,20 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  _login() {}
+  Future<void> login({
+    required String email,
+    required String password,
+    required bool rememberMe,
+  }) async {
+    emit(LoginLoadingState());
+
+    final result = await signinUsecase.invoke(
+        email: email, password: password, rememberMe: rememberMe);
+
+    if (result is Success<UserResponse>) {
+      emit(LoginSuccessState(userResponse: result.data));
+    } else if (result is Error<UserResponse>) {
+      emit(LoginErrorState(message: result.exception.toString()));
+    }
+  }
 }
