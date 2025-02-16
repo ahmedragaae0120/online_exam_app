@@ -10,9 +10,7 @@ Future<Result<T>> executeApi<T>(Future<T> Function() apiCall) async {
     var result = await apiCall.call();
     return Success(result);
   } on DioException catch (ex) {
-    var errorModel = ErrorModel.fromJson(ex.response?.data);
-
-    log(errorModel.message.toString());
+    log(ex.message.toString());
     switch (ex.type) {
       case DioExceptionType.badCertificate:
       case DioExceptionType.connectionError:
@@ -20,7 +18,7 @@ Future<Result<T>> executeApi<T>(Future<T> Function() apiCall) async {
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.connectionTimeout:
         {
-          return Error(NetworkError(errorModel: errorModel));
+          return Error(NetworkError());
         }
       case DioExceptionType.badResponse:
         {
@@ -32,7 +30,7 @@ Future<Result<T>> executeApi<T>(Future<T> Function() apiCall) async {
               : ErrorModel(message: "Unknown error");
 
           if (responseCode != 0 && responseCode >= 400 && responseCode < 500) {
-            return Error(ClientError(message: errorModel.message));
+            return Error(ClientError(errorModel: errorModel));
           }
           if (responseCode != 0 && responseCode >= 500 && responseCode < 600) {
             return Error(ServerError(errorModel: errorModel));
@@ -45,6 +43,7 @@ Future<Result<T>> executeApi<T>(Future<T> Function() apiCall) async {
         }
     }
   } on Exception catch (ex) {
+    // log(ex.toString());
     return Error(ex);
   }
 }
