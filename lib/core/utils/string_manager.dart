@@ -51,7 +51,9 @@ number at least''';
   /* -------------------------------------------------------------------------- */
   /*                               Validator Text                               */
   /* -------------------------------------------------------------------------- */
+
   static const String emailCantBeEmpty = "Email cannot be empty";
+  static const String thePinCodeIsWrong = "The Pin Code is Wrong";
   static const String enterValidEmailAddress = "Enter a valid email address";
   static const String passwordCantBeEmpty = "Password cannot be empty";
   static const String passwordMustBeAtLeast6Characters =
@@ -74,8 +76,11 @@ number at least''';
   static const String phoneNumberCannotBeMoreThan20Characters =
       "Phone number cannot be more than 20 characters";
 
+  static const String  passwordMustContainAtLeastOneSpecialCharacter =
+      "Password Must Contain At Least One Special Character";
+
   /* -------------------------------------------------------------------------- */
-  /*                         APPLICATION ROUTES STRINGS                         */
+  /*                         APPLICATION ROUTES STRINGS                          */
   /* -------------------------------------------------------------------------- */
   static const String homeScreenRoute = '/Homescreen';
   static const String loginScreenRoute = '/Login';

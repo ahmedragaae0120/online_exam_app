@@ -27,8 +27,12 @@ class Validator {
     if (!RegExp(r'[0-9]').hasMatch(value)) {
       return AppStrings.passwordMustContainAtLeastOneNumber;
     }
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+      return AppStrings.passwordMustContainAtLeastOneSpecialCharacter;
+    }
     return null;
   }
+
 
   static String? confirmPassword(String? value, String password) {
     if (value == null || value.isEmpty) {
