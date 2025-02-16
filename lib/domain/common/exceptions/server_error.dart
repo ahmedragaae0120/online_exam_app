@@ -5,17 +5,24 @@ class ServerError implements Exception {
   ServerError({
     this.errorModel,
   });
+  @override
+  String toString() => errorModel?.message ?? "ServerError occurred";
 }
 
 class NetworkError implements Exception {
-  NetworkError();
+  ErrorModel? errorModel;
+  NetworkError({this.errorModel});
+  @override
+  String toString() => errorModel?.message ?? "NetworkError occurred";
 }
 
 class ClientError implements Exception {
-  ErrorModel? errorModel;
+  String? message;
   ClientError({
-    this.errorModel,
+    this.message,
   });
+  @override
+  String toString() => message ?? "ClientError occurred";
 }
 
 class ServerSideError implements Exception {
@@ -23,4 +30,6 @@ class ServerSideError implements Exception {
   ServerSideError({
     this.errorModel,
   });
+  @override
+  String toString() => errorModel?.message ?? "ServerSideError occurred";
 }
