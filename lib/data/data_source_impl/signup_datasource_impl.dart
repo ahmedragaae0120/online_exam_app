@@ -14,6 +14,8 @@ class SignUpDataSourceImpl implements SignUpDataSourceContract {
   @factoryMethod
   SignUpDataSourceImpl(this.apiManager);
   @override
+
+
   Future<Result<UserResponse>> signUp(
       {required String username,
       required String firstName,

@@ -1,14 +1,19 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/Validator.dart';
 import 'package:online_exam_app/Shared/widgets/custom_button.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
+import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
+import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
+import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
 
 class EnterEmailForgetPassword extends StatefulWidget {
   static const routeName = '/EnterEmailForgetPassword';
+
   const EnterEmailForgetPassword({super.key});
 
   @override
@@ -22,7 +27,9 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
 
   void _validateAndContinue() {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushNamed(context, AppStrings.emailVerificationScreenRoute);
+      AuthCubit.get(context).doIntent(ForgetPassword(
+        email: emailController.text,
+      ));
     }
   }
 
@@ -30,57 +37,86 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
   Widget build(BuildContext context) {
     Config().init(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppStrings.password,
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is SendEmailVerificationLoadingState) {
+          showDialog(
+            context: context,
+            builder: (context) => Center(
+              child: CircularProgressIndicator(
+                color: app_colors.blue_base,
+              ),
+            ),
+          );
+        }
+
+        if (state is SendEmailVerificationSuccessState) {
+          if (state.isSent) {
+            Navigator.pushNamed(context, AppStrings.emailVerificationScreenRoute,arguments: emailController.text,);
+          }
+        }
+        if (state is SendEmailVerificationErrorState) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Error : ${state.message}",style:TextStyle(color: Colors.white),),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            AppStrings.password,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: Config.screenHight! * 0.03),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  AppStrings.forgetpassword,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                ),
-              ),
-              SizedBox(height: Config.screenHight! * 0.012),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  AppStrings.pleaseEnterEmailsAssociatedToUrAccount,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: Config.screenHight! * 0.05),
-
-              /* Email Field */
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  CustomTextField(
-                    label: AppStrings.email,
-                    placeholder: AppStrings.enterYourEmail,
-                    controller: emailController,
-                    validator: Validator.email,
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: Config.screenHight! * 0.03),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    AppStrings.forgetpassword,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-                ],
-              ),
-              SizedBox(height: Config.screenHight! * 0.06),
+                ),
+                SizedBox(height: Config.screenHight! * 0.012),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    AppStrings.pleaseEnterEmailsAssociatedToUrAccount,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: Config.screenHight! * 0.05),
 
-              /* Continue Button */
-              CustomButton(
-                onTap: _validateAndContinue,
-                text: AppStrings.continu,
-              ),
-            ],
+                /* Email Field */
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    CustomTextField(
+                      label: AppStrings.email,
+                      placeholder: AppStrings.enterYourEmail,
+                      controller: emailController,
+                      validator: Validator.email,
+                    ),
+                  ],
+                ),
+                SizedBox(height: Config.screenHight! * 0.06),
+
+                /* Continue Button */
+                CustomButton(
+                  onTap: _validateAndContinue,
+                  text: AppStrings.continu,
+                ),
+              ],
+            ),
           ),
         ),
       ),
