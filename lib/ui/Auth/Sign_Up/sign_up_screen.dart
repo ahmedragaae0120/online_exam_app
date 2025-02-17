@@ -10,7 +10,6 @@ import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 
 class SignUpScreen extends StatefulWidget {

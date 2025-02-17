@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
 
   const MyApp({super.key, this.initialToken});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     print('Building app with token: $initialToken');
