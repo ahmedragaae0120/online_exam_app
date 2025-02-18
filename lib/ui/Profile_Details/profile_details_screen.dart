@@ -7,6 +7,7 @@ import 'package:online_exam_app/Shared/widgets/Validator.dart';
 import 'package:online_exam_app/Shared/widgets/custom_button.dart';
 import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
+import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 
 class ProfileDetailsScreen extends StatefulWidget {
@@ -26,29 +27,23 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
   static TextEditingController userNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    Config().init(context);
     return Form(
       key: _formKey,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
           title: Text(
             AppStrings.profile,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
           ),
-          centerTitle: false,
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 24,
               children: [
                 /* -------------------------------------------------------------------------- */
                 /*                        Avatar Section with It's Icon                       */
@@ -71,7 +66,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                           width: 30,
                           height: 30,
                           decoration: BoxDecoration(
-                              color: Colors.blueAccent, shape: BoxShape.circle),
+                              color: Theme.of(context).primaryColor,
+                              shape: BoxShape.circle),
                           child: Icon(
                             Icons.camera_alt_outlined,
                             color: Colors.white,
@@ -83,9 +79,6 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 ),
                 /* -------------------------------------------------------------------------- */
                 /* -------------------------------------------------------------------------- */
-                SizedBox(
-                  height: 30,
-                ),
                 /* -------------------------------------------------------------------------- */
                 /*                                 TextFields                                 */
                 /* -------------------------------------------------------------------------- */
@@ -103,10 +96,6 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 /* -------------------------------------------------------------------------- */
 
                 /* -------------------------------------------------------------------------- */
-                SizedBox(
-                  height: 30,
-                ),
-
                 /* -------------------------------------------------------------------------- */
                 /*                        First & Last Name TextFields                        */
                 /* -------------------------------------------------------------------------- */
@@ -118,9 +107,6 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                       validator: Validator.firstName,
                       controller: firstNameController,
                     ),
-                    SizedBox(
-                      width: 15,
-                    ),
                     CustomTextField(
                       label: AppStrings.lastName,
                       placeholder: 'Ahmed',
@@ -130,10 +116,6 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   ],
                 ),
                 /* -------------------------------------------------------------------------- */
-                SizedBox(
-                  height: 30,
-                ),
-
                 /* -------------------------------------------------------------------------- */
                 /*                               Email TextField                              */
                 /* -------------------------------------------------------------------------- */
@@ -145,10 +127,6 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 ),
                 /* -------------------------------------------------------------------------- */
                 /* -------------------------------------------------------------------------- */
-                SizedBox(
-                  height: 30,
-                ),
-
                 /* -------------------------------------------------------------------------- */
                 /*                             Password TextField                             */
                 /* -------------------------------------------------------------------------- */
@@ -159,11 +137,6 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 ),
                 /* -------------------------------------------------------------------------- */
                 /* -------------------------------------------------------------------------- */
-
-                SizedBox(
-                  height: 30,
-                ),
-
                 /* -------------------------------------------------------------------------- */
                 /*                           Phone Number TextField                           */
                 /* -------------------------------------------------------------------------- */
@@ -175,9 +148,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                 ),
                 /* -------------------------------------------------------------------------- */
                 /* -------------------------------------------------------------------------- */
-                SizedBox(
-                  height: 70,
-                ),
+                Config.spaceBig,
                 /* -------------------------------------------------------------------------- */
                 /* -------------------------------------------------------------------------- */
 
