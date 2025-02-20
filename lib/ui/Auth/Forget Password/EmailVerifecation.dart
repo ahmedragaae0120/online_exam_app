@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/ui/Auth/Forget%20Password/PutNewPassword.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
@@ -55,14 +56,9 @@ class _EmailVerificationState extends State<EmailVerification> {
 
         if (state is SendEmailVerificationErrorState) {
           Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                "Error: ${state.message}",
-                style: TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.red,
-            ),
+          toastMessage(
+            message: state.message.toString(),
+            tybeMessage: TybeMessage.negative,
           );
         }
 
@@ -75,13 +71,10 @@ class _EmailVerificationState extends State<EmailVerification> {
 
         if (state is VerifyResetCodeErrorState) {
           Navigator.pop(context); // Close loading on error
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              AppStrings.thePinCodeIsWrong,
-              style: TextStyle(color: Colors.white),
-            ),
-          ));
+          toastMessage(
+            message: state.message.toString(),
+            tybeMessage: TybeMessage.negative,
+          );
         }
       },
       child: Scaffold(

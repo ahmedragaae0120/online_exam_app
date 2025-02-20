@@ -41,6 +41,8 @@ dependencies:
   injectable:  
   get_it:
   flutter_bloc: ^9.0.0
+  sqflite: ^2.4.1
+
   bloc: ^9.0.0
   shared_preferences: ^2.5.2
   fluttertoast: ^8.2.12

@@ -13,9 +13,6 @@ final getIt = GetIt.instance;
 )
 Future<void> configureDependencies() async {
   await getIt.init();
-
-  // Register UserService as singleton
-  getIt.registerSingleton<UserService>(UserService());
 }
 
 @module

@@ -1,10 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/ui/Profile_Details/profile_details_screen.dart';
 import 'package:online_exam_app/Shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:online_exam_app/ui/explorescreen/explore_screen.dart';
-import 'package:online_exam_app/ui/resultscreen/result_screen.dart';
+import 'package:online_exam_app/ui/resultsScreen/presentation/VeiwModel/result_cubit.dart';
+import 'package:online_exam_app/ui/resultsScreen/presentation/pages/result_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,8 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    ExploreScreen(), // Replace with your actual screen widget
-    ResultScreen(),
+    ExploreScreen(),
+    BlocProvider(
+      create: (context) => getIt<ResultCubit>(), // Wrap the ResultScreen
+      child: ResultScreen(),
+    ),
     ProfileDetailsScreen(),
   ];
 
