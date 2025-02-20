@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
+import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/ui/Auth/Forget%20Password/PutNewPassword.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/core/utils/config.dart';
@@ -27,13 +28,14 @@ class _EmailVerificationState extends State<EmailVerification> {
 
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is SendEmailVerificationLoadingState || state is VerifyResetCodeLoadingState) {
+        if (state is SendEmailVerificationLoadingState ||
+            state is VerifyResetCodeLoadingState) {
           showDialog(
             context: context,
             barrierDismissible: false,
             builder: (context) => Center(
               child: CircularProgressIndicator(
-                color: app_colors.blue_base,
+                color: AppColors.blue_base,
               ),
             ),
           );
@@ -42,15 +44,9 @@ class _EmailVerificationState extends State<EmailVerification> {
         if (state is SendEmailVerificationSuccessState) {
           Navigator.pop(context);
           if (state.isSent) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  "The Code has been sent. Check your email.",
-                  style: TextStyle(color: Colors.white),
-                ),
-                backgroundColor: Colors.green,
-              ),
-            );
+            toastMessage(
+                message: "The Code has been sent. Check your email.",
+                tybeMessage: TybeMessage.positive);
           }
         }
 
@@ -65,7 +61,11 @@ class _EmailVerificationState extends State<EmailVerification> {
         if (state is VerifyResetCodeSuccessState) {
           Navigator.pop(context);
           if (state.isVerified) {
-            Navigator.pushNamed(context, PutNewPassword.routeName,arguments: email,);
+            Navigator.pushNamed(
+              context,
+              PutNewPassword.routeName,
+              arguments: email,
+            );
           }
         }
 
@@ -91,13 +91,17 @@ class _EmailVerificationState extends State<EmailVerification> {
                 alignment: Alignment.center,
                 child: Text(
                   AppStrings.emailVerification,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: AppTextStyle.medium20,
                 ),
               ),
               SizedBox(height: Config.screenHight! * 0.012),
               Align(
                 alignment: Alignment.center,
-                child: Text(AppStrings.sendedCode, textAlign: TextAlign.center),
+                child: Text(
+                  AppStrings.sendedCode,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.regular14.copyWith(color: AppColors.grey),
+                ),
               ),
               SizedBox(height: Config.screenHight! * 0.05),
               Pinput(
@@ -108,7 +112,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                   width: 74,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color(0xffDFE7F7),
+                    color: AppColors.white,
                   ),
                 ),
                 onCompleted: (value) {
@@ -120,34 +124,35 @@ class _EmailVerificationState extends State<EmailVerification> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppStrings.dontRecieveCode),
+                  Text(
+                    AppStrings.dontRecieveCode,
+                    style: AppTextStyle.regular16,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: GestureDetector(
                       onTap: isResendEnabled
                           ? () {
-                        setState(() {
-                          isResendEnabled = false; // Disable again
-                        });
+                              setState(() {
+                                isResendEnabled = false; // Disable again
+                              });
 
-                        AuthCubit.get(context).doIntent(
-                          ForgetPassword(email: email),
-                        );
-                      }
+                              AuthCubit.get(context).doIntent(
+                                ForgetPassword(email: email),
+                              );
+                            }
                           : null,
-                      child: Text(
-                        AppStrings.resend,
-                        style: TextStyle(
-                          color: isResendEnabled
-                              ? Colors.blueAccent
-                              : Colors.grey, // Change color dynamically
-                          decoration: TextDecoration.underline,
-                          decorationColor: isResendEnabled
-                              ? Colors.blueAccent
-                              : Colors.grey, // Underline matches color
-                          decorationThickness: 2,
-                        ),
-                      ),
+                      child: Text(AppStrings.resend,
+                          style: AppTextStyle.regular16.copyWith(
+                            color: isResendEnabled
+                                ? Theme.of(context).primaryColor
+                                : AppColors.grey, // Change color dynamically
+                            decoration: TextDecoration.underline,
+                            decorationColor: isResendEnabled
+                                ? Theme.of(context).primaryColor
+                                : AppColors.grey, // Underline matches color
+                            decorationThickness: 2,
+                          )),
                     ),
                   ),
                 ],
@@ -157,8 +162,10 @@ class _EmailVerificationState extends State<EmailVerification> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TimerCountdown(
-                    colonsTextStyle: TextStyle(color: app_colors.grey,fontSize: 12),
-                    timeTextStyle:TextStyle(color: app_colors.grey,fontSize: 12) ,
+                    colonsTextStyle:
+                        AppTextStyle.regular12.copyWith(color: AppColors.grey),
+                    timeTextStyle:
+                        AppTextStyle.regular12.copyWith(color: AppColors.grey),
                     format: CountDownTimerFormat.secondsOnly,
                     endTime: DateTime.now().add(
                       Duration(seconds: 60),
