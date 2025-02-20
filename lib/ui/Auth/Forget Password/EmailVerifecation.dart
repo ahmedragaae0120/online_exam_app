@@ -53,8 +53,9 @@ class _EmailVerificationState extends State<EmailVerification> {
         if (state is SendEmailVerificationErrorState) {
           Navigator.pop(context);
           toastMessage(
-              message: "Error: ${state.message}",
-              tybeMessage: TybeMessage.negative);
+            message: state.message.toString(),
+            tybeMessage: TybeMessage.negative,
+          );
         }
 
         if (state is VerifyResetCodeSuccessState) {
@@ -71,8 +72,9 @@ class _EmailVerificationState extends State<EmailVerification> {
         if (state is VerifyResetCodeErrorState) {
           Navigator.pop(context); // Close loading on error
           toastMessage(
-              message: AppStrings.thePinCodeIsWrong,
-              tybeMessage: TybeMessage.negative);
+            message: state.message.toString(),
+            tybeMessage: TybeMessage.negative,
+          );
         }
       },
       child: Scaffold(

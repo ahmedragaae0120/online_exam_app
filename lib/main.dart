@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:online_exam_app/core/Di/di.dart';
+import 'package:online_exam_app/core/services/DataBaseHelper.dart';
 import 'package:online_exam_app/core/theme/Theme%20app.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/ui/Auth/Forget%20Password/EmailVerifecation.dart';
@@ -14,6 +16,7 @@ import 'package:online_exam_app/core/utils/string_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper.instance.database; // Initialize database
   await configureDependencies(); // This will initialize ApiManager through DI
   runApp(MyApp());
 }
@@ -52,6 +55,7 @@ class MyApp extends StatelessWidget {
               create: (context) => getIt<AuthCubit>(),
               child: PutNewPassword(),
             ),
+
         AppStrings.profileDetailsScreenRoute: (context) =>
             ProfileDetailsScreen(),
       },
