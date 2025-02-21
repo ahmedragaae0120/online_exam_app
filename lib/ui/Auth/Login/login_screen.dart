@@ -58,91 +58,88 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           body: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                spacing: 24,
-                children: [
-                  SizedBox(height: Config.screenHight! * 0.01),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              spacing: 24,
+              children: [
+                SizedBox(height: Config.screenHight! * 0.01),
 
-                  /* Email Field */
-                  CustomTextField(
-                    label: AppStrings.email,
-                    placeholder: AppStrings.enterYourEmail,
-                    controller: emailController,
-                    validator: Validator.email,
-                  ),
+                /* Email Field */
+                CustomTextField(
+                  label: AppStrings.email,
+                  placeholder: AppStrings.enterYourEmail,
+                  controller: emailController,
+                  validator: Validator.email,
+                ),
 
-                  /* Password Field */
-                  CustomPasswordField(
-                    label: AppStrings.password,
-                    controller: passwordController,
-                    validator: Validator.password,
-                  ),
+                /* Password Field */
+                CustomPasswordField(
+                  label: AppStrings.password,
+                  controller: passwordController,
+                  validator: Validator.password,
+                ),
 
-                  /* Remember Me & Forget Password */
-                  Row(
-                    children: [
-                      Checkbox(
-                        activeColor: Theme.of(context).primaryColor,
-                        value: isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isChecked = value!;
-                          });
-                        },
-                      ),
-                      Text(
-                        AppStrings.rememberMe,
-                        style: AppTextStyle.regular12,
-                      ),
-                      Spacer(),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context,
-                                AppStrings.enterEmailForgetPasswordScreenRoute);
-                          },
-                          child: Text(AppStrings.forgetpassword,
-                              style: AppTextStyle.regular12),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Config.spaceSmall,
-                  /* Login Button */
-                  CustomButton(
-                      onTap: () => _validateAndLogin(context),
-                      text: AppStrings.login),
-
-                  /* Sign Up Option */
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        AppStrings.dontHaveAccount,
-                        style: AppTextStyle.regular16,
-                      ),
-                      TextButton(
+                /* Remember Me & Forget Password */
+                Row(
+                  children: [
+                    Checkbox(
+                      activeColor: Theme.of(context).primaryColor,
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value!;
+                        });
+                      },
+                    ),
+                    Text(
+                      AppStrings.rememberMe,
+                      style: AppTextStyle.regular12,
+                    ),
+                    Spacer(),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, AppStrings.singUpScreenRoute);
+                          Navigator.pushNamed(context,
+                              AppStrings.enterEmailForgetPasswordScreenRoute);
                         },
-                        child: Text(
-                          AppStrings.signUp,
-                          style: AppTextStyle.medium16.copyWith(
-                            color: Theme.of(context).primaryColor,
-                            decoration: TextDecoration.underline,
-                          ),
+                        child: Text(AppStrings.forgetpassword,
+                            style: AppTextStyle.regular12),
+                      ),
+                    ),
+                  ],
+                ),
+                Config.spaceSmall,
+                /* Login Button */
+                CustomButton(
+                    onTap: () => _validateAndLogin(context),
+                    text: AppStrings.login),
+
+                /* Sign Up Option */
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      AppStrings.dontHaveAccount,
+                      style: AppTextStyle.regular16,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, AppStrings.singUpScreenRoute);
+                      },
+                      child: Text(
+                        AppStrings.signUp,
+                        style: AppTextStyle.medium16.copyWith(
+                          color: Theme.of(context).primaryColor,
+                          decoration: TextDecoration.underline,
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

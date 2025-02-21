@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/services/DataBaseHelper.dart';
 import 'package:online_exam_app/core/theme/Theme%20app.dart';

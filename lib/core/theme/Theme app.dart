@@ -37,13 +37,12 @@ class MyThemeData {
         filled: true,
       ),
       secondaryHeaderColor: AppColors.black_base,
-      appBarTheme: AppBarTheme(
+      appBarTheme: AppBarTheme(backgroundColor: AppColors.white,
           centerTitle: false,
-          color: AppColors.white,
           elevation: 0,
           iconTheme: IconThemeData(size: 35, color: Colors.black),
           shadowColor: Colors.transparent,
-          titleTextStyle: AppTextStyle.medium20),
+          titleTextStyle: AppTextStyle.medium20.copyWith(color: AppColors.black_base)),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: AppColors.blue_base,
         unselectedItemColor: AppColors.black_30,

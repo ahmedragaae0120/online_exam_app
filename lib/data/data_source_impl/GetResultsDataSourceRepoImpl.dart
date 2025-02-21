@@ -9,10 +9,10 @@ import 'package:online_exam_app/domain/common/result.dart';
 @Injectable(as: GetResultsDataSourceRepo)
 class GetResultsDataSourceRepoImpl implements GetResultsDataSourceRepo {
   @override
-  Future<Result<List<ResultModel>>> FetchResults() async {
+  Future<Result<List<ResultModel>>> FetchResults(String userId,) async {
     try {
       final dbHelper = getIt<DatabaseHelper>(); // Access the singleton instance
-      final storedResults = await dbHelper.getResults();
+      final storedResults = await dbHelper.getResults(userId);
       print("📌${storedResults.length}");
       print("📌 Stored Results in DB:");
       for (var res in storedResults) {
@@ -25,10 +25,10 @@ class GetResultsDataSourceRepoImpl implements GetResultsDataSourceRepo {
   }
 
 
-  Future<Result<bool>> addResult(ResultModel result) async {
+  Future<Result<bool>> addResult(String userId,ResultModel result) async {
     try {
       final dbHelper = getIt<DatabaseHelper>(); // Access the singleton instance
-      await dbHelper.insertResult(result);
+      await dbHelper.insertResult(userId,result);
 
 
       print("✅✅✅ Your Exam Added to DB ✅✅✅");

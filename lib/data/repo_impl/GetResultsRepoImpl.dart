@@ -11,12 +11,12 @@ class  GetResultsRepoImpl implements GetResultsRepo{
   GetResultsRepoImpl(this.repo);
 
   @override
-  Future<Result<List<ResultModel>>> FetchResults() {
-    return repo.FetchResults();
+  Future<Result<List<ResultModel>>> FetchResults(String userId) {
+    return repo.FetchResults(userId);
   }
 
   @override
-  Future<Result<bool>> addResult(ResultModel result) {
-    return repo.addResult(result);
+  Future<Result<bool>> addResult(String userId,ResultModel result) {
+    return repo.addResult(userId,result);
   }
 }

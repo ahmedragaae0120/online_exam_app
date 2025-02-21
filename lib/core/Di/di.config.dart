@@ -123,10 +123,12 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i42.ForgetpasswordDataSourseRepo>()));
     gh.factory<_i644.VerifyresetcodeUseCase>(() =>
         _i644.VerifyresetcodeUseCase(repo: gh<_i460.VerifyresetcodeRepo>()));
+    gh.factory<_i912.GetResultsUseCase>(() => _i912.GetResultsUseCase(
+          gh<_i381.UserService>(),
+          gh<_i870.GetResultsRepo>(),
+        ));
     gh.factory<_i459.SignupUsecase>(() => _i459.SignupUsecase(
         signupRepoContract: gh<_i229.SignupRepoContract>()));
-    gh.factory<_i912.GetResultsUseCase>(
-        () => _i912.GetResultsUseCase(gh<_i870.GetResultsRepo>()));
     gh.factory<_i498.ResetpasswordUsecase>(
         () => _i498.ResetpasswordUsecase(repo: gh<_i974.ResetpasswordRepo>()));
     gh.factory<_i771.ResultCubit>(
