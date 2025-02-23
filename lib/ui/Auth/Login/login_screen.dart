@@ -9,6 +9,7 @@ import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
+import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -25,10 +26,13 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _validateAndLogin(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      context.read<AuthCubit>().login(
-          email: emailController.text,
-          password: passwordController.text,
-          rememberMe: isChecked);
+      context.read<AuthCubit>().doIntent(
+            SignInIntent(
+              email: emailController.text,
+              password: passwordController.text,
+              rememberMe: isChecked, // Use the checkbox value
+            ),
+          );
     }
   }
 
