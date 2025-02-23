@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/services/token_storage_service.dart';
-import 'package:online_exam_app/data/model/profile_response.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
 import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/use_cases/profile_usecases.dart';

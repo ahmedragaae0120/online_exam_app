@@ -1,6 +1,5 @@
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/data/data_source_contract/profile_datasource.dart';
-import 'package:online_exam_app/data/model/profile_response.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
 import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/repo_contract/profile_repo_contract.dart';
