@@ -19,4 +19,10 @@ class  GetResultsRepoImpl implements GetResultsRepo{
   Future<Result<bool>> addResult(String userId,ResultModel result) {
     return repo.addResult(userId,result);
   }
+
+  @override
+  Future<Result<bool>> deleteResult(String userId, String id) {
+    return repo.deleteResult(userId,id);
+
+  }
 }

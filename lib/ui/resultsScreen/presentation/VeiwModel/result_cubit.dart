@@ -49,4 +49,20 @@ class ResultCubit extends Cubit<ResultState> {
         }
     }
   }
+
+  deleteResult(String userId, String id) async {
+    emit(AddResultStateLoading());
+    final response = await useCase.deleteResult(userId,id);
+    switch (response) {
+      case Success():
+        {
+          emit(AddResultStateSuccess(added: response.data ?? false));
+        }
+      case Error():
+        {
+          emit(AddResultStateError(
+              message: (response.exception as Exception).toString()));
+        }
+    }
+  }
 }

@@ -19,4 +19,8 @@ class GetResultsUseCase {
   Future<Result<bool>> addResult(ResultModel result) async {
     return repo.addResult(userId??"",result);
   }
+
+  Future<Result<bool>> deleteResult(String userId, String id) async {
+    return repo.deleteResult(userId,id);
+  }
 }

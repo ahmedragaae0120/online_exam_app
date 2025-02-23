@@ -32,3 +32,17 @@ class AddResultStateError extends ResultState {
 }
 
 class AddResultStateLoading extends ResultState {}
+
+class DeleteResultStateSuccess extends ResultState {
+  final bool deleted;
+
+  DeleteResultStateSuccess({required this.deleted});
+}
+
+class DeleteResultStateError extends ResultState {
+  final String message;
+
+  DeleteResultStateError({required this.message});
+}
+
+class DeleteResultStateLoading extends ResultState {}

@@ -9,46 +9,46 @@ class ResultModel {
   Subject? subject;
   Exam? exam;
 
-  ResultModel(
-      {this.examId,
-      this.studentAnswers,
-      this.exam,
-      this.subject,
-      this.message,
-      this.questions,
-      this.numOfCorrectAnswers});
+  ResultModel({
+    this.examId,
+    this.studentAnswers,
+    this.exam,
+    this.subject,
+    this.message,
+    this.questions,
+    this.numOfCorrectAnswers,
+  });
 
   factory ResultModel.fromJson(Map<String, dynamic> json) {
     return ResultModel(
       examId: json['examId'],
       studentAnswers: json['studentAnswers'] != null
-          ? List<Answers>.from(jsonDecode(json['studentAnswers'])
-                  ?.map((x) => Answers.fromJson(x)) ??
-              [])
-          : [],
+          ? List<Answers>.from(
+          (jsonDecode(json['studentAnswers']) as List) // Decode the JSON string first
+              .map((x) => Answers.fromJson(x)))
+          : null,
       numOfCorrectAnswers: json['numOfCorrectAnswers'],
       message: json['message'],
       subject: json['subject'] != null
-          ? Subject.fromJson(jsonDecode(json['subject']))
+          ? Subject.fromJson(json['subject'])
           : null,
-      exam:
-          json['exam'] != null ? Exam.fromJson(jsonDecode(json['exam'])) : null,
-      questions: json['questions'] != null && json['questions'] != "null"
-          ? List<Questions>.from((jsonDecode(json['questions']) ?? [])
-              .map((x) => Questions.fromJson(x)))
-          : [],
+      exam: json['exam'] != null ? Exam.fromJson(json['exam']) : null,
+      questions: json['questions'] != null
+          ? List<Questions>.from(
+          json['questions'].map((x) => Questions.fromJson(x)))
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'examId': examId,
-      'studentAnswers':
-          jsonEncode(studentAnswers?.map((x) => x.toJson()).toList()),
-      'subject': jsonEncode(subject?.toJson()),
-      'questions': jsonEncode(questions?.map((x) => x.toJson()).toList()),
+      'studentAnswers': studentAnswers?.map((x) => x.toJson()).toList(),
+      'subject': subject?.toJson(),
+      'questions': questions?.map((x) => x.toJson()).toList(),
       'numOfCorrectAnswers': numOfCorrectAnswers,
       'message': message,
+      'exam': exam?.toJson(),
     };
   }
 }
@@ -60,19 +60,20 @@ class Questions {
   String? correct;
   String? createdAt;
 
-  Questions(
-      {this.answers,
-      this.type,
-      this.sId,
-      this.question,
-      this.correct,
-      this.createdAt});
+  Questions({
+    this.answers,
+    this.type,
+    this.sId,
+    this.question,
+    this.correct,
+    this.createdAt,
+  });
 
   factory Questions.fromJson(Map<String, dynamic> json) {
     return Questions(
       answers: json['answers'] != null
           ? List<Answers>.from(json['answers'].map((x) => Answers.fromJson(x)))
-          : [],
+          : null,
       type: json['type'],
       sId: json['_id'],
       question: json['question'],
@@ -150,14 +151,15 @@ class Exam {
   bool? active;
   String? createdAt;
 
-  Exam(
-      {this.sId,
-      this.title,
-      this.duration,
-      this.subject,
-      this.numberOfQuestions,
-      this.active,
-      this.createdAt});
+  Exam({
+    this.sId,
+    this.title,
+    this.duration,
+    this.subject,
+    this.numberOfQuestions,
+    this.active,
+    this.createdAt,
+  });
 
   factory Exam.fromJson(Map<String, dynamic> json) {
     return Exam(
