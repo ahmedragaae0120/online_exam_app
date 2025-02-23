@@ -16,7 +16,7 @@ Future<void> configureDependencies() async {
 
 @module
 abstract class RegisterModule {
-  @preResolve  // This annotation is important
-  @singleton   // Add this to ensure single instance
+  @preResolve
+  @singleton
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 }

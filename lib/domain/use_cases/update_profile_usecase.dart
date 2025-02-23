@@ -1,24 +1,13 @@
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
 import 'package:online_exam_app/domain/common/result.dart';
-import 'package:online_exam_app/domain/repo_contract/profile_repo_contract.dart';
-
-@injectable
-class GetProfileUseCase {
-  final ProfileRepoContract profileRepo;
-
-  GetProfileUseCase(this.profileRepo);
-
-  Future<Result<UserResponse>> invoke() async {
-    return await profileRepo.getProfileData();
-  }
-}
+import 'package:online_exam_app/domain/repo_contract/update_profile_repo_contract.dart';
 
 @injectable
 class UpdateProfileUseCase {
-  final ProfileRepoContract profileRepo;
+  final UpdateProfileRepoContract updateProfileRepo;
 
-  UpdateProfileUseCase(this.profileRepo);
+  UpdateProfileUseCase(this.updateProfileRepo);
 
   Future<Result<UserResponse>> invoke({
     required String username,
@@ -28,7 +17,7 @@ class UpdateProfileUseCase {
     required String phone,
     String? password,
   }) async {
-    return await profileRepo.updateProfileData(
+    return await updateProfileRepo.updateProfileData(
       username: username,
       firstName: firstName,
       lastName: lastName,

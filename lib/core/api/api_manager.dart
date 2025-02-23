@@ -67,15 +67,11 @@ class ApiManager {
     required String endPoint,
     Map<String, dynamic>? queryParameters,
   }) async {
-    try {
-      var response = await dio.get(
-        endPoint,
-        queryParameters: queryParameters,
-      );
-      return response;
-    } catch (e) {
-      rethrow;
-    }
+    var response = await dio.get(
+      endPoint,
+      queryParameters: queryParameters,
+    );
+    return response;
   }
 
   Future<Response> postRequest(

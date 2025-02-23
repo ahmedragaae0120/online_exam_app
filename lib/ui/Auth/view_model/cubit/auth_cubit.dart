@@ -87,18 +87,15 @@ class AuthCubit extends Cubit<AuthState> {
   _SignIn({required SignInIntent intent}) async {
     emit(LoginLoadingState());
     final result = await signinUsecase.invoke(
-        email: intent.email,
-        password: intent.password,
-        rememberMe: intent.rememberMe);
+      email: intent.email,
+      password: intent.password,
+    );
 
     switch (result) {
       case Success():
         if (result.data?.token != null) {
           // Add ?. operator here
-          await tokenStorage.saveToken(
-            result.data!.token!,
-            intent.rememberMe,
-          );
+          await tokenStorage.saveToken(result.data!.token!);
           print('Token saved: ${result.data!.token}');
           emit(LoginSuccessState(userResponse: result.data));
         }

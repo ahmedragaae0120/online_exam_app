@@ -9,11 +9,8 @@ class TokenStorageService {
 
   TokenStorageService(this._prefs);
 
-  Future<void> saveToken(String token, bool rememberMe) async {
-    if (rememberMe) {
-      await _prefs.setString(_tokenKey, token);
-    }
-    await _prefs.setBool(_rememberMeKey, rememberMe);
+  Future<void> saveToken(String token) async {
+    await _prefs.setString(_tokenKey, token);
   }
 
   Future<String?> getToken() async {

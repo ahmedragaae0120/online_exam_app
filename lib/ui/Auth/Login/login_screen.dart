@@ -30,7 +30,7 @@ class _SignInScreenState extends State<SignInScreen> {
             SignInIntent(
               email: emailController.text,
               password: passwordController.text,
-              rememberMe: isChecked, // Use the checkbox value
+              // Use the checkbox value
             ),
           );
     }

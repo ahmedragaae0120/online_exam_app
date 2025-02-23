@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/custom_button.dart';
-import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_cubit.dart';

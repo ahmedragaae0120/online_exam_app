@@ -12,10 +12,10 @@ class SigninUsecase {
     required this.signInRepoContract,
   });
 
-  Future<Result<UserResponse>> invoke(
-      {required String email,
-      required String password,
-      required bool rememberMe}) async {
+  Future<Result<UserResponse>> invoke({
+    required String email,
+    required String password,
+  }) async {
     final result =
         await signInRepoContract.signIn(email: email, password: password);
 

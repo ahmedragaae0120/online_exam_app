@@ -31,13 +31,11 @@ class SignUpIntent extends AuthIntent {
 class SignInIntent extends AuthIntent {
   final String email;
   final String password;
-  final bool rememberMe;
 
   /// ✅ Trigger login process ✅
   SignInIntent({
     required this.email,
     required this.password,
-    required this.rememberMe,
   });
 }
 

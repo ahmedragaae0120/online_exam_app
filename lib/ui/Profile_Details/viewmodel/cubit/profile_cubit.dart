@@ -3,7 +3,8 @@ import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/services/token_storage_service.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
 import 'package:online_exam_app/domain/common/result.dart';
-import 'package:online_exam_app/domain/use_cases/profile_usecases.dart';
+import 'package:online_exam_app/domain/use_cases/get_profile_usecase.dart.dart';
+import 'package:online_exam_app/domain/use_cases/update_profile_usecase.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_state.dart';
 import 'profile_intent.dart';
 
