@@ -91,4 +91,5 @@ number at least''';
   static const String emailVerificationScreenRoute = '/EmailVerification';
   static const String putNewPasswordScreenRoute = '/PutNewPassword';
   static const String ResultScreenRoute = '/ResultScreen';
+  static const String examScreenRoute = "/exam-screen";
 }

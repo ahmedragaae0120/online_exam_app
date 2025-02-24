@@ -5,7 +5,10 @@ import 'package:online_exam_app/core/utils/text_style_manger.dart';
 class MyThemeData {
   static ThemeData LightTheme = ThemeData(
       scaffoldBackgroundColor: Colors.white,
-      primaryColor: AppColors.blue_base,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.blue_base,
+        primary: AppColors.blue_base,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: TextStyle(
           fontSize: 34,
@@ -37,12 +40,13 @@ class MyThemeData {
         filled: true,
       ),
       secondaryHeaderColor: AppColors.black_base,
-      appBarTheme: AppBarTheme(backgroundColor: AppColors.white,
+      appBarTheme: AppBarTheme(
           centerTitle: false,
+          color: AppColors.white,
           elevation: 0,
           iconTheme: IconThemeData(size: 35, color: Colors.black),
           shadowColor: Colors.transparent,
-          titleTextStyle: AppTextStyle.medium20.copyWith(color: AppColors.black_base)),
+          titleTextStyle: AppTextStyle.medium20.copyWith(color: Colors.black)),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: AppColors.blue_base,
         unselectedItemColor: AppColors.black_30,

@@ -17,7 +17,11 @@ class AppTextStyle {
     fontWeight: FontWeight.w400,
     fontSize: 16,
   );
-
+  static const TextStyle medium14 = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
+  );
   static const TextStyle medium16 = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500,
