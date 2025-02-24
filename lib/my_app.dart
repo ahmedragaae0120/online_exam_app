@@ -52,10 +52,10 @@ class MyApp extends StatelessWidget {
         AppStrings.profileDetailsScreenRoute: (context) =>
             ProfileDetailsScreen(),
       },
-      initialRoute: AppStrings.examScreenRoute,
-      // initialToken != null
-      //     ? AppStrings.homeScreenRoute // Navigate to home if token exists
-      //     : AppStrings.loginScreenRoute, // Navigate to login if no token
+      initialRoute:  initialToken != null
+          ? AppStrings.homeScreenRoute // Navigate to home if token exists
+          : AppStrings.loginScreenRoute, // Navigate to login if no token,
+
     );
   }
 }

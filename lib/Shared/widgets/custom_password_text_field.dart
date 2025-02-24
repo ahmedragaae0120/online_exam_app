@@ -33,6 +33,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: TextFormField(
+          obscuringCharacter: "★",
           controller: widget.controller,
           validator: widget.validator,
           obscureText: _obscureText,
@@ -46,6 +47,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   InputDecoration getInputDecoration(
       BuildContext context, String label, String hint) {
     final inputTheme = Theme.of(context).inputDecorationTheme;
+
 
     return InputDecoration(
       labelText: label,
