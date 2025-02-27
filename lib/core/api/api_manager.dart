@@ -5,9 +5,9 @@ import 'package:injectable/injectable.dart';
 class ApiManager {
   late Dio dio;
 
-  // ApiManager() {
-  //   init();
-  // }
+  ApiManager() {
+    init();
+  }
 
   void init() {
     dio = Dio(
@@ -19,8 +19,11 @@ class ApiManager {
   }
 
   Future<Response> getRequest(
-      {required String endPoint, Map<String, dynamic>? queryParamters}) async {
-    var response = await dio.get(endPoint, queryParameters: queryParamters);
+      {required String endPoint,
+      Map<String, dynamic>? queryParamters,
+      Map<String, dynamic>? headers}) async {
+    var response = await dio.get(endPoint,
+        queryParameters: queryParamters, options: Options(headers: headers));
     return response;
   }
 

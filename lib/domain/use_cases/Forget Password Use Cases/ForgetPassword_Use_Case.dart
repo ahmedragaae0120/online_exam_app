@@ -5,11 +5,10 @@ import 'package:online_exam_app/domain/repo_contract/Forget%20Password%20Repos/F
 @injectable
 class ForgetPasswordUseCase {
   ForgetpasswordRepo forgetPassword;
-  ForgetPasswordUseCase({required this.forgetPassword});
   @factoryMethod
+  ForgetPasswordUseCase({required this.forgetPassword});
+
   Future<Result<bool>> invoke({required String email}) {
     return forgetPassword.SendEmailVerification(email: email);
   }
 }
-
-
