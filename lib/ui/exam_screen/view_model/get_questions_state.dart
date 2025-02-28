@@ -17,3 +17,15 @@ final class GetQuestionsErrorState extends GetQuestionsState {
   String? message;
   GetQuestionsErrorState({this.message});
 }
+
+/// **حالة يتم إرسالها عند تحديث السؤال الحالي**
+
+class GetQuestionsUpdatedState extends GetQuestionsState {
+  final int quesionCurrent;
+  GetQuestionsUpdatedState({required this.quesionCurrent});
+}
+
+/// **حالة يتم إرسالها عند إعادة ضبط الامتحان**
+class GetQuestionsResetState extends GetQuestionsState {
+  GetQuestionsResetState();
+}

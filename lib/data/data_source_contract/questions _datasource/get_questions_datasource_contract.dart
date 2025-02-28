@@ -2,6 +2,5 @@ import 'package:online_exam_app/data/model/questions_response/question_response.
 import 'package:online_exam_app/domain/common/result.dart';
 
 abstract class GetQuestionsDatasourceContract {
-  Future<Result<QuestionResponse>> getQuestions(
-      String examId, String? userTocken);
+  Future<Result<QuestionResponse>> getQuestions(String examId);
 }

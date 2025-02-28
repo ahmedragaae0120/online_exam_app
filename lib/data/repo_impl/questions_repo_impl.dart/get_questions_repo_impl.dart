@@ -12,8 +12,10 @@ class GetQuestionsRepoImpl implements GetQuestionsRepoContract {
 
   @override
   Future<Result<QuestionResponse>> getQuestions(
-      String examId, String? userTocken) async {
+    String examId,
+  ) async {
     return await getQuestionsDatasourceContract.getQuestions(
-        examId, userTocken);
+      examId,
+    );
   }
 }

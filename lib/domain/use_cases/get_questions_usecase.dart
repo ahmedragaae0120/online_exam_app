@@ -9,7 +9,9 @@ class GetQuestionsUseCase {
   @factoryMethod
   GetQuestionsUseCase(this._getQuestionsRepoContract);
 
-  Future<Result<QuestionResponse>> call(String examId, String userTocken) {
-    return _getQuestionsRepoContract.getQuestions(examId, userTocken);
+  Future<Result<QuestionResponse>> call(String examId) {
+    return _getQuestionsRepoContract.getQuestions(
+      examId,
+    );
   }
 }

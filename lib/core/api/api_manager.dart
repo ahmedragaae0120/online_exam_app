@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/core/constants/constants.dart';
 
 @singleton
 class ApiManager {
@@ -12,9 +13,12 @@ class ApiManager {
   void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: "https://exam.elevateegy.com/",
-        connectTimeout: Duration(seconds: 60),
-      ),
+          baseUrl: Constants.baseUrl,
+          connectTimeout: Duration(seconds: 60),
+          headers: {
+            "token":
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YjVjY2YxODZhMDI0ZjA2ZWEyODNiOSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzM5OTY3NzI5fQ.F6eACGexv_DDgr1e0YKNu0qDqioC5GrdSuLcSU1PdLg"
+          }),
     );
   }
 

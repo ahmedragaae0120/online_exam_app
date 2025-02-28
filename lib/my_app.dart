@@ -12,7 +12,6 @@ import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/ui/Profile_Details/profile_details_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view/exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_cubit.dart';
-import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
 import 'package:online_exam_app/ui/home_screen.dart';
 
 class MyApp extends StatelessWidget {

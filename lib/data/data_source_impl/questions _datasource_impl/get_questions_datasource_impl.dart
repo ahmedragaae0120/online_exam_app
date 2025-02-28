@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/api/api_endpoints.dart';
 import 'package:online_exam_app/core/api/api_excuter.dart';
@@ -15,18 +13,16 @@ class GetQuestionsDatasourceImpl implements GetQuestionsDatasourceContract {
   GetQuestionsDatasourceImpl(this.apiManager);
   @override
   Future<Result<QuestionResponse>> getQuestions(
-      String examId, String? userTocken) {
+    String examId,
+  ) {
     return executeApi<QuestionResponse>(
       () async {
         var apiResponse = await apiManager.getRequest(
-            endPoint: ApiEndpoints.getQuestionsEndpoint,
-            queryParamters: {
-              "exam": examId,
-            },
-            headers: {
-              "token":
-                  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YjVjY2YxODZhMDI0ZjA2ZWEyODNiOSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzM5OTY3NzI5fQ.F6eACGexv_DDgr1e0YKNu0qDqioC5GrdSuLcSU1PdLg"
-            });
+          endPoint: ApiEndpoints.getQuestionsEndpoint,
+          queryParamters: {
+            "exam": examId,
+          },
+        );
         QuestionResponse response =
             QuestionResponse.fromJson(apiResponse.data ?? {});
         // var questionList = response.questions

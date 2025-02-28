@@ -1,83 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/data/model/questions_response/Answers.dart';
+import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_cubit.dart';
+import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_intent.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/multi_choice_answer_widget.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/single_choice_answer_widget.dart';
 
 enum AnswerType { single, multiple }
 
-class AnswerBuilder extends StatefulWidget {
+class AnswerBuilder extends StatelessWidget {
   final List<Answer> answers;
   final AnswerType answerType;
   final String correctAnswerKey; // المفتاح الصحيح للإجابة
-  final Function(bool) onAnswerSelected;
+  final String questionId;
   const AnswerBuilder(
       {super.key,
       required this.answers,
       required this.answerType,
       required this.correctAnswerKey,
-      required this.onAnswerSelected});
-
-  @override
-  State<AnswerBuilder> createState() => _AnswerBuilderState();
-}
-
-class _AnswerBuilderState extends State<AnswerBuilder> {
-  String? selectedAnswer;
-
-  List<String?> selectedAnswers = [];
+      required this.questionId});
 
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    final cubit = GetQuestionsCubit.get(context);
+
     return ListView.separated(
       physics: NeverScrollableScrollPhysics(),
-      itemCount: widget.answers.length,
+      itemCount: answers.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        String currentAnswer = widget.answers[index].answer ?? '';
+        String currentAnswer = answers[index].answer ?? '';
+        bool isSelected =
+            cubit.selectedAnswersMap[questionId] == answers[index].key;
 
-        return widget.answerType == AnswerType.single
+        return answerType == AnswerType.single
             ? SingleChoiceAnswerWidget(
                 answerText: currentAnswer,
-                isSelected: selectedAnswer == currentAnswer,
+                isSelected: isSelected,
                 onSelect: () {
-                  setState(() {
-                    selectedAnswer = currentAnswer;
-                  });
-
-                  bool isCorrect = false; // المتغير الذي سيحدد صحة الإجابة
-                  for (Answer answer in widget.answers) {
-                    if (answer.answer == selectedAnswer) {
-                      // ابحث عن الإجابة المختارة
-                      if (answer.key == widget.correctAnswerKey) {
-                        // قارن المفتاح
-                        isCorrect = true;
-                      }
-                      break; // بمجرد العثور على الإجابة المطابقة، نخرج من الحلقة
-                    }
-                  }
-                  widget.onAnswerSelected(isCorrect);
-
-                  // bool isCorrect = widget.answers
-                  //         .firstWhere(
-                  //             (answer) => answer.answer == selectedAnswer)
-                  //         .key ==
-                  //     widget.correctAnswerKey;
-                  // widget.onAnswerSelected(isCorrect);
+                  cubit.doIntent(UpdateAnswerIntent(
+                      correctKey: correctAnswerKey,
+                      selectedAnswerKey: answers[index].key ?? '',
+                      questionId: questionId));
                 },
               )
             : MultiChoiceAnswerWidget(
                 answerText: currentAnswer,
-                isSelected: selectedAnswers.contains(currentAnswer),
+                isSelected: cubit.multiSelectedAnswersMap[questionId]!
+                    .contains(currentAnswer),
                 onSelect: () {
-                  setState(() {
-                    if (selectedAnswers.contains(currentAnswer)) {
-                      selectedAnswers.remove(currentAnswer);
-                    } else {
-                      selectedAnswers.add(currentAnswer);
-                    }
-                  });
+                  // setState(() {
+                  //   if (multiSelectedAnswersMap[widget.questionId]!
+                  //       .contains(currentAnswer)) {
+                  //     multiSelectedAnswersMap[widget.questionId]!
+                  //         .remove(currentAnswer);
+                  //   } else {
+                  //     multiSelectedAnswersMap[widget.questionId]!
+                  //         .add(currentAnswer);
+                  //   }
+                  // });
                 },
               );
       },

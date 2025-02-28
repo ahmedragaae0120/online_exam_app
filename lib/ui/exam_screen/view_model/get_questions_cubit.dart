@@ -1,4 +1,5 @@
-import 'package:bloc/bloc.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -23,13 +24,78 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
       case GetQuestionsIntent():
         _getQuestions(getQuestionsIntent: intent);
         break;
+      case NextQuestionIntent():
+        _nextQuestion();
+        break;
+      case PreviousQuestionIntent():
+        _previousQuestion();
+        break;
+      case UpdateAnswerIntent():
+        _updateAnswer(intent: intent);
+        break;
+      case ResetIntent():
+        _resetExamData();
+        break;
     }
+  }
+
+  int quesionCurrent = 1;
+  int correctAnswers = 0;
+  final Map<String, bool> answeredCorrectly =
+      {}; // هل السؤال تمت إجابته بشكل صحيح؟
+  final Map<String, String?> selectedAnswersMap = {}; // تخزين الإجابات الفردية
+  final Map<String, List<String?>> multiSelectedAnswersMap =
+      {}; // تخزين إجابات متعددة
+
+  _nextQuestion() {
+    quesionCurrent++;
+    log("quesionCurrent: $quesionCurrent");
+    emit(GetQuestionsUpdatedState(quesionCurrent: quesionCurrent));
+  }
+
+  _previousQuestion() {
+    if (quesionCurrent > 1) {
+      quesionCurrent--;
+      log("quesionCurrent: $quesionCurrent");
+      emit(GetQuestionsUpdatedState(quesionCurrent: quesionCurrent));
+    }
+  }
+
+  _updateAnswer({
+    required UpdateAnswerIntent intent,
+  }) {
+    bool isCorrect = intent.selectedAnswerKey == intent.correctKey;
+    log("السؤال: ${intent.questionId}");
+    log("الإجابة المختارة: ${intent.selectedAnswerKey}");
+    log("الإجابة الصحيحة: ${intent.correctKey}");
+    log("قبل التحديث - answeredCorrectly: $answeredCorrectly");
+    // تحديث خريطة الإجابات الصحيحة
+    answeredCorrectly[intent.questionId] = isCorrect;
+    log("بعد التحديث - answeredCorrectly: $answeredCorrectly");
+
+    // تحديث الإجابة المختارة
+    selectedAnswersMap[intent.questionId] = intent.selectedAnswerKey;
+
+    // إعادة حساب عدد الإجابات الصحيحة بناءً على القيم المخزنة
+    correctAnswers = answeredCorrectly.values.where((value) => value).length;
+
+    log("correctAnswers: $correctAnswers");
+
+    emit(GetQuestionsUpdatedState(
+        quesionCurrent: quesionCurrent)); // تحديث الواجهة
+  }
+
+  _resetExamData() {
+    correctAnswers = 0;
+    answeredCorrectly.clear();
+    selectedAnswersMap.clear();
+    multiSelectedAnswersMap.clear();
+    emit(GetQuestionsResetState());
   }
 
   _getQuestions({required GetQuestionsIntent getQuestionsIntent}) async {
     emit(GetQuestionsLoadingState());
-    final result = await getQuestionsUseCase.call(
-        getQuestionsIntent.examId, getQuestionsIntent.userTocken);
+    final result = await getQuestionsUseCase.call(getQuestionsIntent.examId);
     switch (result) {
       case Success():
         {

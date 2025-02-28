@@ -15,6 +15,7 @@ class ScoreIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 8,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
@@ -26,7 +27,6 @@ class ScoreIndicator extends StatelessWidget {
                 isCorrect ? Theme.of(context).colorScheme.primary : Colors.red,
           ),
         ),
-        SizedBox(width: 8),
         Container(
           padding: EdgeInsets.all(6),
           decoration: BoxDecoration(

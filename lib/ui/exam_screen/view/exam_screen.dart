@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
@@ -20,15 +22,14 @@ class ExamScreen extends StatefulWidget {
 class _ExamScreenState extends State<ExamScreen> {
   int quesionCurrent = 1;
   int _correctAnswers = 0;
-  int _incorrectAnswers = 0;
   late DateTime endTime = DateTime.now().add(Duration(minutes: 10));
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context
-          .read<GetQuestionsCubit>()
-          .doIntent(GetQuestionsIntent("670070a830a3c3c1944a9c63", "15"));
+      context.read<GetQuestionsCubit>().doIntent(GetQuestionsIntent(
+            "670070a830a3c3c1944a9c63",
+          ));
     });
   }
 
@@ -70,9 +71,8 @@ class _ExamScreenState extends State<ExamScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => SummaryExamScreen(
-                            correctAnswers: _correctAnswers,
-                            inCorrectAnswers: _incorrectAnswers,
-                          ),
+                              correctAnswers: _correctAnswers,
+                              countOfQuestions: 11),
                         ));
                   },
                 ),
@@ -81,15 +81,21 @@ class _ExamScreenState extends State<ExamScreen> {
           ],
         ),
         body: BlocBuilder<GetQuestionsCubit, GetQuestionsState>(
+          buildWhen: (previous, current) {
+            if (current is GetQuestionsSuccessState ||
+                current is GetQuestionsLoadingState ||
+                current is GetQuestionsErrorState) {
+              return true;
+            }
+            return false;
+          },
           builder: (context, state) {
             if (state is GetQuestionsSuccessState) {
               return ExamScreenBody(
-                state: state,
-                onExamEnd: (int correct, int incorrect) {
-                  setState(() {
-                    _correctAnswers = correct;
-                    _incorrectAnswers = incorrect;
-                  });
+                getQuestionsSuccessState: state,
+                onExamEnd: (int correct) {
+                  log(correct.toString());
+                  _correctAnswers = correct;
                 },
               );
             }
