@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
@@ -20,15 +18,16 @@ class ExamScreen extends StatefulWidget {
 }
 
 class _ExamScreenState extends State<ExamScreen> {
-  int quesionCurrent = 1;
-  int _correctAnswers = 0;
-  late DateTime endTime = DateTime.now().add(Duration(minutes: 10));
+  // int quesionCurrent = 1;
+
+  late DateTime endTime = DateTime.now().add(Duration(seconds: 10));
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<GetQuestionsCubit>().doIntent(GetQuestionsIntent(
-            "670070a830a3c3c1944a9c63",
+            "670070a830a3c3c1944a9c63", // this id Contains questions
+            // "6700707030a3c3c1944a9c5d", // this id not Contains questions
           ));
     });
   }
@@ -36,50 +35,68 @@ class _ExamScreenState extends State<ExamScreen> {
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    final cubit = GetQuestionsCubit.get(context);
+
     return BlocListener<GetQuestionsCubit, GetQuestionsState>(
       listener: (context, state) {
         if (state is GetQuestionsSuccessState) {
-          Future.microtask(() {
+          if (state.questionResponse?.questions?.isEmpty ?? true) {
             setState(() {
-              endTime = DateTime.now().add(Duration(
-                  minutes:
-                      state.questionResponse?.questions?[0].exam?.duration ??
-                          10));
+              endTime = DateTime.now();
             });
-          });
+          } else {
+            Future.microtask(() {
+              setState(() {
+                endTime = DateTime.now().add(Duration(
+                    minutes:
+                        state.questionResponse?.questions?[0].exam?.duration ??
+                            10));
+              });
+            });
+          }
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            "Exam",
-          ),
-          actions: [
-            Row(
-              spacing: 5,
-              children: [
-                Image.asset(AssetsManager.resourceClock),
-                TimerCountdown(
-                  enableDescriptions: false,
-                  format: CountDownTimerFormat.minutesSeconds,
-                  timeTextStyle: AppTextStyle.semiBold20.copyWith(
-                    color: AppColors.success,
-                  ),
-                  endTime: endTime,
-                  onEnd: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SummaryExamScreen(
-                              correctAnswers: _correctAnswers,
-                              countOfQuestions: 11),
-                        ));
-                  },
-                ),
-              ],
-            )
-          ],
-        ),
+            title: Text(
+              "Exam",
+            ),
+            actions: [
+              BlocBuilder<GetQuestionsCubit, GetQuestionsState>(
+                builder: (context, state) {
+                  if (state is GetQuestionsLoadingState) {
+                    return Text("loading please wait...",
+                        style: AppTextStyle.regular25);
+                  }
+                  if (state is GetQuestionsSuccessState &&
+                      (state.questionResponse?.questions?.isEmpty ?? true)) {
+                    return SizedBox();
+                  }
+                  return Row(
+                    children: [
+                      Image.asset(AssetsManager.resourceClock),
+                      TimerCountdown(
+                        enableDescriptions: false,
+                        format: CountDownTimerFormat.minutesSeconds,
+                        timeTextStyle: AppTextStyle.semiBold20.copyWith(
+                          color: AppColors.success,
+                        ),
+                        endTime: endTime,
+                        onEnd: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SummaryExamScreen(
+                                    correctAnswers: cubit.correctAnswers,
+                                    countOfQuestions: cubit.countOfQuestions),
+                              ));
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ]),
         body: BlocBuilder<GetQuestionsCubit, GetQuestionsState>(
           buildWhen: (previous, current) {
             if (current is GetQuestionsSuccessState ||
@@ -91,13 +108,14 @@ class _ExamScreenState extends State<ExamScreen> {
           },
           builder: (context, state) {
             if (state is GetQuestionsSuccessState) {
-              return ExamScreenBody(
-                getQuestionsSuccessState: state,
-                onExamEnd: (int correct) {
-                  log(correct.toString());
-                  _correctAnswers = correct;
-                },
-              );
+              if (state.questionResponse?.questions?.isEmpty ?? true) {
+                return Center(
+                    child: Text("No Questions", style: AppTextStyle.regular25));
+              } else {
+                return ExamScreenBody(
+                  getQuestionsSuccessState: state,
+                );
+              }
             }
             if (state is GetQuestionsErrorState) {
               return Center(

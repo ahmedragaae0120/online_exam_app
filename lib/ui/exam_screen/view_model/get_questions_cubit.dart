@@ -41,6 +41,7 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
 
   int quesionCurrent = 1;
   int correctAnswers = 0;
+  int countOfQuestions = 0;
   final Map<String, bool> answeredCorrectly =
       {}; // هل السؤال تمت إجابته بشكل صحيح؟
   final Map<String, String?> selectedAnswersMap = {}; // تخزين الإجابات الفردية
@@ -99,6 +100,7 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
     switch (result) {
       case Success():
         {
+          countOfQuestions = result.data?.questions?.length ?? 0;
           emit(GetQuestionsSuccessState(questionResponse: result.data));
         }
       case Error():

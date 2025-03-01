@@ -3,30 +3,40 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 @singleton
 class TokenStorageService {
-  static const String TOKEN_KEY = 'auth_token';
-  static const String REMEMBER_ME_KEY = 'remember_me';
+  final String _tokenKey = 'auth_token';
+  final String _rememberMeKey = 'remember_me';
 
   final SharedPreferences _prefs;
 
   TokenStorageService(this._prefs);
 
   Future<void> saveToken(String token, bool rememberMe) async {
-    if (rememberMe) {
-      await _prefs.setString(TOKEN_KEY, token);
+    try {
+      await _prefs.setBool(_rememberMeKey, rememberMe);
+      if (rememberMe) {
+        await _prefs.setString(_tokenKey, token);
+      } else {
+        await _prefs.remove(_tokenKey); // تأكد من حذف التوكن عند عدم التذكّر
+      }
+    } catch (e) {
+      print('Error saving token: $e');
     }
-    await _prefs.setBool(REMEMBER_ME_KEY, rememberMe);
   }
 
   String? getToken() {
-    return _prefs.getString(TOKEN_KEY);
+    return _prefs.getString(_tokenKey);
   }
 
   bool getRememberMe() {
-    return _prefs.getBool(REMEMBER_ME_KEY) ?? false;
+    return _prefs.getBool(_rememberMeKey) ?? false;
   }
 
   Future<void> deleteToken() async {
-    await _prefs.remove(TOKEN_KEY);
-    await _prefs.remove(REMEMBER_ME_KEY);
+    try {
+      await _prefs.remove(_tokenKey);
+      await _prefs.remove(_rememberMeKey);
+    } catch (e) {
+      print('Error deleting token: $e');
+    }
   }
 }

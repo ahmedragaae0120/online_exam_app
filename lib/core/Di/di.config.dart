@@ -85,14 +85,17 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.prefs,
       preResolve: true,
     );
-    gh.singleton<_i1047.ApiManager>(() => _i1047.ApiManager());
     gh.singleton<_i381.UserService>(() => _i381.UserService());
     gh.singleton<_i474.TokenStorageService>(
         () => _i474.TokenStorageService(gh<_i460.SharedPreferences>()));
-    gh.factory<_i1072.SignInDataSourceContract>(
-        () => _i64.SigninDatasourceImpl(gh<_i1047.ApiManager>()));
+    gh.singleton<_i1047.ApiManager>(
+        () => _i1047.ApiManager(gh<_i474.TokenStorageService>()));
     gh.factory<_i647.SignUpDataSourceContract>(
         () => _i648.SignUpDataSourceImpl(gh<_i1047.ApiManager>()));
+    gh.factory<_i1072.SignInDataSourceContract>(() => _i64.SigninDatasourceImpl(
+          gh<_i1047.ApiManager>(),
+          gh<_i474.TokenStorageService>(),
+        ));
     gh.factory<_i1006.SignInRepoContract>(
         () => _i209.SigninRepoImpl(gh<_i1072.SignInDataSourceContract>()));
     gh.factory<_i42.ForgetpasswordDataSourseRepo>(() =>
@@ -101,11 +104,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i443.VerifyresetcodeRepoDataSource>(() =>
         _i695.Verifyresetcoderepodatasourceimpl(
             apiManager: gh<_i1047.ApiManager>()));
-    gh.factory<_i788.SigninUsecase>(() => _i788.SigninUsecase(
-          signInRepoContract: gh<_i1006.SignInRepoContract>(),
-          tokenStorage: gh<_i474.TokenStorageService>(),
-          userService: gh<_i381.UserService>(),
-        ));
     gh.factory<_i229.SignupRepoContract>(() => _i430.SignupRepoImpl(
         signUpDataSourceContract: gh<_i647.SignUpDataSourceContract>()));
     gh.factory<_i401.GetQuestionsDatasourceContract>(
@@ -128,6 +126,8 @@ extension GetItInjectableX on _i174.GetIt {
         _i644.VerifyresetcodeUseCase(repo: gh<_i460.VerifyresetcodeRepo>()));
     gh.factory<_i459.SignupUsecase>(() => _i459.SignupUsecase(
         signupRepoContract: gh<_i229.SignupRepoContract>()));
+    gh.factory<_i788.SigninUsecase>(() => _i788.SigninUsecase(
+        signInRepoContract: gh<_i1006.SignInRepoContract>()));
     gh.factory<_i498.ResetpasswordUsecase>(
         () => _i498.ResetpasswordUsecase(repo: gh<_i974.ResetpasswordRepo>()));
     gh.factory<_i172.GetQuestionsCubit>(

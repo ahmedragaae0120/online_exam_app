@@ -13,12 +13,11 @@ import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.da
 
 class ExamScreenBody extends StatelessWidget {
   final GetQuestionsSuccessState getQuestionsSuccessState;
-  final Function(int correct) onExamEnd; // Callback عند انتهاء الوقت
 
-  const ExamScreenBody(
-      {super.key,
-      required this.getQuestionsSuccessState,
-      required this.onExamEnd});
+  const ExamScreenBody({
+    super.key,
+    required this.getQuestionsSuccessState,
+  });
 
   // int quesionCurrent = 1;
   @override

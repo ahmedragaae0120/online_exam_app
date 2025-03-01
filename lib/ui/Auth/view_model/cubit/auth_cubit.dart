@@ -1,8 +1,8 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
+import 'package:online_exam_app/domain/common/exceptions/server_error.dart';
 import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/use_cases/Forget%20Password%20Use%20Cases/ForgetPassword_Use_Case.dart';
 import 'package:online_exam_app/domain/use_cases/Forget%20Password%20Use%20Cases/resetPassword_UseCase.dart';
@@ -10,7 +10,6 @@ import 'package:online_exam_app/domain/use_cases/Forget%20Password%20Use%20Cases
 import 'package:online_exam_app/domain/use_cases/signin_usecase.dart';
 import 'package:online_exam_app/domain/use_cases/signup_usecase.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
-import 'package:online_exam_app/domain/common/exceptions/server_error.dart';
 
 part 'auth_state.dart';
 
@@ -153,15 +152,15 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> login({
-    required String email,
-    required String password,
-    required bool rememberMe,
+  _login({
+    required SignInIntent intent,
   }) async {
     emit(LoginLoadingState());
 
     final result = await signinUsecase.invoke(
-        email: email, password: password, rememberMe: rememberMe);
+        email: intent.email,
+        password: intent.password,
+        rememberMe: intent.rememberMe);
 
     if (result is Success<UserResponse>) {
       emit(LoginSuccessState(userResponse: result.data));

@@ -1,25 +1,31 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/constants/constants.dart';
+import 'package:online_exam_app/core/services/token_storage_service.dart';
 
 @singleton
 class ApiManager {
   late Dio dio;
+  final TokenStorageService _tokenStorageService;
 
-  ApiManager() {
+  ApiManager(this._tokenStorageService) {
     init();
   }
 
   void init() {
     dio = Dio(
       BaseOptions(
-          baseUrl: Constants.baseUrl,
-          connectTimeout: Duration(seconds: 60),
-          headers: {
-            "token":
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YjVjY2YxODZhMDI0ZjA2ZWEyODNiOSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzM5OTY3NzI5fQ.F6eACGexv_DDgr1e0YKNu0qDqioC5GrdSuLcSU1PdLg"
-          }),
+        baseUrl: Constants.baseUrl,
+        connectTimeout: Duration(seconds: 60),
+      ),
     );
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
+      String? token = _tokenStorageService.getToken();
+      if (token != null) {
+        options.headers['token'] = token;
+      }
+      return handler.next(options);
+    }));
   }
 
   Future<Response> getRequest(
