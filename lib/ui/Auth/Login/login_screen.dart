@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/Validator.dart';
@@ -9,6 +11,7 @@ import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
+import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -25,10 +28,14 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _validateAndLogin(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      context.read<AuthCubit>().login(
+      // context.read<AuthCubit>().login(
+      //     email: emailController.text,
+      //     password: passwordController.text,
+      //     rememberMe: isChecked);
+      AuthCubit.get(context).doIntent(SignInIntent(
           email: emailController.text,
           password: passwordController.text,
-          rememberMe: isChecked);
+          rememberMe: isChecked));
     }
   }
 
@@ -115,6 +122,42 @@ class _SignInScreenState extends State<SignInScreen> {
                 CustomButton(
                     onTap: () => _validateAndLogin(context),
                     text: AppStrings.login),
+                  /* Remember Me & Forget Password */
+                  Row(
+                    children: [
+                      Checkbox(
+                        activeColor: Theme.of(context).primaryColor,
+                        value: isChecked,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isChecked = value!;
+                            log(isChecked.toString());
+                          });
+                        },
+                      ),
+                      Text(
+                        AppStrings.rememberMe,
+                        style: AppTextStyle.regular12,
+                      ),
+                      Spacer(),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context,
+                                AppStrings.enterEmailForgetPasswordScreenRoute);
+                          },
+                          child: Text(AppStrings.forgetpassword,
+                              style: AppTextStyle.regular12),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Config.spaceSmall,
+                  /* Login Button */
+                  CustomButton(
+                      onTap: () => _validateAndLogin(context),
+                      text: AppStrings.login),
 
                 /* Sign Up Option */
                 Row(

@@ -5,5 +5,6 @@ abstract class SignInRepoContract {
   Future<Result<UserResponse>> signIn({
     required String email,
     required String password,
+    required bool rememberMe,
   });
 }

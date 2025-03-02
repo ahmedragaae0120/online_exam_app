@@ -1,26 +1,39 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/core/constants/constants.dart';
+import 'package:online_exam_app/core/services/token_storage_service.dart';
 
 @singleton
 class ApiManager {
   late Dio dio;
+  final TokenStorageService _tokenStorageService;
 
-  ApiManager() {
+  ApiManager(this._tokenStorageService) {
     init();
   }
 
   void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: "https://exam.elevateegy.com/",
+        baseUrl: Constants.baseUrl,
         connectTimeout: Duration(seconds: 60),
       ),
     );
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
+      String? token = _tokenStorageService.getToken();
+      if (token != null) {
+        options.headers['token'] = token;
+      }
+      return handler.next(options);
+    }));
   }
 
   Future<Response> getRequest(
-      {required String endPoint, Map<String, dynamic>? queryParamters}) async {
-    var response = await dio.get(endPoint, queryParameters: queryParamters);
+      {required String endPoint,
+      Map<String, dynamic>? queryParamters,
+      Map<String, dynamic>? headers}) async {
+    var response = await dio.get(endPoint,
+        queryParameters: queryParamters, options: Options(headers: headers));
     return response;
   }
 
