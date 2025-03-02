@@ -11,13 +11,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:online_exam_app/data/data_source_impl/ForgetPassword/ForgetPassWord.dart';
-import 'package:online_exam_app/data/data_source_impl/ForgetPassword/ResetpasswordDataSourceRepoImpl.dart';
-import 'package:online_exam_app/data/data_source_impl/ForgetPassword/VerifyresetcodeRepoDataSourceImpl.dart';
-import 'package:online_exam_app/data/data_source_impl/signin_datasource_impl.dart';
-import 'package:online_exam_app/data/data_source_impl/signup_datasource_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../data/data_source_contract/change_password_datasource.dart'
+    as _i947;
 import '../../data/data_source_contract/ForgetPassword_dataSourses/ForgetPassword_dataSourse.dart'
     as _i42;
 import '../../data/data_source_contract/ForgetPassword_dataSourses/ResetpasswordDataSourceRepo.dart'
@@ -29,9 +26,20 @@ import '../../data/data_source_contract/signin_datasource.dart' as _i1072;
 import '../../data/data_source_contract/signup_datasource.dart' as _i647;
 import '../../data/data_source_contract/update_profile_datasource.dart'
     as _i389;
+import '../../data/data_source_impl/change_password_datasource_impl.dart'
+    as _i18;
+import '../../data/data_source_impl/ForgetPassword/ForgetPassWord.dart'
+    as _i444;
+import '../../data/data_source_impl/ForgetPassword/ResetpasswordDataSourceRepoImpl.dart'
+    as _i66;
+import '../../data/data_source_impl/ForgetPassword/VerifyresetcodeRepoDataSourceImpl.dart'
+    as _i695;
 import '../../data/data_source_impl/get_profile_datasource_impl.dart' as _i290;
+import '../../data/data_source_impl/signin_datasource_impl.dart' as _i64;
+import '../../data/data_source_impl/signup_datasource_impl.dart' as _i648;
 import '../../data/data_source_impl/update_profile_datasource_impl.dart'
     as _i943;
+import '../../data/repo_impl/change_password_repo_impl.dart' as _i836;
 import '../../data/repo_impl/Forget%20Password%20Impl/ForgetPasswordRepoImpl.dart'
     as _i455;
 import '../../data/repo_impl/Forget%20Password%20Impl/ResetpasswordRepoImpl.dart'
@@ -42,6 +50,8 @@ import '../../data/repo_impl/get_profile_repo_impl.dart' as _i676;
 import '../../data/repo_impl/signin_repo_impl.dart' as _i209;
 import '../../data/repo_impl/signup_repo_impl.dart' as _i430;
 import '../../data/repo_impl/update_profile_repo_impl.dart' as _i383;
+import '../../domain/repo_contract/change_password_repo_contract.dart'
+    as _i1006;
 import '../../domain/repo_contract/Forget%20Password%20Repos/ForgetPassword_repo.dart'
     as _i105;
 import '../../domain/repo_contract/Forget%20Password%20Repos/resetPasswordRepo.dart'
@@ -52,6 +62,7 @@ import '../../domain/repo_contract/get_profile_repo_contract.dart' as _i726;
 import '../../domain/repo_contract/sign_in_repo_contract.dart' as _i1006;
 import '../../domain/repo_contract/signup_repo_contract.dart' as _i229;
 import '../../domain/repo_contract/update_profile_repo_contract.dart' as _i176;
+import '../../domain/use_cases/change_password_usecase.dart' as _i564;
 import '../../domain/use_cases/Forget%20Password%20Use%20Cases/ForgetPassword_Use_Case.dart'
     as _i524;
 import '../../domain/use_cases/Forget%20Password%20Use%20Cases/resetPassword_UseCase.dart'
@@ -63,6 +74,8 @@ import '../../domain/use_cases/signin_usecase.dart' as _i788;
 import '../../domain/use_cases/signup_usecase.dart' as _i459;
 import '../../domain/use_cases/update_profile_usecase.dart' as _i754;
 import '../../ui/Auth/view_model/cubit/auth_cubit.dart' as _i906;
+import '../../ui/Profile_Details/change_password/viewmodel/change_password_cubit.dart'
+    as _i511;
 import '../../ui/Profile_Details/viewmodel/cubit/profile_cubit.dart' as _i159;
 import '../api/api_manager.dart' as _i1047;
 import '../services/token_storage_service.dart' as _i474;
@@ -90,35 +103,43 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1047.ApiManager(gh<_i474.TokenStorageService>()));
     gh.factory<_i389.UpdateProfileDataSourceContract>(
         () => _i943.UpdateProfileDatasourceImpl(gh<_i1047.ApiManager>()));
+    gh.factory<_i947.ChangePasswordDataSourceContract>(
+        () => _i18.ChangePasswordDataSourceImpl(gh<_i1047.ApiManager>()));
     gh.factory<_i705.ProfileDataSourceContract>(
         () => _i290.ProfileDataSourceImpl(gh<_i1047.ApiManager>()));
-    gh.factory<_i42.ForgetpasswordDataSourseRepo>(() =>
-        ForgetpasswordDataSourceRepoImpl(apiManager: gh<_i1047.ApiManager>()));
-    gh.factory<_i1072.SignInDataSourceContract>(
-        () => SigninDatasourceImpl(gh<_i1047.ApiManager>()));
-    gh.factory<_i647.SignUpDataSourceContract>(
-        () => SignUpDataSourceImpl(gh<_i1047.ApiManager>()));
-    gh.factory<_i443.VerifyresetcodeRepoDataSource>(() =>
-        Verifyresetcoderepodatasourceimpl(apiManager: gh<_i1047.ApiManager>()));
     gh.factory<_i865.ResetpasswordDataSourceRepo>(() =>
-        Resetpassworddatasourcerepoimpl(apiManager: gh<_i1047.ApiManager>()));
+        _i66.Resetpassworddatasourcerepoimpl(
+            apiManager: gh<_i1047.ApiManager>()));
     gh.factory<_i974.ResetpasswordRepo>(() =>
         _i343.Resetpasswordrepoimpl(gh<_i865.ResetpasswordDataSourceRepo>()));
     gh.factory<_i726.ProfileRepoContract>(
         () => _i676.ProfileRepoImpl(gh<_i705.ProfileDataSourceContract>()));
     gh.factory<_i610.GetProfileUseCase>(
         () => _i610.GetProfileUseCase(gh<_i726.ProfileRepoContract>()));
-    gh.factory<_i105.ForgetpasswordRepo>(() => _i455.Forgetpasswordrepoimpl(
-        forgetpassword_data_sourse_repo:
-            gh<_i42.ForgetpasswordDataSourseRepo>()));
+    gh.factory<_i1072.SignInDataSourceContract>(
+        () => _i64.SigninDatasourceImpl(gh<_i1047.ApiManager>()));
+    gh.factory<_i1006.ChangePasswordRepoContract>(() =>
+        _i836.ChangePasswordRepoImpl(
+            changePasswordDataSourceContract:
+                gh<_i947.ChangePasswordDataSourceContract>()));
     gh.factory<_i176.UpdateProfileRepoContract>(() =>
         _i383.UpdateProfileRepoImpl(
             updateProfileDataSourceContract:
                 gh<_i389.UpdateProfileDataSourceContract>()));
+    gh.factory<_i647.SignUpDataSourceContract>(
+        () => _i648.SignUpDataSourceImpl(gh<_i1047.ApiManager>()));
     gh.factory<_i1006.SignInRepoContract>(
         () => _i209.SigninRepoImpl(gh<_i1072.SignInDataSourceContract>()));
+    gh.factory<_i42.ForgetpasswordDataSourseRepo>(() =>
+        _i444.ForgetpasswordDataSourceRepoImpl(
+            apiManager: gh<_i1047.ApiManager>()));
+    gh.factory<_i443.VerifyresetcodeRepoDataSource>(() =>
+        _i695.Verifyresetcoderepodatasourceimpl(
+            apiManager: gh<_i1047.ApiManager>()));
     gh.factory<_i754.UpdateProfileUseCase>(() =>
         _i754.UpdateProfileUseCase(gh<_i176.UpdateProfileRepoContract>()));
+    gh.factory<_i564.ChangePasswordUsecase>(() => _i564.ChangePasswordUsecase(
+        changePasswordRepoContract: gh<_i1006.ChangePasswordRepoContract>()));
     gh.factory<_i159.ProfileCubit>(() => _i159.ProfileCubit(
           getProfileUseCase: gh<_i610.GetProfileUseCase>(),
           updateProfileUseCase: gh<_i754.UpdateProfileUseCase>(),
@@ -126,18 +147,23 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i229.SignupRepoContract>(() => _i430.SignupRepoImpl(
         signUpDataSourceContract: gh<_i647.SignUpDataSourceContract>()));
+    gh.factory<_i511.ChangePasswordCubit>(
+        () => _i511.ChangePasswordCubit(gh<_i564.ChangePasswordUsecase>()));
     gh.factory<_i460.VerifyresetcodeRepo>(() => _i165.Verifyresetcoderepoimpl(
         gh<_i443.VerifyresetcodeRepoDataSource>()));
     gh.factory<_i498.ResetpasswordUsecase>(
         () => _i498.ResetpasswordUsecase(repo: gh<_i974.ResetpasswordRepo>()));
-    gh.factory<_i524.ForgetPasswordUseCase>(() => _i524.ForgetPasswordUseCase(
-        forgetPassword: gh<_i105.ForgetpasswordRepo>()));
+    gh.factory<_i105.ForgetpasswordRepo>(() => _i455.Forgetpasswordrepoimpl(
+        forgetpassword_data_sourse_repo:
+            gh<_i42.ForgetpasswordDataSourseRepo>()));
     gh.factory<_i644.VerifyresetcodeUseCase>(() =>
         _i644.VerifyresetcodeUseCase(repo: gh<_i460.VerifyresetcodeRepo>()));
     gh.factory<_i459.SignupUsecase>(() => _i459.SignupUsecase(
         signupRepoContract: gh<_i229.SignupRepoContract>()));
     gh.factory<_i788.SigninUsecase>(() => _i788.SigninUsecase(
         signInRepoContract: gh<_i1006.SignInRepoContract>()));
+    gh.factory<_i524.ForgetPasswordUseCase>(() => _i524.ForgetPasswordUseCase(
+        forgetPassword: gh<_i105.ForgetpasswordRepo>()));
     gh.factory<_i906.AuthCubit>(() => _i906.AuthCubit(
           verifyresetcodeUseCase: gh<_i644.VerifyresetcodeUseCase>(),
           resetpasswordUsecase: gh<_i498.ResetpasswordUsecase>(),

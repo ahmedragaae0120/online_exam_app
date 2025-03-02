@@ -23,6 +23,8 @@ class AppStrings {
   static const String enterYourPhoneNumber = "Enter your phone number";
   static const String signUpSuccessfully = "Sign Up successful";
   static const String alreadyHaveAnAccount = "Already have an account?";
+  static const String changePassword = "Reset Password";
+  static const String currentPassword = "Current Password";
   /* -------------------------------------------------------------------------- */
   /* -------------------------------------------------------------------------- */
   static const String profile = "Profile";
@@ -90,4 +92,5 @@ number at least''';
       '/EnterEmailForgetPassword';
   static const String emailVerificationScreenRoute = '/EmailVerification';
   static const String putNewPasswordScreenRoute = '/PutNewPassword';
+  static const String changePasswordScreenRoute = '/ChangePassword';
 }

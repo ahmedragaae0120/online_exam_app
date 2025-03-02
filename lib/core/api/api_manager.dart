@@ -85,6 +85,14 @@ class ApiManager {
     var response = await dio.put(endPoint, data: body);
     return response;
   }
+
+  Future<Response> patchRequest({
+    required String endPoint,
+    Map<String, dynamic>? body,
+  }) async {
+    var response = await dio.patch(endPoint, data: body);
+    return response;
+  }
 }
 
 // Future<Response> postData(

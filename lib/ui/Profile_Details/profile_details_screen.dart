@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/custom_button.dart';
+import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_cubit.dart';
@@ -124,6 +125,39 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                     label: 'Phone number',
                     placeholder: 'Enter your phone number',
                     controller: _phoneController,
+                  ),
+                  SizedBox(height: 16),
+                  // Password Change Section
+                  Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      CustomPasswordField(
+                        label: 'Password',
+                        controller: _passwordController,
+                        placeholder: '******',
+                      ),
+                      Positioned(
+                        right: 48,
+                        child: TextButton(
+                          onPressed: () {
+                            print('Change Button Clicked');
+                            Navigator.pushReplacementNamed(
+                                context, AppStrings.changePasswordScreenRoute);
+                          },
+                          style: TextButton.styleFrom(
+                            minimumSize: Size.zero,
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                          ),
+                          child: Text(
+                            'Change',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 32),
                   CustomButton(
