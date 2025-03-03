@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
-import 'package:online_exam_app/data/model/ResultModel.dart';
+import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 
 class ExamCard extends StatelessWidget {
   final ResultModel result;
@@ -78,7 +78,7 @@ class ExamCard extends StatelessWidget {
                     ),
                     SizedBox(height: 1),
                     Text(
-                      "${result.exam?.numberOfQuestions.toString() ?? "0"} Questions",
+                      "${result.questions?.length ?? "0"} Questions",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[600],
@@ -99,7 +99,7 @@ class ExamCard extends StatelessWidget {
                           ),
                           TextSpan(text: "Corrected answers of "),
                           TextSpan(
-                            text: "${result.exam?.numberOfQuestions} ",
+                            text: "${result.questions?.length} ",
                             style: TextStyle(fontWeight: FontWeight.w900), // Extra bold
                           ),
                           TextSpan(text: "questions"),

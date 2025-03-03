@@ -5,6 +5,8 @@ import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/assets_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
+import 'package:online_exam_app/data/model/Result/ResultModel.dart';
+import 'package:online_exam_app/data/model/questions_response/question_response.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_cubit.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_intent.dart';
@@ -19,6 +21,7 @@ class ExamScreen extends StatefulWidget {
 
 class _ExamScreenState extends State<ExamScreen> {
   // int quesionCurrent = 1;
+  QuestionResponse? questionResponse;
 
   late DateTime endTime = DateTime.now().add(Duration(seconds: 10));
   @override
@@ -27,11 +30,9 @@ class _ExamScreenState extends State<ExamScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<GetQuestionsCubit>().doIntent(GetQuestionsIntent(
             "670070a830a3c3c1944a9c63", // this id Contains questions
-            // "6700707030a3c3c1944a9c5d", // this id not Contains questions
           ));
     });
   }
-
   @override
   Widget build(BuildContext context) {
     Config().init(context);
@@ -40,6 +41,7 @@ class _ExamScreenState extends State<ExamScreen> {
     return BlocListener<GetQuestionsCubit, GetQuestionsState>(
       listener: (context, state) {
         if (state is GetQuestionsSuccessState) {
+          questionResponse = state.questionResponse;
           if (state.questionResponse?.questions?.isEmpty ?? true) {
             setState(() {
               endTime = DateTime.now();
@@ -83,6 +85,23 @@ class _ExamScreenState extends State<ExamScreen> {
                         ),
                         endTime: endTime,
                         onEnd: () {
+                          ResultModel result = ResultModel(
+                            subject:questionResponse?.questions![0].subject ,
+                            examId: questionResponse?.questions?[0].exam?.id,
+                            message: questionResponse?.message,
+                            questions: questionResponse?.questions,
+                            numOfCorrectAnswers: cubit.correctAnswers,
+                            exam: questionResponse?.questions?[0].exam,
+                            selectedAnswersMap: cubit.selectedAnswersMap,
+                          );
+                          cubit.doIntent(addResultIntent(result: result));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SummaryExamScreen(
+                                    correctAnswers: cubit.correctAnswers,
+                                    countOfQuestions: cubit.countOfQuestions),
+                              ));
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

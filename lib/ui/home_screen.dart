@@ -6,8 +6,8 @@ import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/ui/Profile_Details/profile_details_screen.dart';
 import 'package:online_exam_app/Shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:online_exam_app/ui/explorescreen/explore_screen.dart';
-import 'package:online_exam_app/ui/resultsScreen/presentation/VeiwModel/result_cubit.dart';
-import 'package:online_exam_app/ui/resultsScreen/presentation/pages/result_screen.dart';
+import 'resultsScreen/VeiwModel/result_cubit.dart';
+import 'resultsScreen/pages/result_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

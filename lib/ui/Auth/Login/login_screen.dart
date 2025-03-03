@@ -87,41 +87,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   validator: Validator.password,
                 ),
 
-                /* Remember Me & Forget Password */
-                Row(
-                  children: [
-                    Checkbox(
-                      activeColor: Theme.of(context).primaryColor,
-                      value: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value!;
-                        });
-                      },
-                    ),
-                    Text(
-                      AppStrings.rememberMe,
-                      style: AppTextStyle.regular12,
-                    ),
-                    Spacer(),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context,
-                              AppStrings.enterEmailForgetPasswordScreenRoute);
-                        },
-                        child: Text(AppStrings.forgetpassword,
-                            style: AppTextStyle.regular12),
-                      ),
-                    ),
-                  ],
-                ),
-                Config.spaceSmall,
-                /* Login Button */
-                CustomButton(
-                    onTap: () => _validateAndLogin(context),
-                    text: AppStrings.login),
                   /* Remember Me & Forget Password */
                   Row(
                     children: [

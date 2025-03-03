@@ -3,18 +3,21 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/data/model/questions_response/Answers.dart';
 import 'package:online_exam_app/data/model/questions_response/question_response.dart';
 import 'package:online_exam_app/domain/common/result.dart';
+import 'package:online_exam_app/domain/use_cases/GetResults.dart';
 import 'package:online_exam_app/domain/use_cases/get_questions_usecase.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_intent.dart';
-
 part 'get_questions_state.dart';
 
 @injectable
 class GetQuestionsCubit extends Cubit<GetQuestionsState> {
   @factoryMethod
   final GetQuestionsUseCase getQuestionsUseCase;
-  GetQuestionsCubit(this.getQuestionsUseCase) : super(GetQuestionsInitial());
+  GetResultsUseCase getResultsIseCase;
+
+  GetQuestionsCubit(this.getResultsIseCase,this.getQuestionsUseCase) : super(GetQuestionsInitial());
 
   static GetQuestionsCubit get(BuildContext context) =>
       BlocProvider.of(context);
@@ -36,38 +39,45 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
       case ResetIntent():
         _resetExamData();
         break;
+      case addResultIntent():
+        _addResult(intent: intent);
+        break;
     }
   }
 
-  int quesionCurrent = 1;
+  int questionCurrent = 1;
   int correctAnswers = 0;
   int countOfQuestions = 0;
   final Map<String, bool> answeredCorrectly =
       {}; // هل السؤال تمت إجابته بشكل صحيح؟
-  final Map<String, String?> selectedAnswersMap = {}; // تخزين الإجابات الفردية
+  final Map<String, Answer?>? selectedAnswersMap = {}; // تخزين الإجابات الفردية
   final Map<String, List<String?>> multiSelectedAnswersMap =
       {}; // تخزين إجابات متعددة
 
   _nextQuestion() {
-    quesionCurrent++;
-    log("quesionCurrent: $quesionCurrent");
-    emit(GetQuestionsUpdatedState(quesionCurrent: quesionCurrent));
+    questionCurrent++;
+    log("questionCurrent: $questionCurrent");
+    emit(GetQuestionsUpdatedState(quesionCurrent: questionCurrent));
   }
 
   _previousQuestion() {
-    if (quesionCurrent > 1) {
-      quesionCurrent--;
-      log("quesionCurrent: $quesionCurrent");
-      emit(GetQuestionsUpdatedState(quesionCurrent: quesionCurrent));
+    if (questionCurrent > 1) {
+      questionCurrent--;
+      log("quesionCurrent: $questionCurrent");
+      emit(GetQuestionsUpdatedState(quesionCurrent: questionCurrent));
     }
   }
+
+
+
+
 
   _updateAnswer({
     required UpdateAnswerIntent intent,
   }) {
-    bool isCorrect = intent.selectedAnswerKey == intent.correctKey;
+    bool isCorrect = intent.selectedAnswer.key == intent.correctKey;
     log("السؤال: ${intent.questionId}");
-    log("الإجابة المختارة: ${intent.selectedAnswerKey}");
+    log("الإجابة المختارة: ${intent.selectedAnswer.key}");
     log("الإجابة الصحيحة: ${intent.correctKey}");
     log("قبل التحديث - answeredCorrectly: $answeredCorrectly");
     // تحديث خريطة الإجابات الصحيحة
@@ -75,7 +85,7 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
     log("بعد التحديث - answeredCorrectly: $answeredCorrectly");
 
     // تحديث الإجابة المختارة
-    selectedAnswersMap[intent.questionId] = intent.selectedAnswerKey;
+    selectedAnswersMap?[intent.questionId] = intent.selectedAnswer;
 
     // إعادة حساب عدد الإجابات الصحيحة بناءً على القيم المخزنة
     correctAnswers = answeredCorrectly.values.where((value) => value).length;
@@ -83,13 +93,34 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
     log("correctAnswers: $correctAnswers");
 
     emit(GetQuestionsUpdatedState(
-        quesionCurrent: quesionCurrent)); // تحديث الواجهة
+        quesionCurrent: questionCurrent)); // تحديث الواجهة
+  }
+
+
+
+
+
+
+  _addResult({required addResultIntent intent}) async {
+    emit(AddResultStateLoading());
+    final response = await getResultsIseCase.addResult(intent.result);
+    switch (response) {
+      case Success():
+        {
+          emit(AddResultStateSuccess(added: response.data ?? false));
+        }
+      case Error():
+        {
+          emit(AddResultStateError(
+              message: (response.exception as Exception).toString()));
+        }
+    }
   }
 
   _resetExamData() {
     correctAnswers = 0;
     answeredCorrectly.clear();
-    selectedAnswersMap.clear();
+    selectedAnswersMap?.clear();
     multiSelectedAnswersMap.clear();
     emit(GetQuestionsResetState());
   }

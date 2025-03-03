@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
+import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_cubit.dart';
@@ -36,10 +37,10 @@ class ExamScreenBody extends StatelessWidget {
       },
       builder: (context, state) {
         final Question? currentQuestion = getQuestionsSuccessState
-            .questionResponse?.questions?[cubit.quesionCurrent - 1];
+            .questionResponse?.questions?[cubit.questionCurrent - 1];
 
         if (state is GetQuestionsUpdatedState) {
-          cubit.quesionCurrent = state.quesionCurrent;
+          cubit.questionCurrent = state.quesionCurrent;
         }
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -48,12 +49,12 @@ class ExamScreenBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Question ${cubit.quesionCurrent} of ${totalQuestions.toString()}",
+                "Question ${cubit.questionCurrent} of ${totalQuestions.toString()}",
                 textAlign: TextAlign.center,
                 style: AppTextStyle.medium14.copyWith(color: AppColors.grey),
               ),
               LinearProgressCustom(
-                quesionCurrent: cubit.quesionCurrent,
+                quesionCurrent: cubit.questionCurrent,
                 totalQuestions: totalQuestions,
               ),
               Config.spaceSmall,
@@ -85,11 +86,21 @@ class ExamScreenBody extends StatelessWidget {
                     ),
                     Expanded(
                       child: OutlinedFilledButton(
-                          text: cubit.quesionCurrent == totalQuestions
+                          text: cubit.questionCurrent == totalQuestions
                               ? "Submit"
                               : "Next",
                           onTap: () {
-                            if (cubit.quesionCurrent == totalQuestions) {
+                            if (cubit.questionCurrent == totalQuestions) {
+                              ResultModel result = ResultModel(
+                                subject:getQuestionsSuccessState.questionResponse?.questions![0].subject ,
+                                examId: getQuestionsSuccessState.questionResponse?.questions?[0].exam?.id,
+                                message: getQuestionsSuccessState.questionResponse?.message,
+                                questions: getQuestionsSuccessState.questionResponse?.questions,
+                                numOfCorrectAnswers: cubit.correctAnswers,
+                                exam: getQuestionsSuccessState.questionResponse?.questions?[0].exam,
+                                selectedAnswersMap: cubit.selectedAnswersMap,
+                              );
+                              cubit.doIntent(addResultIntent(result: result));
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

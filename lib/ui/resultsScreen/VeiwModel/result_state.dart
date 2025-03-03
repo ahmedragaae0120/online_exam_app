@@ -19,19 +19,7 @@ class GetResultsStateError extends ResultState {
 
 class GetResultsStateLoading extends ResultState {}
 
-class AddResultStateSuccess extends ResultState {
-  final bool added;
 
-  AddResultStateSuccess({required this.added});
-}
-
-class AddResultStateError extends ResultState {
-  final String message;
-
-  AddResultStateError({required this.message});
-}
-
-class AddResultStateLoading extends ResultState {}
 
 class DeleteResultStateSuccess extends ResultState {
   final bool deleted;

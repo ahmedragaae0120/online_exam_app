@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'package:injectable/injectable.dart';
-import 'package:online_exam_app/data/model/ResultModel.dart';
+import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 @singleton
 class DatabaseHelper {
-  static final DatabaseHelper instance = DatabaseHelper._init();
   static Database? _database;
+
+
+  @factoryMethod
   DatabaseHelper();
-  DatabaseHelper._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -17,12 +18,15 @@ class DatabaseHelper {
     return _database!;
   }
 
+
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'exam_results.db');
-    return await openDatabase(path, version: 1, onCreate: (db, version) async {
-      // You may need to recreate user tables dynamically if they exist per user
-    });
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
+  }
+
+  Future<void> _onCreate(Database db, int version) async {
+    // No need to create tables here; they are created dynamically per user
   }
 
   Future<void> createUserTable(String userId) async {
@@ -45,16 +49,22 @@ class DatabaseHelper {
     final db = await database;
     await createUserTable(userId);
 
-    // Serialize complex objects into JSON strings
     final Map<String, dynamic> resultJson = {
       'examId': result.examId,
       'message': result.message,
       'numOfCorrectAnswers': result.numOfCorrectAnswers,
-      'studentAnswers': jsonEncode(result.studentAnswers?.map((x) => x.toJson()).toList()),
-      'questions': jsonEncode(result.questions?.map((x) => x.toJson()).toList()),
-      'subject': jsonEncode(result.subject?.toJson()),
-      'exam': jsonEncode(result.exam?.toJson()),
+      'studentAnswers': result.selectedAnswersMap != null
+          ? jsonEncode(result.selectedAnswersMap?.map((key, value) => MapEntry(key, value?.toJson())))
+          : null,
+      'questions': result.questions != null
+          ? jsonEncode(result.questions!.map((q) => q.toJson()).toList())
+          : null,
+      'subject': result.subject != null ? jsonEncode(result.subject!.toJson()) : null,
+      'exam': result.exam != null ? jsonEncode(result.exam!.toJson()) : null,
     };
+
+    // Pretty-print the result
+    print("✅✅✅ Result Inserted ✅✅✅\n${const JsonEncoder.withIndent('  ').convert(resultJson)}");
 
     return await db.insert(
       'results_$userId',
@@ -63,77 +73,54 @@ class DatabaseHelper {
     );
   }
 
+
   Future<List<ResultModel>> getResults(String userId) async {
     final db = await database;
     await createUserTable(userId);
 
-    final List<Map<String, dynamic>> maps = await db.query('results_$userId');
+    try {
+      final List<Map<String, dynamic>> maps = await db.query('results_$userId');
 
-    return maps.map((map) {
-      // Deserialize JSON strings back into Dart objects
-      return ResultModel(
-        examId: map['examId'],
-        message: map['message'],
-        numOfCorrectAnswers: map['numOfCorrectAnswers'],
-        studentAnswers: map['studentAnswers'] != null
-            ? List<Answers>.from(
-            (jsonDecode(map['studentAnswers']) as List)
-                .map((x) => Answers.fromJson(x)))
-            : null,
-        questions: map['questions'] != null
-            ? List<Questions>.from(
-            (jsonDecode(map['questions']) as List)
-                .map((x) => Questions.fromJson(x)))
-            : null,
-        subject: map['subject'] != null
-            ? Subject.fromJson(jsonDecode(map['subject']))
-            : null,
-        exam: map['exam'] != null
-            ? Exam.fromJson(jsonDecode(map['exam']))
-            : null,
-      );
-    }).toList();
+      return maps.map((map) {
+        try {
+          return ResultModel.fromJson(map);
+        } catch (e) {
+          print('Error parsing ResultModel: $e');
+          return null; // Handle invalid data safely
+        }
+      }).whereType<ResultModel>().toList(); // Remove null values
+    } catch (e) {
+      print('Error fetching results: $e');
+      return [];
+    }
   }
 
   Future<ResultModel?> getResultById(String userId, String examId) async {
     final db = await database;
     await createUserTable(userId);
 
-    final List<Map<String, dynamic>> maps = await db.query(
-      'results_$userId',
-      where: 'examId = ?',
-      whereArgs: [examId],
-    );
-
-    if (maps.isNotEmpty) {
-      final map = maps.first;
-
-      // Deserialize JSON strings back into Dart objects
-      return ResultModel(
-        examId: map['examId'],
-        message: map['message'],
-        numOfCorrectAnswers: map['numOfCorrectAnswers'],
-        studentAnswers: map['studentAnswers'] != null
-            ? List<Answers>.from(
-            (jsonDecode(map['studentAnswers']) as List)
-                .map((x) => Answers.fromJson(x)))
-            : null,
-        questions: map['questions'] != null
-            ? List<Questions>.from(
-            (jsonDecode(map['questions']) as List)
-                .map((x) => Questions.fromJson(x)))
-            : null,
-        subject: map['subject'] != null
-            ? Subject.fromJson(jsonDecode(map['subject']))
-            : null,
-        exam: map['exam'] != null
-            ? Exam.fromJson(jsonDecode(map['exam']))
-            : null,
+    try {
+      final List<Map<String, dynamic>> maps = await db.query(
+        'results_$userId',
+        where: 'examId = ?',
+        whereArgs: [examId],
       );
-    } else {
-      return null;
+
+      if (maps.isNotEmpty) {
+        try {
+          return ResultModel.fromJson(maps.first);
+        } catch (e) {
+          print('Error parsing ResultModel: $e');
+          return null;
+        }
+      }
+    } catch (e) {
+      print('Error fetching result by ID: $e');
     }
+
+    return null;
   }
+
 
   Future<int> deleteResult(String userId, String examId) async {
     final db = await database;
@@ -143,7 +130,8 @@ class DatabaseHelper {
       whereArgs: [examId],
     );
   }
-  Future close() async {
+
+  Future<void> close() async {
     final db = await database;
     db.close();
   }

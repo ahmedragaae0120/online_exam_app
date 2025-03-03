@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:online_exam_app/data/model/ResultModel.dart';
+import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/use_cases/GetResults.dart';
+import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';
 
 part 'result_state.dart';
 
@@ -18,7 +19,20 @@ class ResultCubit extends Cubit<ResultState> {
 
   static ResultCubit get(BuildContext context) => BlocProvider.of(context);
 
-  GetResults() async {
+  void doIntent(ResultIntent intent) {
+    switch (intent) {
+      case GetResultsIntent():
+        _GetResults();
+        break;
+
+      case deleteResultIntent():
+        _deleteResult(intent: intent);
+        break;
+
+    }
+  }
+
+  _GetResults() async {
     emit(GetResultsStateLoading());
     final response = await useCase.fetchResults();
     switch (response) {
@@ -34,33 +48,20 @@ class ResultCubit extends Cubit<ResultState> {
     }
   }
 
-  addResult(ResultModel result) async {
-    emit(AddResultStateLoading());
-    final response = await useCase.addResult(result);
+  _deleteResult({required deleteResultIntent intent}) async {
+    emit(DeleteResultStateLoading());
+    final response = await useCase.deleteResult(
+      userId: intent.userId,
+      id: intent.id,
+    );
     switch (response) {
       case Success():
         {
-          emit(AddResultStateSuccess(added: response.data ?? false));
+          emit(DeleteResultStateSuccess(deleted: response.data ?? false));
         }
       case Error():
         {
-          emit(AddResultStateError(
-              message: (response.exception as Exception).toString()));
-        }
-    }
-  }
-
-  deleteResult(String userId, String id) async {
-    emit(AddResultStateLoading());
-    final response = await useCase.deleteResult(userId,id);
-    switch (response) {
-      case Success():
-        {
-          emit(AddResultStateSuccess(added: response.data ?? false));
-        }
-      case Error():
-        {
-          emit(AddResultStateError(
+          emit(DeleteResultStateError(
               message: (response.exception as Exception).toString()));
         }
     }

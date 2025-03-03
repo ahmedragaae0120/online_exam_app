@@ -9,17 +9,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   Bloc.observer = MyBlocObserver();
+
   final prefs = await SharedPreferences.getInstance();
 
-  // حقن SharedPreferences داخل TokenStorageService
   final tokenStorage = TokenStorageService(prefs);
 
-  // التحقق من وجود التوكن لتحديد الشاشة الأولية
   final initialRoute = tokenStorage.getToken() != null
       ? AppStrings.homeScreenRoute
       : AppStrings.loginScreenRoute;
-  await configureDependencies(); // This will initialize ApiManager through DI
+
+  await configureDependencies();
   runApp(MyApp(
     initialToken: initialRoute,
   ));

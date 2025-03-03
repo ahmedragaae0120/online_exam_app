@@ -32,7 +32,7 @@ class AnswerBuilder extends StatelessWidget {
       itemBuilder: (context, index) {
         String currentAnswer = answers[index].answer ?? '';
         bool isSelected =
-            cubit.selectedAnswersMap[questionId] == answers[index].key;
+            cubit.selectedAnswersMap?[questionId] == answers[index].key;
 
         return answerType == AnswerType.single
             ? SingleChoiceAnswerWidget(
@@ -41,7 +41,7 @@ class AnswerBuilder extends StatelessWidget {
                 onSelect: () {
                   cubit.doIntent(UpdateAnswerIntent(
                       correctKey: correctAnswerKey,
-                      selectedAnswerKey: answers[index].key ?? '',
+                      selectedAnswer: answers[index],
                       questionId: questionId));
                 },
               )
