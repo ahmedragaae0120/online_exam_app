@@ -8,6 +8,5 @@ abstract class UpdateProfileDataSourceContract {
     required String lastName,
     required String email,
     required String phone,
-    String? password,
   });
 }

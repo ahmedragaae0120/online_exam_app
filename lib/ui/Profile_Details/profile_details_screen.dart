@@ -172,11 +172,6 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                           phone: _phoneController.text,
                         );
 
-                        // Only include password if user entered a new one
-                        if (_passwordController.text.isNotEmpty) {
-                          updateIntent.password = _passwordController.text;
-                        }
-
                         context.read<ProfileCubit>().doIntent(updateIntent);
                       }
                     },

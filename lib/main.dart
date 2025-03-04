@@ -22,7 +22,10 @@ void main() async {
   final tokenStorage = getIt<TokenStorageService>();
   final token = await tokenStorage.getToken();
 
-  runApp(MyApp(initialToken: token));
+  runApp(BlocProvider<AuthCubit>(
+    create: (context) => getIt<AuthCubit>(),
+    child: MyApp(initialToken: token),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -33,51 +36,41 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('Building app with token: $initialToken');
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthCubit>(
-          create: (context) => getIt<AuthCubit>(),
-        ),
-        BlocProvider<ProfileCubit>(
-          create: (context) => getIt<ProfileCubit>(),
-        ),
-      ],
-      child: MaterialApp(
-        theme: MyThemeData.LightTheme,
-        debugShowCheckedModeBanner: false,
-        routes: {
-          AppStrings.changePasswordScreenRoute: (context) =>
-              const ChangePasswordScreen(),
-          AppStrings.homeScreenRoute: (context) => HomeScreen(),
-          AppStrings.loginScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: SignInScreen(),
-              ),
-          AppStrings.singUpScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: SignUpScreen(),
-              ),
-          AppStrings.enterEmailForgetPasswordScreenRoute: (context) =>
-              BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: EnterEmailForgetPassword(),
-              ),
-          AppStrings.emailVerificationScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: EmailVerification(),
-              ),
-          AppStrings.putNewPasswordScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: PutNewPassword(),
-              ),
-          // In the routes map, update the profile route:
-          AppStrings.profileDetailsScreenRoute: (context) =>
-              ProfileDetailsScreen(),
-        },
-        initialRoute: initialToken != null
-            ? AppStrings.homeScreenRoute // Navigate to home if token exists
-            : AppStrings.loginScreenRoute, // Navigate to login if no token
-      ),
+    return MaterialApp(
+      theme: MyThemeData.LightTheme,
+      debugShowCheckedModeBanner: false,
+      routes: {
+        AppStrings.changePasswordScreenRoute: (context) =>
+            const ChangePasswordScreen(),
+        AppStrings.homeScreenRoute: (context) => HomeScreen(),
+        AppStrings.loginScreenRoute: (context) => BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: SignInScreen(),
+            ),
+        AppStrings.singUpScreenRoute: (context) => BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: SignUpScreen(),
+            ),
+        AppStrings.enterEmailForgetPasswordScreenRoute: (context) =>
+            BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: EnterEmailForgetPassword(),
+            ),
+        AppStrings.emailVerificationScreenRoute: (context) => BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: EmailVerification(),
+            ),
+        AppStrings.putNewPasswordScreenRoute: (context) => BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: PutNewPassword(),
+            ),
+        // In the routes map, update the profile route:
+        AppStrings.profileDetailsScreenRoute: (context) =>
+            ProfileDetailsScreen(),
+      },
+      initialRoute: initialToken != null
+          ? AppStrings.homeScreenRoute // Navigate to home if token exists
+          : AppStrings.loginScreenRoute, // Navigate to login if no token
     );
   }
 }

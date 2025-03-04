@@ -18,7 +18,6 @@ class UpdateProfileDatasourceImpl implements UpdateProfileDataSourceContract {
     required String lastName,
     required String email,
     required String phone,
-    String? password,
   }) async {
     return await executeApi<UserResponse>(() async {
       var body = {
@@ -29,22 +28,12 @@ class UpdateProfileDatasourceImpl implements UpdateProfileDataSourceContract {
         "phone": phone,
       };
 
-      if (password != null && password.isNotEmpty) {
-        body["password"] = password;
-      }
-
-      var response = await apiManager.putRequest(
+      var apiResponse = await apiManager.putRequest(
         endPoint: ApiEndpoints.editProfileEndpoint,
         body: body,
       );
-
-      // Handle the response based on its type
-      if (response.data is String) {
-        return UserResponse(message: response.data as String);
-      } else if (response.data is Map<String, dynamic>) {
-        return UserResponse.fromJson(response.data);
-      }
-      throw Exception('Unexpected response format');
+      var response = UserResponse.fromJson(apiResponse.data);
+      return response;
     });
   }
 }

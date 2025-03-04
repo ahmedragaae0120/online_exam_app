@@ -17,7 +17,6 @@ class UpdateProfileRepoImpl implements UpdateProfileRepoContract {
     required String lastName,
     required String email,
     required String phone,
-    String? password,
   }) {
     return updateProfileDataSourceContract.updateProfileData(
       username: username,
@@ -25,7 +24,6 @@ class UpdateProfileRepoImpl implements UpdateProfileRepoContract {
       lastName: lastName,
       email: email,
       phone: phone,
-      password: password,
     );
   }
 }

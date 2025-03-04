@@ -39,7 +39,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String lastName,
     required String email,
     required String phone,
-    String? password,
   }) async {
     emit(ProfileUpdateLoadingState());
     final result = await updateProfileUseCase.invoke(
@@ -48,7 +47,6 @@ class ProfileCubit extends Cubit<ProfileState> {
       lastName: lastName,
       email: email,
       phone: phone,
-      password: password,
     );
 
     switch (result) {
@@ -78,7 +76,6 @@ class ProfileCubit extends Cubit<ProfileState> {
           lastName: intent.lastName,
           email: intent.email,
           phone: intent.phone,
-          password: intent.password,
         );
         break;
       case LogoutIntent():

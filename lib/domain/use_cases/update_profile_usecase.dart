@@ -15,7 +15,6 @@ class UpdateProfileUseCase {
     required String lastName,
     required String email,
     required String phone,
-    String? password,
   }) async {
     return await updateProfileRepo.updateProfileData(
       username: username,
@@ -23,7 +22,6 @@ class UpdateProfileUseCase {
       lastName: lastName,
       email: email,
       phone: phone,
-      password: password,
     );
   }
 }

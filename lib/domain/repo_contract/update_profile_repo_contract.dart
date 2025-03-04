@@ -8,6 +8,5 @@ abstract class UpdateProfileRepoContract {
     required String lastName,
     required String email,
     required String phone,
-    String? password,
   });
 }

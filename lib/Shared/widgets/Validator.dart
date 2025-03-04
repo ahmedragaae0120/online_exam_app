@@ -33,21 +33,6 @@ class Validator {
     return null;
   }
 
-  static String? newPassword(String? value) {
-    return password(value);
-  }
-
-  static String? currentPassword(String? value, String password) {
-    if (value == null || value.isEmpty) {
-      return AppStrings.passwordCantBeEmpty;
-    }
-
-    if (value != newPassword) {
-      return AppStrings.passwordsDoNotMatch;
-    }
-    return null;
-  }
-
   static String? confirmPassword(String? value, String password) {
     if (value == null || value.isEmpty) {
       return AppStrings.passwordCantBeEmpty;

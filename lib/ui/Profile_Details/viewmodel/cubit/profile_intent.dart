@@ -10,7 +10,6 @@ class UpdateProfileIntent extends ProfileIntent {
   final String lastName;
   final String email;
   final String phone;
-  String? password;
 
   UpdateProfileIntent({
     required this.username,
@@ -18,6 +17,5 @@ class UpdateProfileIntent extends ProfileIntent {
     required this.lastName,
     required this.email,
     required this.phone,
-    this.password,
   });
 }

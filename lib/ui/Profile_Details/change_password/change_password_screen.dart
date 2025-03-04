@@ -72,7 +72,7 @@ class ChangePasswordScreen extends StatelessWidget {
                         label: AppStrings.newPassword,
                         placeholder: AppStrings.newPassword,
                         controller: newPasswordController,
-                        validator: (value) => Validator.newPassword(value),
+                        validator: (value) => Validator.password(value),
                       ),
                       const SizedBox(height: 30),
                       CustomPasswordField(

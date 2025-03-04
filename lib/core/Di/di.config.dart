@@ -11,6 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:online_exam_app/domain/use_cases/update_profile_usecase.dart';
+import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../data/data_source_contract/change_password_datasource.dart'
@@ -72,11 +74,9 @@ import '../../domain/use_cases/Forget%20Password%20Use%20Cases/verifyResetCodeUs
 import '../../domain/use_cases/get_profile_usecase.dart.dart' as _i610;
 import '../../domain/use_cases/signin_usecase.dart' as _i788;
 import '../../domain/use_cases/signup_usecase.dart' as _i459;
-import '../../domain/use_cases/update_profile_usecase.dart' as _i754;
 import '../../ui/Auth/view_model/cubit/auth_cubit.dart' as _i906;
 import '../../ui/Profile_Details/change_password/viewmodel/change_password_cubit.dart'
-    as _i511;
-import '../../ui/Profile_Details/viewmodel/cubit/profile_cubit.dart' as _i159;
+    as _i329;
 import '../api/api_manager.dart' as _i1047;
 import '../services/token_storage_service.dart' as _i474;
 import 'di.dart' as _i913;
@@ -136,19 +136,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i443.VerifyresetcodeRepoDataSource>(() =>
         _i695.Verifyresetcoderepodatasourceimpl(
             apiManager: gh<_i1047.ApiManager>()));
-    gh.factory<_i754.UpdateProfileUseCase>(() =>
-        _i754.UpdateProfileUseCase(gh<_i176.UpdateProfileRepoContract>()));
+    gh.factory<UpdateProfileUseCase>(
+        () => UpdateProfileUseCase(gh<_i176.UpdateProfileRepoContract>()));
     gh.factory<_i564.ChangePasswordUsecase>(() => _i564.ChangePasswordUsecase(
         changePasswordRepoContract: gh<_i1006.ChangePasswordRepoContract>()));
-    gh.factory<_i159.ProfileCubit>(() => _i159.ProfileCubit(
-          getProfileUseCase: gh<_i610.GetProfileUseCase>(),
-          updateProfileUseCase: gh<_i754.UpdateProfileUseCase>(),
-          tokenStorage: gh<_i474.TokenStorageService>(),
-        ));
     gh.factory<_i229.SignupRepoContract>(() => _i430.SignupRepoImpl(
         signUpDataSourceContract: gh<_i647.SignUpDataSourceContract>()));
-    gh.factory<_i511.ChangePasswordCubit>(
-        () => _i511.ChangePasswordCubit(gh<_i564.ChangePasswordUsecase>()));
+    gh.factory<ProfileCubit>(() => ProfileCubit(
+          getProfileUseCase: gh<_i610.GetProfileUseCase>(),
+          updateProfileUseCase: gh<UpdateProfileUseCase>(),
+          tokenStorage: gh<_i474.TokenStorageService>(),
+        ));
+    gh.factory<_i329.ChangePasswordCubit>(
+        () => _i329.ChangePasswordCubit(gh<_i564.ChangePasswordUsecase>()));
     gh.factory<_i460.VerifyresetcodeRepo>(() => _i165.Verifyresetcoderepoimpl(
         gh<_i443.VerifyresetcodeRepoDataSource>()));
     gh.factory<_i498.ResetpasswordUsecase>(
