@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/data/model/questions_response/qestions_result_response/QuestionResultResponse.dart';
-import 'package:online_exam_app/data/model/questions_response/question_response.dart';
 import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/use_cases/check_answers_usecase.dart';
 import 'package:online_exam_app/domain/use_cases/get_questions_usecase.dart';

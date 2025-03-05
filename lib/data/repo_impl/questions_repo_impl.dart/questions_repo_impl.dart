@@ -1,7 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/data/data_source_contract/questions%20_datasource/questions_datasource_contract.dart';
 import 'package:online_exam_app/data/model/questions_response/qestions_result_response/QuestionResultResponse.dart';
-import 'package:online_exam_app/data/model/questions_response/question_response.dart';
 import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/repo_contract/questions_repo_contract/questions_repo_contract.dart';
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:online_exam_app/data/model/questions_response/CorrectQuestions.dart';
-import 'package:online_exam_app/data/model/questions_response/WrongQuestions.dart';
 import 'package:online_exam_app/data/model/questions_response/exam.dart';
+import 'package:online_exam_app/data/model/questions_response/qestions_result_response/CorrectQuestions.dart';
+import 'package:online_exam_app/data/model/questions_response/qestions_result_response/WrongQuestions.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/data/model/questions_response/subject.dart';
 

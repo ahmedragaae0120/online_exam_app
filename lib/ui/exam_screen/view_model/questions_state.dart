@@ -5,7 +5,7 @@ sealed class QuestionsState {}
 final class QuestionsInitial extends QuestionsState {}
 
 final class GetQuestionsSuccessState extends QuestionsState {
-  QuestionResponse? questionResponse;
+  QuestionResultResponse? questionResponse;
   GetQuestionsSuccessState({this.questionResponse});
 }
 
