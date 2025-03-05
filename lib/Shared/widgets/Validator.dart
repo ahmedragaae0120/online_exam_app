@@ -33,7 +33,6 @@ class Validator {
     return null;
   }
 
-
   static String? confirmPassword(String? value, String password) {
     if (value == null || value.isEmpty) {
       return AppStrings.passwordCantBeEmpty;

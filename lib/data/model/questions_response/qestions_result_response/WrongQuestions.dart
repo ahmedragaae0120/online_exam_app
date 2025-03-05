@@ -3,14 +3,16 @@
 /// inCorrectAnswer : "A3"
 /// correctAnswer : "A4"
 /// answers : {}
+library;
 
 class WrongQuestions {
   WrongQuestions({
-      this.qid, 
-      this.question, 
-      this.inCorrectAnswer, 
-      this.correctAnswer, 
-      this.answers,});
+    this.qid,
+    this.question,
+    this.inCorrectAnswer,
+    this.correctAnswer,
+    this.answers,
+  });
 
   WrongQuestions.fromJson(dynamic json) {
     qid = json['QID'];
@@ -34,5 +36,4 @@ class WrongQuestions {
     map['answers'] = answers;
     return map;
   }
-
 }

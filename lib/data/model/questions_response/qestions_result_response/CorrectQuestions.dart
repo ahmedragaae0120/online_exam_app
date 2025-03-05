@@ -2,13 +2,15 @@
 /// Question : "What does HTML stand for?"
 /// correctAnswer : "A2"
 /// answers : {}
+library;
 
 class CorrectQuestions {
   CorrectQuestions({
-      this.qid, 
-      this.question, 
-      this.correctAnswer, 
-      this.answers,});
+    this.qid,
+    this.question,
+    this.correctAnswer,
+    this.answers,
+  });
 
   CorrectQuestions.fromJson(dynamic json) {
     qid = json['QID'];
@@ -29,5 +31,4 @@ class CorrectQuestions {
     map['answers'] = answers;
     return map;
   }
-
 }

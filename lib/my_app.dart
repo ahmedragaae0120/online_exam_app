@@ -11,7 +11,7 @@ import 'package:online_exam_app/ui/Auth/Sign_Up/sign_up_screen.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/ui/Profile_Details/profile_details_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view/exam_screen.dart';
-import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_cubit.dart';
+import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
 import 'package:online_exam_app/ui/home_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
                 child: PutNewPassword(),
               ),
           AppStrings.examScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<GetQuestionsCubit>(),
+                create: (context) => getIt<QuestionsCubit>(),
                 child: ExamScreen(),
               ),
           AppStrings.profileDetailsScreenRoute: (context) =>

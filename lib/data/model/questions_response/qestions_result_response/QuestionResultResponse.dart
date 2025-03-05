@@ -1,5 +1,5 @@
-import 'WrongQuestions.dart';
 import 'CorrectQuestions.dart';
+import 'WrongQuestions.dart';
 
 /// message : "success"
 /// correct : 1
@@ -10,12 +10,13 @@ import 'CorrectQuestions.dart';
 
 class QuestionResultResponse {
   QuestionResultResponse({
-      this.message, 
-      this.correct, 
-      this.wrong, 
-      this.total, 
-      this.wrongQuestions, 
-      this.correctQuestions,});
+    this.message,
+    this.correct,
+    this.wrong,
+    this.total,
+    this.wrongQuestions,
+    this.correctQuestions,
+  });
 
   QuestionResultResponse.fromJson(dynamic json) {
     message = json['message'];
@@ -52,9 +53,9 @@ class QuestionResultResponse {
       map['WrongQuestions'] = wrongQuestions?.map((v) => v.toJson()).toList();
     }
     if (correctQuestions != null) {
-      map['correctQuestions'] = correctQuestions?.map((v) => v.toJson()).toList();
+      map['correctQuestions'] =
+          correctQuestions?.map((v) => v.toJson()).toList();
     }
     return map;
   }
-
 }

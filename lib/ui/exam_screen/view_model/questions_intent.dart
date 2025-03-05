@@ -28,3 +28,7 @@ class UpdateAnswerIntent extends QuestionsIntent {
 class ResetIntent extends QuestionsIntent {
   ResetIntent();
 }
+
+class CheckAnswersIntent extends QuestionsIntent {
+  CheckAnswersIntent();
+}

@@ -3,21 +3,26 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/data/model/questions_response/qestions_result_response/QuestionResultResponse.dart';
 import 'package:online_exam_app/data/model/questions_response/question_response.dart';
 import 'package:online_exam_app/domain/common/result.dart';
+import 'package:online_exam_app/domain/use_cases/check_answers_usecase.dart';
 import 'package:online_exam_app/domain/use_cases/get_questions_usecase.dart';
-import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_intent.dart';
+import 'package:online_exam_app/ui/exam_screen/view_model/questions_intent.dart';
 
-part 'get_questions_state.dart';
+part 'questions_state.dart';
 
 @injectable
-class GetQuestionsCubit extends Cubit<GetQuestionsState> {
+class QuestionsCubit extends Cubit<QuestionsState> {
   @factoryMethod
   final GetQuestionsUseCase getQuestionsUseCase;
-  GetQuestionsCubit(this.getQuestionsUseCase) : super(GetQuestionsInitial());
+  final CheckAnswersUsecase checkAnswersUsecase;
+  QuestionsCubit(this.getQuestionsUseCase, this.checkAnswersUsecase)
+      : super(QuestionsInitial()) {
+    log("🚀 GetQuestionsCubit Initialized! selectedAnswersMap: $selectedAnswersMap");
+  }
 
-  static GetQuestionsCubit get(BuildContext context) =>
-      BlocProvider.of(context);
+  static QuestionsCubit get(BuildContext context) => BlocProvider.of(context);
 
   void doIntent(QuestionsIntent intent) {
     switch (intent) {
@@ -36,14 +41,15 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
       case ResetIntent():
         _resetExamData();
         break;
+      case CheckAnswersIntent():
+        _checkAnswers();
+        break;
     }
   }
 
   int quesionCurrent = 1;
-  int correctAnswers = 0;
   int countOfQuestions = 0;
-  final Map<String, bool> answeredCorrectly =
-      {}; // هل السؤال تمت إجابته بشكل صحيح؟
+
   final Map<String, String?> selectedAnswersMap = {}; // تخزين الإجابات الفردية
   final Map<String, List<String?>> multiSelectedAnswersMap =
       {}; // تخزين إجابات متعددة
@@ -65,30 +71,18 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
   _updateAnswer({
     required UpdateAnswerIntent intent,
   }) {
-    bool isCorrect = intent.selectedAnswerKey == intent.correctKey;
     log("السؤال: ${intent.questionId}");
     log("الإجابة المختارة: ${intent.selectedAnswerKey}");
     log("الإجابة الصحيحة: ${intent.correctKey}");
-    log("قبل التحديث - answeredCorrectly: $answeredCorrectly");
-    // تحديث خريطة الإجابات الصحيحة
-    answeredCorrectly[intent.questionId] = isCorrect;
-    log("بعد التحديث - answeredCorrectly: $answeredCorrectly");
-
     // تحديث الإجابة المختارة
     selectedAnswersMap[intent.questionId] = intent.selectedAnswerKey;
-
-    // إعادة حساب عدد الإجابات الصحيحة بناءً على القيم المخزنة
-    correctAnswers = answeredCorrectly.values.where((value) => value).length;
-
-    log("correctAnswers: $correctAnswers");
+    log("✅ تم تحديث selectedAnswersMap: $selectedAnswersMap");
 
     emit(GetQuestionsUpdatedState(
         quesionCurrent: quesionCurrent)); // تحديث الواجهة
   }
 
   _resetExamData() {
-    correctAnswers = 0;
-    answeredCorrectly.clear();
     selectedAnswersMap.clear();
     multiSelectedAnswersMap.clear();
     emit(GetQuestionsResetState());
@@ -106,6 +100,35 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
       case Error():
         {
           emit(GetQuestionsErrorState(message: result.exception.toString()));
+        }
+    }
+  }
+
+  _checkAnswers() async {
+    log("selectedAnswersMap: $selectedAnswersMap"); // طباعة محتويات الخريطة
+    // تحويل البيانات إلى الهيكل المطلوب
+    List<Map<String, String?>> requestBody = selectedAnswersMap.entries
+        .map(
+          (entry) => {
+            "questionId": entry.key,
+            "correct": entry.value,
+          },
+        )
+        .toList();
+
+    log("📤 البيانات المرسلة للـ API: $requestBody");
+    emit(CheckAnswersLoadingState());
+    if (isClosed) return;
+    final result = await checkAnswersUsecase.call(requestBody);
+    if (isClosed) return;
+    switch (result) {
+      case Success():
+        {
+          emit(CheckAnswersSuccessState(qestionsResultResponse: result.data));
+        }
+      case Error():
+        {
+          emit(CheckAnswersErrorState(message: result.exception.toString()));
         }
     }
   }
