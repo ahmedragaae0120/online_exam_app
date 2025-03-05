@@ -5,4 +5,5 @@ class ApiEndpoints {
   static const String resetPasswordEndpoint = 'api/v1/auth/resetPassword';
   static const String signInEndpoint = 'api/v1/auth/signin';
   static const String getQuestionsEndpoint = 'api/v1/questions';
+  static const String checkAnswersEndpoint = "api/v1/questions/check";
 }

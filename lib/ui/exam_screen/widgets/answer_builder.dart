@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/data/model/questions_response/Answers.dart';
-import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_cubit.dart';
-import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_intent.dart';
+import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
+import 'package:online_exam_app/ui/exam_screen/view_model/questions_intent.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/multi_choice_answer_widget.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/single_choice_answer_widget.dart';
 
@@ -23,7 +23,7 @@ class AnswerBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Config().init(context);
-    final cubit = GetQuestionsCubit.get(context);
+    final cubit = QuestionsCubit.get(context);
 
     return ListView.separated(
       physics: NeverScrollableScrollPhysics(),
@@ -32,7 +32,7 @@ class AnswerBuilder extends StatelessWidget {
       itemBuilder: (context, index) {
         String currentAnswer = answers[index].answer ?? '';
         bool isSelected =
-            cubit.selectedAnswersMap?[questionId] == answers[index].key;
+            cubit.selectedAnswersMap[questionId] == answers[index].key;
 
         return answerType == AnswerType.single
             ? SingleChoiceAnswerWidget(
@@ -40,9 +40,10 @@ class AnswerBuilder extends StatelessWidget {
                 isSelected: isSelected,
                 onSelect: () {
                   cubit.doIntent(UpdateAnswerIntent(
-                      correctKey: correctAnswerKey,
-                      selectedAnswerKey: answers[index].key??"",
-                      questionId: questionId));
+                    correctKey: correctAnswerKey,
+                    selectedAnswerKey: answers[index].key ?? '',
+                    questionId: questionId,
+                  ));
                 },
               )
             : MultiChoiceAnswerWidget(

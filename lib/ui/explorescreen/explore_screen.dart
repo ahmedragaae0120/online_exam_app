@@ -7,9 +7,12 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: IconButton(onPressed: () {
-        Navigator.pushNamed(context, AppStrings.examScreenRoute);
-      }, icon: Icon(Icons.add)),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, AppStrings.examScreenRoute);
+        },
+        child: Text('Explore Screen'),
+      ),
     );
   }
 }

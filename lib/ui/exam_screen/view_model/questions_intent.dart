@@ -32,6 +32,10 @@ class ResetIntent extends QuestionsIntent {
   ResetIntent();
 }
 
+class CheckAnswersIntent extends QuestionsIntent {
+  CheckAnswersIntent();
+}
+
 
 class addResultIntent extends QuestionsIntent {
   ResultModel result;

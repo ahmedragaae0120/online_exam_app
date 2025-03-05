@@ -6,8 +6,8 @@ import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
-import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_cubit.dart';
-import 'package:online_exam_app/ui/exam_screen/view_model/get_questions_intent.dart';
+import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
+import 'package:online_exam_app/ui/exam_screen/view_model/questions_intent.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/LinearProgress_custom.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/answer_builder.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.dart';
@@ -25,9 +25,9 @@ class ExamScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final int totalQuestions =
         getQuestionsSuccessState.questionResponse?.questions?.length ?? 0;
-    final cubit = GetQuestionsCubit.get(context);
+    final cubit = QuestionsCubit.get(context);
 
-    return BlocBuilder<GetQuestionsCubit, GetQuestionsState>(
+    return BlocBuilder<QuestionsCubit, QuestionsState>(
       buildWhen: (previous, current) {
         if (current is GetQuestionsUpdatedState ||
             current is GetQuestionsResetState) {
@@ -102,9 +102,12 @@ class ExamScreenBody extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SummaryExamScreen(
-                                    correctAnswers: cubit.correctAnswers,
-                                    countOfQuestions: totalQuestions,
+                                  builder: (context) => BlocProvider.value(
+                                    value: cubit
+                                      ..doIntent(CheckAnswersIntent()),
+                                    child: SummaryExamScreen(
+                                      countOfQuestions: totalQuestions,
+                                    ),
                                   ),
                                 ),
                               );
