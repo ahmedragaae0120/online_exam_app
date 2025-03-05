@@ -41,7 +41,7 @@ class AnswerBuilder extends StatelessWidget {
                 onSelect: () {
                   cubit.doIntent(UpdateAnswerIntent(
                       correctKey: correctAnswerKey,
-                      selectedAnswer: answers[index],
+                      selectedAnswerKey: answers[index].key??"",
                       questionId: questionId));
                 },
               )

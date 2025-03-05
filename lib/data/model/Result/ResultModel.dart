@@ -1,76 +1,78 @@
 import 'dart:convert';
-
+import 'package:online_exam_app/data/model/questions_response/CorrectQuestions.dart';
+import 'package:online_exam_app/data/model/questions_response/WrongQuestions.dart';
 import 'package:online_exam_app/data/model/questions_response/exam.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/data/model/questions_response/subject.dart';
 
-import '../questions_response/Answers.dart';
-
 class ResultModel {
   String? examId;
   String? message;
-  int? numOfCorrectAnswers;
-  final Map<String, Answer?>? selectedAnswersMap;
+  Map<String, String?>? selectedAnswersMap;
   List<Question>? questions;
+  List<CorrectQuestions>? correctQuestions;
+  List<WrongQuestions>? wrongQuestions;
   Subject? subject;
   Exam? exam;
 
   ResultModel({
     this.examId,
-    this.selectedAnswersMap,
-    this.exam,
-    this.subject,
     this.message,
+    this.selectedAnswersMap,
     this.questions,
-    this.numOfCorrectAnswers,
+    this.correctQuestions,
+    this.wrongQuestions,
+    this.subject,
+    this.exam,
   });
 
+  // Convert ResultModel to JSON with encoding for nested objects
+  Map<String, dynamic> toJson() {
+    return {
+      'examId': examId,
+      'message': message,
+      'studentAnswers': jsonEncode(selectedAnswersMap),
+      'questions': jsonEncode(questions?.map((q) => q.toJson()).toList()),
+      'correctQuestions':
+          jsonEncode(correctQuestions?.map((q) => q.toJson()).toList()),
+      'wrongQuestions':
+          jsonEncode(wrongQuestions?.map((q) => q.toJson()).toList()),
+      'subject': jsonEncode(subject?.toJson()),
+      'exam': jsonEncode(exam?.toJson()),
+    };
+  }
+
+  // Convert JSON from database to ResultModel with decoding for nested objects
   factory ResultModel.fromJson(Map<String, dynamic> json) {
     return ResultModel(
       examId: json['examId'],
       message: json['message'],
-      numOfCorrectAnswers: json['numOfCorrectAnswers'],
       selectedAnswersMap: json['studentAnswers'] != null
-          ? Map<String, Answer>.from(
-        (json['studentAnswers'] is String
-            ? jsonDecode(json['studentAnswers']) // Decode only if it's a String
-            : json['studentAnswers'])
-            .map((key, value) => MapEntry(key, Answer.fromJson(value))),
-      )
+          ? Map<String, String?>.from(jsonDecode(json['studentAnswers']))
           : null,
       questions: json['questions'] != null
           ? List<Question>.from(
-        (json['questions'] is String
-            ? jsonDecode(json['questions']) // Decode only if it's a String
-            : json['questions'])
-            .map((x) => Question.fromJson(x)),
-      )
+              (jsonDecode(json['questions']) as List)
+                  .map((x) => Question.fromJson(x)),
+            )
+          : null,
+      correctQuestions: json['correctQuestions'] != null
+          ? List<CorrectQuestions>.from(
+              (jsonDecode(json['correctQuestions']) as List)
+                  .map((x) => CorrectQuestions.fromJson(x)),
+            )
+          : null,
+      wrongQuestions: json['wrongQuestions'] != null
+          ? List<WrongQuestions>.from(
+              (jsonDecode(json['wrongQuestions']) as List)
+                  .map((x) => WrongQuestions.fromJson(x)),
+            )
           : null,
       subject: json['subject'] != null
-          ? Subject.fromJson(json['subject'] is String ? jsonDecode(json['subject']) : json['subject'])
+          ? Subject.fromJson(jsonDecode(json['subject']))
           : null,
-      exam: json['exam'] != null
-          ? Exam.fromJson(json['exam'] is String ? jsonDecode(json['exam']) : json['exam'])
-          : null,
+      exam:
+          json['exam'] != null ? Exam.fromJson(jsonDecode(json['exam'])) : null,
     );
-  }
-
-
-  Map<String, dynamic> toJson() {
-    return {
-      'examId': examId,
-      'studentAnswers': selectedAnswersMap != null
-          ? jsonEncode(
-        selectedAnswersMap!.map(
-              (key, value) => MapEntry(key, value?.toJson()),
-        ),
-      )
-          : null,
-      'subject': subject?.toJson(),
-      'questions': questions?.map((x) => x.toJson()).toList(),
-      'numOfCorrectAnswers': numOfCorrectAnswers,
-      'message': message,
-      'exam': exam?.toJson(),
-    };
   }
 }

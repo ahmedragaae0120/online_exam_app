@@ -94,7 +94,7 @@ class ExamCard extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: "${result.numOfCorrectAnswers} ",
+                            text: "${result.correctQuestions?.length} ",
                             style: TextStyle(fontWeight: FontWeight.w900), // Extra bold
                           ),
                           TextSpan(text: "Corrected answers of "),

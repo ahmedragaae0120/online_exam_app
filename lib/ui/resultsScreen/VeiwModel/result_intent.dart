@@ -7,8 +7,14 @@ class GetResultsIntent extends ResultIntent {
 }
 
 class deleteResultIntent extends ResultIntent {
-  String userId;
-  String id;
+  String examId;
 
-  deleteResultIntent({required this.userId, required this.id});
+  deleteResultIntent({required this.examId});
+}
+
+
+class getResultByIdIntent extends ResultIntent {
+  String examId;
+
+  getResultByIdIntent({required this.examId});
 }

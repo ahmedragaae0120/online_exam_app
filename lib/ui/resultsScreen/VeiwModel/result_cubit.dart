@@ -29,9 +29,30 @@ class ResultCubit extends Cubit<ResultState> {
         _deleteResult(intent: intent);
         break;
 
+      case getResultByIdIntent():
+        _getResultById(intent: intent);
+        break;
     }
   }
 
+
+  _getResultById({required getResultByIdIntent intent}) async {
+    emit(GetResultByIdStateLoading());
+    final response = await useCase.getResultById(
+      examId: intent.examId,
+    );
+    switch (response) {
+      case Success():
+        {
+          emit(GetResultByIdStateSuccess(result: response.data));
+        }
+      case Error():
+        {
+          emit(GetResultByIdStateError(
+              message: (response.exception as Exception).toString()));
+        }
+    }
+  }
   _GetResults() async {
     emit(GetResultsStateLoading());
     final response = await useCase.fetchResults();
@@ -51,8 +72,7 @@ class ResultCubit extends Cubit<ResultState> {
   _deleteResult({required deleteResultIntent intent}) async {
     emit(DeleteResultStateLoading());
     final response = await useCase.deleteResult(
-      userId: intent.userId,
-      id: intent.id,
+      id: intent.examId,
     );
     switch (response) {
       case Success():

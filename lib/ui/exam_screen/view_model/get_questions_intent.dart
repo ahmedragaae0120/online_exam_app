@@ -20,11 +20,11 @@ class PreviousQuestionIntent extends QuestionsIntent {
 
 class UpdateAnswerIntent extends QuestionsIntent {
   final String questionId;
-  final Answer selectedAnswer;
+  final String selectedAnswerKey;
   final String correctKey;
   UpdateAnswerIntent(
       {required this.questionId,
-      required this.selectedAnswer,
+      required this.selectedAnswerKey,
       required this.correctKey});
 }
 

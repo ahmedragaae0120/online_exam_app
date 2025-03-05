@@ -50,7 +50,7 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
   int countOfQuestions = 0;
   final Map<String, bool> answeredCorrectly =
       {}; // هل السؤال تمت إجابته بشكل صحيح؟
-  final Map<String, Answer?>? selectedAnswersMap = {}; // تخزين الإجابات الفردية
+  final Map<String, String?>? selectedAnswersMap = {}; // تخزين الإجابات الفردية
   final Map<String, List<String?>> multiSelectedAnswersMap =
       {}; // تخزين إجابات متعددة
 
@@ -75,9 +75,9 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
   _updateAnswer({
     required UpdateAnswerIntent intent,
   }) {
-    bool isCorrect = intent.selectedAnswer.key == intent.correctKey;
+    bool isCorrect = intent.selectedAnswerKey == intent.correctKey;
     log("السؤال: ${intent.questionId}");
-    log("الإجابة المختارة: ${intent.selectedAnswer.key}");
+    log("الإجابة المختارة: ${intent.selectedAnswerKey}");
     log("الإجابة الصحيحة: ${intent.correctKey}");
     log("قبل التحديث - answeredCorrectly: $answeredCorrectly");
     // تحديث خريطة الإجابات الصحيحة
@@ -85,7 +85,7 @@ class GetQuestionsCubit extends Cubit<GetQuestionsState> {
     log("بعد التحديث - answeredCorrectly: $answeredCorrectly");
 
     // تحديث الإجابة المختارة
-    selectedAnswersMap?[intent.questionId] = intent.selectedAnswer;
+    selectedAnswersMap?[intent.questionId] = intent.selectedAnswerKey;
 
     // إعادة حساب عدد الإجابات الصحيحة بناءً على القيم المخزنة
     correctAnswers = answeredCorrectly.values.where((value) => value).length;

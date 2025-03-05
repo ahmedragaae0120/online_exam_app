@@ -90,9 +90,7 @@ class _ExamScreenState extends State<ExamScreen> {
                             examId: questionResponse?.questions?[0].exam?.id,
                             message: questionResponse?.message,
                             questions: questionResponse?.questions,
-                            numOfCorrectAnswers: cubit.correctAnswers,
                             exam: questionResponse?.questions?[0].exam,
-                            selectedAnswersMap: cubit.selectedAnswersMap,
                           );
                           cubit.doIntent(addResultIntent(result: result));
                           Navigator.pushReplacement(

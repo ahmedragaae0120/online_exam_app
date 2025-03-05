@@ -136,14 +136,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i848.GetQuestionsUseCase(gh<_i7.GetQuestionsRepoContract>()));
     gh.factory<_i644.VerifyresetcodeUseCase>(() =>
         _i644.VerifyresetcodeUseCase(repo: gh<_i460.VerifyresetcodeRepo>()));
-    gh.factory<_i912.GetResultsUseCase>(() => _i912.GetResultsUseCase(
-          gh<_i381.UserService>(),
-          gh<_i870.GetResultsRepo>(),
-        ));
     gh.factory<_i459.SignupUsecase>(() => _i459.SignupUsecase(
         signupRepoContract: gh<_i229.SignupRepoContract>()));
     gh.factory<_i788.SigninUsecase>(() => _i788.SigninUsecase(
         signInRepoContract: gh<_i1006.SignInRepoContract>()));
+    gh.factory<_i912.GetResultsUseCase>(
+        () => _i912.GetResultsUseCase(gh<_i870.GetResultsRepo>()));
     gh.factory<_i172.GetQuestionsCubit>(() => _i172.GetQuestionsCubit(
           gh<_i912.GetResultsUseCase>(),
           gh<_i848.GetQuestionsUseCase>(),

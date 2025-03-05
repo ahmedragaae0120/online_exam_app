@@ -96,9 +96,7 @@ class ExamScreenBody extends StatelessWidget {
                                 examId: getQuestionsSuccessState.questionResponse?.questions?[0].exam?.id,
                                 message: getQuestionsSuccessState.questionResponse?.message,
                                 questions: getQuestionsSuccessState.questionResponse?.questions,
-                                numOfCorrectAnswers: cubit.correctAnswers,
                                 exam: getQuestionsSuccessState.questionResponse?.questions?[0].exam,
-                                selectedAnswersMap: cubit.selectedAnswersMap,
                               );
                               cubit.doIntent(addResultIntent(result: result));
                               Navigator.push(

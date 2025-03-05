@@ -4,6 +4,7 @@ part of 'result_cubit.dart';
 sealed class ResultState {}
 
 final class ResultInitial extends ResultState {}
+        //========================\\
 
 class GetResultsStateSuccess extends ResultState {
   final List<ResultModel> result;
@@ -18,8 +19,22 @@ class GetResultsStateError extends ResultState {
 }
 
 class GetResultsStateLoading extends ResultState {}
+        //========================\\
 
+class GetResultByIdStateSuccess extends ResultState {
+  final ResultModel? result;
 
+  GetResultByIdStateSuccess({required this.result});
+}
+
+class GetResultByIdStateError extends ResultState {
+  final String message;
+
+  GetResultByIdStateError({required this.message});
+}
+
+class GetResultByIdStateLoading extends ResultState {}
+        //========================\\
 
 class DeleteResultStateSuccess extends ResultState {
   final bool deleted;

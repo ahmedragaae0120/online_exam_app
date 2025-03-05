@@ -1,28 +1,32 @@
-
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/data/data_source_contract/GetResultsDataSourceRepo.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/repo_contract/GetResultsRepo.dart';
-@Injectable(as: GetResultsRepo)
-class  GetResultsRepoImpl implements GetResultsRepo{
 
+@Injectable(as: GetResultsRepo)
+class GetResultsRepoImpl implements GetResultsRepo {
   GetResultsDataSourceRepo repo;
+
   GetResultsRepoImpl(this.repo);
 
   @override
-  Future<Result<List<ResultModel>>> FetchResults(String userId) {
-    return repo.FetchResults(userId);
+  Future<Result<List<ResultModel>>> FetchResults() {
+    return repo.fetchResults();
   }
 
   @override
-  Future<Result<bool>> addResult(String userId,ResultModel result) {
-    return repo.addResult(userId,result);
+  Future<Result<ResultModel>> getResultById(String id) {
+    return repo.getResultById(id);
   }
 
   @override
-  Future<Result<bool>> deleteResult(String userId, String id) {
-    return repo.deleteResult(userId,id);
+  Future<Result<bool>> addResult(ResultModel result) {
+    return repo.addResult(result);
+  }
 
+  @override
+  Future<Result<bool>> deleteResult(String id) {
+    return repo.deleteResult(id);
   }
 }

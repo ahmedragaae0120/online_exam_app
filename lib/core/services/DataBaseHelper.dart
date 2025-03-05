@@ -8,7 +8,6 @@ import 'package:path/path.dart';
 class DatabaseHelper {
   static Database? _database;
 
-
   @factoryMethod
   DatabaseHelper();
 
@@ -17,7 +16,6 @@ class DatabaseHelper {
     _database = await _initDB();
     return _database!;
   }
-
 
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
@@ -34,13 +32,14 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS results_$userId (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        examId TEXT UNIQUE,  -- Ensure examId is stored as TEXT
+        examId TEXT UNIQUE,
         message TEXT,
-        numOfCorrectAnswers INTEGER,
-        studentAnswers TEXT,  -- Store as JSON string
-        questions TEXT,       -- Store as JSON string
-        subject TEXT,         -- Store as JSON string
-        exam TEXT             -- Store as JSON string
+        studentAnswers TEXT,
+        questions TEXT,
+        correctQuestions TEXT,
+        wrongQuestions TEXT,
+        subject TEXT,
+        exam TEXT
       )
     ''');
   }
@@ -49,22 +48,11 @@ class DatabaseHelper {
     final db = await database;
     await createUserTable(userId);
 
-    final Map<String, dynamic> resultJson = {
-      'examId': result.examId,
-      'message': result.message,
-      'numOfCorrectAnswers': result.numOfCorrectAnswers,
-      'studentAnswers': result.selectedAnswersMap != null
-          ? jsonEncode(result.selectedAnswersMap?.map((key, value) => MapEntry(key, value?.toJson())))
-          : null,
-      'questions': result.questions != null
-          ? jsonEncode(result.questions!.map((q) => q.toJson()).toList())
-          : null,
-      'subject': result.subject != null ? jsonEncode(result.subject!.toJson()) : null,
-      'exam': result.exam != null ? jsonEncode(result.exam!.toJson()) : null,
-    };
+    // Use the toDatabaseJson method from ResultModel
+    final Map<String, dynamic> resultJson = result.toJson();
 
-    // Pretty-print the result
-    print("✅✅✅ Result Inserted ✅✅✅\n${const JsonEncoder.withIndent('  ').convert(resultJson)}");
+    print(
+        "✅✅✅ Result Inserted ✅✅✅\n${const JsonEncoder.withIndent('  ').convert(resultJson)}");
 
     return await db.insert(
       'results_$userId',
@@ -73,22 +61,24 @@ class DatabaseHelper {
     );
   }
 
-
   Future<List<ResultModel>> getResults(String userId) async {
     final db = await database;
     await createUserTable(userId);
 
     try {
       final List<Map<String, dynamic>> maps = await db.query('results_$userId');
-
-      return maps.map((map) {
-        try {
-          return ResultModel.fromJson(map);
-        } catch (e) {
-          print('Error parsing ResultModel: $e');
-          return null; // Handle invalid data safely
-        }
-      }).whereType<ResultModel>().toList(); // Remove null values
+      return maps
+          .map((map) {
+            try {
+              // Use the fromDatabaseJson method from ResultModel
+              return ResultModel.fromJson(map);
+            } catch (e) {
+              print('Error parsing ResultModel: $e');
+              return null;
+            }
+          })
+          .whereType<ResultModel>()
+          .toList();
     } catch (e) {
       print('Error fetching results: $e');
       return [];
@@ -108,6 +98,7 @@ class DatabaseHelper {
 
       if (maps.isNotEmpty) {
         try {
+          // Use the fromDatabaseJson method from ResultModel
           return ResultModel.fromJson(maps.first);
         } catch (e) {
           print('Error parsing ResultModel: $e');
@@ -121,7 +112,6 @@ class DatabaseHelper {
     return null;
   }
 
-
   Future<int> deleteResult(String userId, String examId) async {
     final db = await database;
     return await db.delete(
@@ -130,6 +120,8 @@ class DatabaseHelper {
       whereArgs: [examId],
     );
   }
+
+
 
   Future<void> close() async {
     final db = await database;
