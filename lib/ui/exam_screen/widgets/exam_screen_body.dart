@@ -37,10 +37,10 @@ class ExamScreenBody extends StatelessWidget {
       },
       builder: (context, state) {
         final Question? currentQuestion = getQuestionsSuccessState
-            .questionResponse?.questions?[cubit.questionCurrent - 1];
+            .questionResponse?.questions?[cubit.quesionCurrent - 1];
 
         if (state is GetQuestionsUpdatedState) {
-          cubit.questionCurrent = state.quesionCurrent;
+          cubit.quesionCurrent = state.quesionCurrent;
         }
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -49,12 +49,12 @@ class ExamScreenBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Question ${cubit.questionCurrent} of ${totalQuestions.toString()}",
+                "Question ${cubit.quesionCurrent} of ${totalQuestions.toString()}",
                 textAlign: TextAlign.center,
                 style: AppTextStyle.medium14.copyWith(color: AppColors.grey),
               ),
               LinearProgressCustom(
-                quesionCurrent: cubit.questionCurrent,
+                quesionCurrent: cubit.quesionCurrent,
                 totalQuestions: totalQuestions,
               ),
               Config.spaceSmall,
@@ -86,11 +86,11 @@ class ExamScreenBody extends StatelessWidget {
                     ),
                     Expanded(
                       child: OutlinedFilledButton(
-                          text: cubit.questionCurrent == totalQuestions
+                          text: cubit.quesionCurrent == totalQuestions
                               ? "Submit"
                               : "Next",
                           onTap: () {
-                            if (cubit.questionCurrent == totalQuestions) {
+                            if (cubit.quesionCurrent == totalQuestions) {
                               ResultModel result = ResultModel(
                                 subject:getQuestionsSuccessState.questionResponse?.questions![0].subject ,
                                 examId: getQuestionsSuccessState.questionResponse?.questions?[0].exam?.id,
