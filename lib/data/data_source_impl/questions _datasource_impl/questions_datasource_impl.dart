@@ -22,7 +22,7 @@ class QuestionsDatasourceImpl implements QuestionsDatasourceContract {
       () async {
         var apiResponse = await apiManager.getRequest(
           endPoint: ApiEndpoints.getQuestionsEndpoint,
-          queryParamters: {
+          queryParameters: {
             "exam": examId,
           },
         );

@@ -27,9 +27,9 @@ class TokenStorageService {
 
   Future<void> clearToken() async {
     try{
-    await _prefs.remove(_tokenKey);
-    await _prefs.remove(_rememberMeKey);
-  }catch(e){
+      await _prefs.remove(_tokenKey);
+      await _prefs.remove(_rememberMeKey);
+    } catch(e){
       print('Error deleting token: $e');
     }
     }

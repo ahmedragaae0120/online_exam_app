@@ -20,7 +20,7 @@ class SigninDatasourceImpl implements SignInDataSourceContract {
   Future<Result<UserResponse>> signIn(
       {required String email,
       required String password,
-      required bool rememberMe}) async {
+}) async {
     return await executeApi<UserResponse>(
       () async {
         var apiResponse = await apiManager.postRequest(
@@ -34,7 +34,7 @@ class SigninDatasourceImpl implements SignInDataSourceContract {
         print('API Response: ${apiResponse.data}'); // Print full response
 
         var response = UserResponse.fromJson(apiResponse.data ?? {});
-        await tokenStorageService.saveToken(response.token ?? "", rememberMe);
+        await tokenStorageService.saveToken(response.token ?? "", );
         return response;
       },
     );

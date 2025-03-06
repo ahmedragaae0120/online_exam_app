@@ -4,6 +4,5 @@ import 'package:online_exam_app/domain/common/result.dart';
 abstract class SignInDataSourceContract {
   Future<Result<UserResponse>> signIn(
       {required String email,
-      required String password,
-      required bool rememberMe});
+      required String password,});
 }
