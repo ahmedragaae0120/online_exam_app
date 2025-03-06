@@ -92,5 +92,6 @@ number at least''';
       '/EnterEmailForgetPassword';
   static const String emailVerificationScreenRoute = '/EmailVerification';
   static const String putNewPasswordScreenRoute = '/PutNewPassword';
+  static const String examScreenRoute = "/exam-screen";
   static const String changePasswordScreenRoute = '/ChangePassword';
 }

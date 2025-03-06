@@ -10,7 +10,11 @@ class TokenStorageService {
   TokenStorageService(this._prefs);
 
   Future<void> saveToken(String token) async {
-    await _prefs.setString(_tokenKey, token);
+    try{await _prefs.setString(_tokenKey, token);
+    }catch(e){
+      print('Error saving token: $e');
+    }
+
   }
 
   Future<String?> getToken() async {
@@ -22,7 +26,11 @@ class TokenStorageService {
   }
 
   Future<void> clearToken() async {
+    try{
     await _prefs.remove(_tokenKey);
     await _prefs.remove(_rememberMeKey);
-  }
+  }catch(e){
+      print('Error deleting token: $e');
+    }
+    }
 }
