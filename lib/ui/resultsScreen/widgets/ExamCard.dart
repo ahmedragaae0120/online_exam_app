@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_cubit.dart';
+import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';
 import 'package:online_exam_app/ui/resultsScreen/pages/Answers%20Screen.dart';
 
 class ExamCard extends StatelessWidget {
@@ -18,13 +20,13 @@ class ExamCard extends StatelessWidget {
     Config().init(context);
     return GestureDetector(
       onTap: () {
-        final resultCubit = context.read<ResultCubit>(); // Instead of BlocProvider.of<ResultCubit>(context)
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-              value: resultCubit,
-              child: AnswersScreen(examId: result.examId ?? ""),
+            builder: (context) => BlocProvider(
+              create: (context) => getIt<ResultCubit>()
+                ..doIntent(getResultByIdIntent(examId: result.examId ?? "")),
+              child: AnswersScreen(),
             ),
           ),
         );

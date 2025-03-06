@@ -100,7 +100,6 @@ class _ExamScreenState extends State<ExamScreen> {
                                         // Wait for checking to complete
                                         cubit.doIntent(addResultIntent(
                                           result: ResultModel(
-
                                             correctQuestions:
                                                 cubit.correctQuestions,
                                             selectedAnswersMap:
@@ -121,6 +120,9 @@ class _ExamScreenState extends State<ExamScreen> {
                                       }
                                     },
                                     child: SummaryExamScreen(
+                                      examId: questionResponse
+                                              ?.questions?[0].exam?.id ??
+                                          "",
                                       countOfQuestions: cubit.countOfQuestions,
                                     ),
                                   ),

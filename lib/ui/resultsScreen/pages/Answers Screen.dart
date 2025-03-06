@@ -11,9 +11,7 @@ import 'package:online_exam_app/ui/resultsScreen/widgets/Answer%20Builder%20Resu
 import 'package:online_exam_app/ui/resultsScreen/widgets/Result%20Choice%20Widget.dart';
 
 class AnswersScreen extends StatelessWidget {
-  String examId;
-
-  AnswersScreen({required this.examId, super.key});
+  const AnswersScreen({super.key});
 
   @override
   @override
@@ -22,84 +20,87 @@ class AnswersScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text("Answers")),
-      body: BlocProvider(
-        create: (context) =>
-        getIt<ResultCubit>()..doIntent(getResultByIdIntent(examId: examId)),
-        child: BlocConsumer<ResultCubit, ResultState>(
-          listener: (context, state) {
-            if (state is GetResultByIdStateLoading) {
-              showDialog(
-                context: context,
-                builder: (context) => Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.blue_base,
-                  ),
+      body: BlocConsumer<ResultCubit, ResultState>(
+        listener: (context, state) {
+          if (state is GetResultByIdStateLoading) {
+            showDialog(
+              context: context,
+              builder: (context) => Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.blue_base,
                 ),
-              );
-            }
-            if (state is GetResultByIdStateError) {
-              toastMessage(
-                  message: state.message, tybeMessage: TybeMessage.negative);
-            }
-          },
-          builder: (context, state) {
-            if (state is GetResultByIdStateSuccess) {
-              // Extract all questions
-              List<Question> allQuestions = state.result?.questions ?? [];
+              ),
+            );
+          }
+          if (state is GetResultByIdStateError) {
+            toastMessage(
+                message: state.message, tybeMessage: TybeMessage.negative);
+          }
+        },
+        builder: (context, state) {
+          if (state is GetResultByIdStateSuccess) {
+            // Extract all questions
+            List<Question> allQuestions = state.result?.questions ?? [];
 
-              // Classify questions
-              List<Map<String, dynamic>> combinedList = [];
+            // Classify questions
+            List<Map<String, dynamic>> combinedList = [];
 
-              for (var question in allQuestions) {
-                if (state.result?.correctQuestions
-                    ?.any((cq) => cq.qid == question.id) ??
-                    false) {
-                  combinedList.add({
-                    "question": question,
-                    "type": ChoiceType.correct,
-                  });
-                } else if (state.result?.wrongQuestions
-                    ?.any((wq) => wq.qid == question.id) ??
-                    false) {
-                  combinedList.add({
-                    "question": question,
-                    "type": ChoiceType.wrong,
-                  });
-                } else {
-                  combinedList.add({
-                    "question": question,
-                    "type": ChoiceType.empty,
-                  });
-                }
+            for (var question in allQuestions) {
+              if (state.result?.correctQuestions
+                      ?.any((cq) => cq.qid == question.id) ??
+                  false) {
+                //the correct answers
+                combinedList.add({
+                  "question": question,
+                  "type": ChoiceType.correct,
+                });
               }
 
-              return ListView.builder(
-                itemCount: combinedList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final questionData = combinedList[index];
-                  final Question question = questionData["question"];
-                  final ChoiceType type = questionData["type"];
-
-
-                  final String? studentAnswerKey = state.result?.selectedAnswersMap?[question.id];
-
-                  return ResultAnswerBuilder(
-                    studentAnswerKey: studentAnswerKey??"", // Pass the student's answer
-                    questionType: type,
-                    answers: question.answers ?? [],
-                    correctAnswerKey: question.correct ?? '',
-                    question: question.question ?? '',
-                  );
-                },
-              );
-
+              //the wrong answers
+              else if (state.result?.wrongQuestions
+                      ?.any((wq) => wq.qid == question.id) ??
+                  false) {
+                combinedList.add({
+                  "question": question,
+                  "type": ChoiceType.wrong,
+                });
+              }
+              //the empty answers
+              else {
+                combinedList.add({
+                  "question": question,
+                  "type": ChoiceType.empty,
+                });
+              }
             }
 
-            return Text("Something went wrong");
-          },
-        ),
+            return ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              itemCount: combinedList.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 10),
+              // Add spacing between items
+              itemBuilder: (context, index) {
+                final questionData = combinedList[index];
+                final Question question = questionData["question"];
+                final ChoiceType type = questionData["type"];
+
+                final String? studentAnswerKey =
+                    state.result?.selectedAnswersMap?[question.id];
+
+                return ResultAnswerBuilder(
+                  studentAnswerKey: studentAnswerKey ?? "",
+                  questionType: type,
+                  answers: question.answers ?? [],
+                  correctAnswerKey: question.correct ?? '',
+                  question: question.question ?? '',
+                );
+              },
+            );
+          }
+
+          return Text("Something went wrong");
+        },
       ),
     );
   }
-
 }

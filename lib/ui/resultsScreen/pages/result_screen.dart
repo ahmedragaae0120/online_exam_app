@@ -22,6 +22,8 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = ResultCubit.get(context);
+
     return BlocProvider(
       create: (context) => getIt<ResultCubit>()..doIntent(GetResultsIntent()),
       child: BlocConsumer<ResultCubit, ResultState>(
@@ -32,18 +34,16 @@ class _ResultScreenState extends State<ResultScreen> {
           }
           // Refresh after deletion
           if (state is DeleteResultStateSuccess) {
-            BlocProvider.of<ResultCubit>(context).doIntent(GetResultsIntent());
+            cubit.doIntent(GetResultsIntent());
           }
         },
         builder: (context, state) {
-          final cubit = ResultCubit.get(context);
-
           return Scaffold(
             appBar: AppBar(title: const Text("Results")),
             body: state is GetResultsStateSuccess
                 ? state.result.isNotEmpty
-                ? _buildGroupedResults(state.result, cubit)
-                : _buildNoResultsMessage() // Show a message when no results exist
+                    ? _buildGroupedResults(state.result, cubit)
+                    : _buildNoResultsMessage() // Show a message when no results exist
                 : const Center(child: CircularProgressIndicator()),
           );
         },
@@ -69,17 +69,17 @@ class _ResultScreenState extends State<ResultScreen> {
               child: Text(
                 entry.key,
                 style:
-                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             ...entry.value.map((result) => ExamCard(
-              onDelete: () {
-                cubit.doIntent(deleteResultIntent(
-                 examId:result.examId ?? "",
-                ));
-              },
-              result: result,
-            )),
+                  onDelete: () {
+                    cubit.doIntent(deleteResultIntent(
+                      examId: result.examId ?? "",
+                    ));
+                  },
+                  result: result,
+                )),
           ],
         );
       }).toList(),

@@ -11,22 +11,26 @@ class DatabaseHelper {
   @factoryMethod
   DatabaseHelper();
 
+  /// Returns the database instance, initializing it if necessary.
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB();
     return _database!;
   }
 
+  /// Initializes the SQLite database and returns the instance.
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'exam_results.db');
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
+  /// Callback function to handle database creation.
   Future<void> _onCreate(Database db, int version) async {
     // No need to create tables here; they are created dynamically per user
   }
 
+  /// Creates a table for storing exam results for a specific user.
   Future<void> createUserTable(String userId) async {
     final db = await database;
     await db.execute('''
@@ -44,6 +48,7 @@ class DatabaseHelper {
     ''');
   }
 
+  /// Inserts an exam result for a specific user.
   Future<int> insertResult(String userId, ResultModel result) async {
     final db = await database;
     await createUserTable(userId);
@@ -61,6 +66,7 @@ class DatabaseHelper {
     );
   }
 
+  /// Retrieves all exam results for a specific user.
   Future<List<ResultModel>> getResults(String userId) async {
     final db = await database;
     await createUserTable(userId);
@@ -85,6 +91,7 @@ class DatabaseHelper {
     }
   }
 
+  /// Retrieves a specific exam result by its ID for a given user.
   Future<ResultModel?> getResultById(String userId, String examId) async {
     final db = await database;
     await createUserTable(userId);
@@ -112,6 +119,7 @@ class DatabaseHelper {
     return null;
   }
 
+  /// Deletes an exam result by its ID for a given user.
   Future<int> deleteResult(String userId, String examId) async {
     final db = await database;
     return await db.delete(
@@ -121,8 +129,7 @@ class DatabaseHelper {
     );
   }
 
-
-
+  /// Closes the database connection.
   Future<void> close() async {
     final db = await database;
     db.close();
