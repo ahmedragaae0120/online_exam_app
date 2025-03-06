@@ -11,6 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:online_exam_app/data/repo_impl/questions_repo_impl.dart/questions_repo_impl.dart';
+import 'package:online_exam_app/domain/use_cases/get_questions_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../data/data_source_contract/ForgetPassword_dataSourses/ForgetPassword_dataSourse.dart'
@@ -42,8 +44,6 @@ import '../../data/repo_impl/Forget%20Password%20Impl/ResetpasswordRepoImpl.dart
 import '../../data/repo_impl/Forget%20Password%20Impl/VerifyresetcodeRepoImpl.dart'
     as _i165;
 import '../../data/repo_impl/GetResultsRepoImpl.dart' as _i568;
-import '../../data/repo_impl/questions_repo_impl.dart/questions_repo_impl.dart'
-    as _i94;
 import '../../data/repo_impl/signin_repo_impl.dart' as _i209;
 import '../../data/repo_impl/signup_repo_impl.dart' as _i430;
 import '../../domain/repo_contract/Forget%20Password%20Repos/ForgetPassword_repo.dart'
@@ -64,6 +64,7 @@ import '../../domain/use_cases/Forget%20Password%20Use%20Cases/resetPassword_Use
     as _i498;
 import '../../domain/use_cases/Forget%20Password%20Use%20Cases/verifyResetCodeUseCase.dart'
     as _i644;
+import '../../domain/use_cases/check_answers_usecase.dart';
 import '../../domain/use_cases/get_questions_usecase.dart' as _i848;
 import '../../domain/use_cases/GetResults.dart' as _i912;
 import '../../domain/use_cases/signin_usecase.dart' as _i788;
@@ -126,19 +127,19 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i568.GetResultsRepoImpl(gh<_i227.GetResultsDataSourceRepo>()));
     gh.factory<_i460.VerifyresetcodeRepo>(() => _i165.Verifyresetcoderepoimpl(
         gh<_i443.VerifyresetcodeRepoDataSource>()));
-    gh.factory<_i1030.QuestionsRepoContract>(
-        () => _i94.QuestionsRepoImpl(gh<_i416.QuestionsDatasourceContract>()));
     gh.factory<_i974.ResetpasswordRepo>(() =>
         _i343.Resetpasswordrepoimpl(gh<_i865.ResetpasswordDataSourceRepo>()));
+    gh.factory<_i1030.QuestionsRepoContract>(
+        () => QuestionsRepoImpl(gh<_i416.QuestionsDatasourceContract>()));
     gh.factory<_i105.ForgetpasswordRepo>(() => _i455.Forgetpasswordrepoimpl(
         forgetpassword_data_sourse_repo:
             gh<_i42.ForgetpasswordDataSourseRepo>()));
     gh.factory<_i644.VerifyresetcodeUseCase>(() =>
         _i644.VerifyresetcodeUseCase(repo: gh<_i460.VerifyresetcodeRepo>()));
-    gh.factory<_i848.GetQuestionsUseCase>(
-        () => _i848.GetQuestionsUseCase(gh<_i1030.QuestionsRepoContract>()));
-    gh.factory<_i558.CheckAnswersUsecase>(
-        () => _i558.CheckAnswersUsecase(gh<_i1030.QuestionsRepoContract>()));
+    gh.factory<GetQuestionsUseCase>(
+        () => GetQuestionsUseCase(gh<_i1030.QuestionsRepoContract>()));
+    gh.factory<CheckAnswersUsecase>(
+        () => CheckAnswersUsecase(gh<_i1030.QuestionsRepoContract>()));
     gh.factory<_i459.SignupUsecase>(() => _i459.SignupUsecase(
         signupRepoContract: gh<_i229.SignupRepoContract>()));
     gh.factory<_i788.SigninUsecase>(() => _i788.SigninUsecase(
@@ -152,6 +153,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i524.ForgetPasswordUseCase>(() => _i524.ForgetPasswordUseCase(
         forgetPassword: gh<_i105.ForgetpasswordRepo>()));
     gh.factory<_i971.QuestionsCubit>(() => _i971.QuestionsCubit(
+          gh<_i912.GetResultsUseCase>(),
           gh<_i848.GetQuestionsUseCase>(),
           gh<_i558.CheckAnswersUsecase>(),
         ));

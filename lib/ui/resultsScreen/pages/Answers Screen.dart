@@ -4,17 +4,18 @@ import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
-import 'package:online_exam_app/data/model/questions_response/Answers.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
-import 'package:online_exam_app/ui/exam_screen/widgets/answer_builder.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_cubit.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';
+import 'package:online_exam_app/ui/resultsScreen/widgets/Answer%20Builder%20Result.dart';
+import 'package:online_exam_app/ui/resultsScreen/widgets/Result%20Choice%20Widget.dart';
 
 class AnswersScreen extends StatelessWidget {
-  final ResultModel resultModel;
+  String examId;
 
-  AnswersScreen({required this.resultModel, super.key});
+  AnswersScreen({required this.examId, super.key});
 
+  @override
   @override
   Widget build(BuildContext context) {
     final cubit = ResultCubit.get(context);
@@ -23,8 +24,7 @@ class AnswersScreen extends StatelessWidget {
       appBar: AppBar(title: Text("Answers")),
       body: BlocProvider(
         create: (context) =>
-        getIt<ResultCubit>()
-          ..doIntent(getResultByIdIntent(examId: resultModel.exam?.id ?? "")),
+        getIt<ResultCubit>()..doIntent(getResultByIdIntent(examId: examId)),
         child: BlocConsumer<ResultCubit, ResultState>(
           listener: (context, state) {
             if (state is GetResultByIdStateLoading) {
@@ -38,102 +38,68 @@ class AnswersScreen extends StatelessWidget {
               );
             }
             if (state is GetResultByIdStateError) {
-              toastMessage(message: state.message, tybeMessage: TybeMessage.negative);
+              toastMessage(
+                  message: state.message, tybeMessage: TybeMessage.negative);
             }
           },
           builder: (context, state) {
+            if (state is GetResultByIdStateSuccess) {
+              // Extract all questions
+              List<Question> allQuestions = state.result?.questions ?? [];
 
-            return Column(
-              children: [
-                // this is not answered questions
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: resultModel.questions?.where((q) =>
-                    !(resultModel.correctQuestions?.any((cq) => cq?.qid == q.id) ?? false) &&
-                        !(resultModel.wrongQuestions?.any((wq) => wq?.qid == q.id) ?? false)
-                    ).length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      // Filter the unanswered questions
-                      List<Question> unAnsweredQuestions = resultModel.questions?.where((q) =>
-                      !(resultModel.correctQuestions?.any((cq) => cq.qid == q.id) ?? false) &&
-                          !(resultModel.wrongQuestions?.any((wq) => wq.qid == q.id) ?? false)
-                      ).toList() ?? [];
-                  
-                      // Get the question ID
-                      String questionId = unAnsweredQuestions[index].id ?? "";
-                  
-                      return AnswerBuilder(
-                        answerStatus: AnswerTypeStatus.Empty, // Since it's unanswered
-                        answers: unAnsweredQuestions[index].answers ?? [],
-                        answerType: AnswerType.single,
-                        correctAnswerKey: unAnsweredQuestions[index].correct ?? '',
-                        questionId: questionId,
-                      );
-                    },
-                  ),
-                ),
-                // this is wrong answered questions
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: resultModel.wrongQuestions?.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
+              // Classify questions
+              List<Map<String, dynamic>> combinedList = [];
 
-                      List<Question?> wrongAnsweredQuestions = resultModel.wrongQuestions
-                          ?.map((wq) => resultModel.questions?.firstWhere(
-                            (q) => q.id == wq?.qid,
-                        orElse: () => Question(), // Default empty question if not found
-                      ))
-                          .where((q) => q?.id != null) // Remove empty questions
-                          .toList() ?? [];
+              for (var question in allQuestions) {
+                if (state.result?.correctQuestions
+                    ?.any((cq) => cq.qid == question.id) ??
+                    false) {
+                  combinedList.add({
+                    "question": question,
+                    "type": ChoiceType.correct,
+                  });
+                } else if (state.result?.wrongQuestions
+                    ?.any((wq) => wq.qid == question.id) ??
+                    false) {
+                  combinedList.add({
+                    "question": question,
+                    "type": ChoiceType.wrong,
+                  });
+                } else {
+                  combinedList.add({
+                    "question": question,
+                    "type": ChoiceType.empty,
+                  });
+                }
+              }
+
+              return ListView.builder(
+                itemCount: combinedList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final questionData = combinedList[index];
+                  final Question question = questionData["question"];
+                  final ChoiceType type = questionData["type"];
 
 
-                      // Get the question ID
-                      String questionId = wrongAnsweredQuestions[index]?.id ?? "";
+                  final String? studentAnswerKey = state.result?.selectedAnswersMap?[question.id];
 
-                      return AnswerBuilder(
-                        answerStatus: AnswerTypeStatus.Wrong, // Since it's unanswered
-                        answers: wrongAnsweredQuestions[index]?.answers ?? [],
-                        answerType: AnswerType.single,
-                        correctAnswerKey: wrongAnsweredQuestions[index]?.correct ?? '',
-                        questionId: questionId,
-                      );
-                    },
-                  ),
-                ),
+                  return ResultAnswerBuilder(
+                    studentAnswerKey: studentAnswerKey??"", // Pass the student's answer
+                    questionType: type,
+                    answers: question.answers ?? [],
+                    correctAnswerKey: question.correct ?? '',
+                    question: question.question ?? '',
+                  );
+                },
+              );
 
-                // this is Correct answered questions
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: resultModel.wrongQuestions?.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
+            }
 
-                      List<Question?> wrongAnsweredQuestions = resultModel.correctQuestions
-                          ?.map((wq) => resultModel.questions?.firstWhere(
-                            (q) => q.id == wq.qid,
-                        orElse: () => Question(), // Default empty question if not found
-                      ))
-                          .where((q) => q?.id != null) // Remove empty questions
-                          .toList() ?? [];
-
-
-                      // Get the question ID
-                      String questionId = wrongAnsweredQuestions[index]?.id ?? "";
-
-                      return AnswerBuilder(
-                        answerStatus: AnswerTypeStatus.Correct, // Since it's unanswered
-                        answers: wrongAnsweredQuestions[index]?.answers ?? [],
-                        answerType: AnswerType.single,
-                        correctAnswerKey: wrongAnsweredQuestions[index]?.correct ?? '',
-                        questionId: questionId,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
+            return Text("Something went wrong");
           },
         ),
       ),
     );
   }
+
 }

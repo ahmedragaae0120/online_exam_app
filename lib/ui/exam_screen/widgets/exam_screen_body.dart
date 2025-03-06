@@ -89,29 +89,45 @@ class ExamScreenBody extends StatelessWidget {
                           text: cubit.quesionCurrent == totalQuestions
                               ? "Submit"
                               : "Next",
-                          onTap: () {
-                            if (cubit.quesionCurrent == totalQuestions) {
-                              ResultModel result = ResultModel(
-                                subject:getQuestionsSuccessState.questionResponse?.questions![0].subject ,
-                                examId: getQuestionsSuccessState.questionResponse?.questions?[0].exam?.id,
-                                message: getQuestionsSuccessState.questionResponse?.message,
-                                questions: getQuestionsSuccessState.questionResponse?.questions,
-                                exam: getQuestionsSuccessState.questionResponse?.questions?[0].exam,
-                              );
-                              cubit.doIntent(addResultIntent(result: result));
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BlocProvider.value(
-                                    value: cubit
-                                      ..doIntent(CheckAnswersIntent()),
+                          onTap: () {if (cubit.quesionCurrent == totalQuestions) {
+                            cubit.doIntent(CheckAnswersIntent()); // Just call it, don't wait
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BlocProvider.value(
+                                  value: cubit,
+                                  child: BlocListener<QuestionsCubit, QuestionsState>(
+                                    listener: (context, state) {
+                                      if (state is CheckAnswersSuccessState) { // Wait for checking to complete
+                                        cubit.doIntent(addResultIntent(
+                                          result: ResultModel(
+                                            correctQuestions: cubit.correctQuestions,
+                                            selectedAnswersMap: cubit.selectedAnswersMap,
+                                            wrongQuestions: cubit.wrongQuestions,
+                                            subject: getQuestionsSuccessState
+                                                .questionResponse?.questions![0].subject,
+                                            examId: getQuestionsSuccessState
+                                                .questionResponse?.questions?[0].exam?.id,
+                                            message: getQuestionsSuccessState
+                                                .questionResponse?.message,
+                                            questions: getQuestionsSuccessState
+                                                .questionResponse?.questions,
+                                            exam: getQuestionsSuccessState
+                                                .questionResponse?.questions?[0].exam,
+                                          ),
+                                        ));
+                                      }
+                                    },
                                     child: SummaryExamScreen(
                                       countOfQuestions: totalQuestions,
                                     ),
                                   ),
                                 ),
-                              );
-                            } else {
+                              ),
+                            );
+                          }
+                          else {
                               cubit.doIntent(NextQuestionIntent());
                             }
                           },

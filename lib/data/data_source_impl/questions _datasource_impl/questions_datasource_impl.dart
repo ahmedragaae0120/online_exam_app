@@ -5,6 +5,7 @@ import 'package:online_exam_app/core/api/api_endpoints.dart';
 import 'package:online_exam_app/core/api/api_excuter.dart';
 import 'package:online_exam_app/core/api/api_manager.dart';
 import 'package:online_exam_app/data/data_source_contract/questions%20_datasource/questions_datasource_contract.dart';
+import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
 import 'package:online_exam_app/data/model/questions_response/qestions_result_response/QuestionResultResponse.dart';
 
 import 'package:online_exam_app/domain/common/result.dart';
@@ -15,10 +16,10 @@ class QuestionsDatasourceImpl implements QuestionsDatasourceContract {
   ApiManager apiManager;
   QuestionsDatasourceImpl(this.apiManager);
   @override
-  Future<Result<QuestionResultResponse>> getQuestions(
+  Future<Result<QuestionResponse>> getQuestions(
     String examId,
   ) {
-    return executeApi<QuestionResultResponse>(
+    return executeApi<QuestionResponse>(
       () async {
         var apiResponse = await apiManager.getRequest(
           endPoint: ApiEndpoints.getQuestionsEndpoint,
@@ -26,8 +27,8 @@ class QuestionsDatasourceImpl implements QuestionsDatasourceContract {
             "exam": examId,
           },
         );
-        QuestionResultResponse response =
-        QuestionResultResponse.fromJson(apiResponse.data ?? {});
+        QuestionResponse response =
+        QuestionResponse.fromJson(apiResponse.data ?? {});
         return response;
       },
     );

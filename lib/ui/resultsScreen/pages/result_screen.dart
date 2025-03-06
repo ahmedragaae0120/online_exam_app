@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/services/user_service.dart';
-import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_cubit.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';
@@ -17,11 +16,12 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  final UserService userService = getIt<UserService>();
 
+  String? get userId => userService.getCurrentUser()?.id;
 
   @override
   Widget build(BuildContext context) {
-    final cubit = ResultCubit.get(context);
     return BlocProvider(
       create: (context) => getIt<ResultCubit>()..doIntent(GetResultsIntent()),
       child: BlocConsumer<ResultCubit, ResultState>(
@@ -30,20 +30,20 @@ class _ResultScreenState extends State<ResultScreen> {
             toastMessage(
                 message: state.message, tybeMessage: TybeMessage.negative);
           }
-
+          // Refresh after deletion
           if (state is DeleteResultStateSuccess) {
-            // refresh to show the deleted result
-            cubit.doIntent(GetResultsIntent());
+            BlocProvider.of<ResultCubit>(context).doIntent(GetResultsIntent());
           }
         },
         builder: (context, state) {
+          final cubit = ResultCubit.get(context);
 
           return Scaffold(
             appBar: AppBar(title: const Text("Results")),
             body: state is GetResultsStateSuccess
                 ? state.result.isNotEmpty
-                    ? _buildGroupedResults(state.result, cubit)
-                    : _buildNoResultsMessage()
+                ? _buildGroupedResults(state.result, cubit)
+                : _buildNoResultsMessage() // Show a message when no results exist
                 : const Center(child: CircularProgressIndicator()),
           );
         },
@@ -69,17 +69,17 @@ class _ResultScreenState extends State<ResultScreen> {
               child: Text(
                 entry.key,
                 style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             ...entry.value.map((result) => ExamCard(
-                  onDelete: () {
-                    cubit.doIntent(deleteResultIntent(
-                      examId: result.examId ?? "",
-                    ));
-                  },
-                  result: result,
-                )),
+              onDelete: () {
+                cubit.doIntent(deleteResultIntent(
+                 examId:result.examId ?? "",
+                ));
+              },
+              result: result,
+            )),
           ],
         );
       }).toList(),
@@ -89,8 +89,8 @@ class _ResultScreenState extends State<ResultScreen> {
   Widget _buildNoResultsMessage() {
     return const Center(
       child: Text(
-        "No results available",
-        style: AppTextStyle.medium16,
+        "No  results available",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
       ),
     );
   }
