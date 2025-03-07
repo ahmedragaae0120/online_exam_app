@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/core/services/token_storage_service.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
 import 'package:online_exam_app/domain/common/exceptions/server_error.dart';
 import 'package:online_exam_app/domain/common/result.dart';
@@ -15,19 +16,21 @@ part 'auth_state.dart';
 
 @injectable
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(
-      {required this.verifyresetcodeUseCase,
-      required this.resetpasswordUsecase,
-      required this.signupUsecase,
-      required this.forgetPasswordUseCase,
-      required this.signinUsecase})
-      : super(AuthInitial());
+  AuthCubit({
+    required this.verifyresetcodeUseCase,
+    required this.resetpasswordUsecase,
+    required this.signupUsecase,
+    required this.forgetPasswordUseCase,
+    required this.signinUsecase,
+    required this.tokenStorage,
+  }) : super(AuthInitial());
   @factoryMethod
   SignupUsecase signupUsecase;
   ForgetPasswordUseCase forgetPasswordUseCase;
   VerifyresetcodeUseCase verifyresetcodeUseCase;
   ResetpasswordUsecase resetpasswordUsecase;
   SigninUsecase signinUsecase;
+  TokenStorageService tokenStorage;
 
   void doIntent(AuthIntent intent) {
     switch (intent) {
@@ -83,19 +86,22 @@ class AuthCubit extends Cubit<AuthState> {
   _SignIn({required SignInIntent intent}) async {
     emit(LoginLoadingState());
     final result = await signinUsecase.invoke(
-        email: intent.email,
-        password: intent.password,
-        rememberMe: intent.rememberMe);
+      email: intent.email,
+      password: intent.password,
+    );
 
     switch (result) {
       case Success():
-        {
+        if (result.data?.token != null) {
+          // Add ?. operator here
+          await tokenStorage.saveToken(result.data!.token!);
+          print('Token saved: ${result.data!.token}');
           emit(LoginSuccessState(userResponse: result.data));
         }
+        break;
       case Error():
-        {
-          emit(LoginErrorState(message: result.exception.toString()));
-        }
+        emit(LoginErrorState(message: result.exception.toString()));
+        break;
     }
   }
 
@@ -151,6 +157,4 @@ class AuthCubit extends Cubit<AuthState> {
         }
     }
   }
-
-
 }

@@ -13,8 +13,8 @@ class SigninRepoImpl implements SignInRepoContract {
   Future<Result<UserResponse>> signIn(
       {required String email,
       required String password,
-      required bool rememberMe}) async {
+     }) async {
     return signInDataSourceContract.signIn(
-        email: email, password: password, rememberMe: rememberMe);
+        email: email, password: password);
   }
 }

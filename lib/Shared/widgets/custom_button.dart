@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
           },
           style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).primaryColor,
-              fixedSize: Size(100, 48)),
+              fixedSize: Size(400, 60)),
           child: Text(
             text,
             style: AppTextStyle.medium18.copyWith(color: AppColors.white),

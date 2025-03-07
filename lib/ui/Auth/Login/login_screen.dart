@@ -28,14 +28,13 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _validateAndLogin(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      // context.read<AuthCubit>().login(
-      //     email: emailController.text,
-      //     password: passwordController.text,
-      //     rememberMe: isChecked);
-      AuthCubit.get(context).doIntent(SignInIntent(
-          email: emailController.text,
-          password: passwordController.text,
-          rememberMe: isChecked));
+      context.read<AuthCubit>().doIntent(
+            SignInIntent(
+              email: emailController.text,
+              password: passwordController.text,
+              // Use the checkbox value
+            ),
+          );
     }
   }
 

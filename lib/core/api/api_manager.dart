@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/constants/constants.dart';
 import 'package:online_exam_app/core/services/token_storage_service.dart';
+import 'package:online_exam_app/core/services/token_storage_service.dart';
 
 @singleton
 class ApiManager {
@@ -19,8 +20,8 @@ class ApiManager {
         connectTimeout: Duration(seconds: 60),
       ),
     );
-    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      String? token = _tokenStorageService.getToken();
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async{
+      String? token = await _tokenStorageService.getToken();
       if (token != null) {
         options.headers['token'] = token;
       }
@@ -28,12 +29,15 @@ class ApiManager {
     }));
   }
 
-  Future<Response> getRequest(
-      {required String endPoint,
-      Map<String, dynamic>? queryParamters,
-      Map<String, dynamic>? headers}) async {
-    var response = await dio.get(endPoint,
-        queryParameters: queryParamters, options: Options(headers: headers));
+  Future<Response> getRequest({
+    required String endPoint,
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers
+  }) async {
+    var response = await dio.get(
+      endPoint,
+      queryParameters: queryParameters, options: Options(headers: headers)
+    );
     return response;
   }
 
@@ -46,6 +50,14 @@ class ApiManager {
   Future<Response> putRequest(
       {required String endPoint, Map<String, dynamic>? body}) async {
     var response = await dio.put(endPoint, data: body);
+    return response;
+  }
+
+  Future<Response> patchRequest({
+    required String endPoint,
+    Map<String, dynamic>? body,
+  }) async {
+    var response = await dio.patch(endPoint, data: body);
     return response;
   }
 }
