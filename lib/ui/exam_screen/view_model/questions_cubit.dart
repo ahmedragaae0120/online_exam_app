@@ -7,7 +7,8 @@ import 'package:online_exam_app/data/model/questions_response/qestions_result_re
 import 'package:online_exam_app/data/model/questions_response/qestions_result_response/QuestionResultResponse.dart';
 import 'package:online_exam_app/data/model/questions_response/qestions_result_response/WrongQuestions.dart';
 import 'package:online_exam_app/domain/common/result.dart';
-import 'package:online_exam_app/domain/use_cases/GetResults.dart';
+import 'package:online_exam_app/domain/use_cases/Results/AddResultUseCase.dart';
+import 'package:online_exam_app/domain/use_cases/Results/GetResults.dart';
 import 'package:online_exam_app/domain/use_cases/check_answers_usecase.dart';
 import 'package:online_exam_app/domain/use_cases/get_questions_usecase.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_intent.dart';
@@ -19,8 +20,11 @@ class QuestionsCubit extends Cubit<QuestionsState> {
   @factoryMethod
   final GetQuestionsUseCase getQuestionsUseCase;
   final CheckAnswersUsecase checkAnswersUsecase;
+  final AddResultUseCase addResultUseCase;
   GetResultsUseCase getResultsIseCase;
-  QuestionsCubit(this.getResultsIseCase,this.getQuestionsUseCase, this.checkAnswersUsecase)
+
+  QuestionsCubit(this.addResultUseCase, this.getResultsIseCase,
+      this.getQuestionsUseCase, this.checkAnswersUsecase)
       : super(QuestionsInitial()) {
     log("🚀 GetQuestionsCubit Initialized! selectedAnswersMap: $selectedAnswersMap");
   }
@@ -110,9 +114,10 @@ class QuestionsCubit extends Cubit<QuestionsState> {
         }
     }
   }
+
   _addResult({required addResultIntent intent}) async {
     emit(AddResultStateLoading());
-    final response = await getResultsIseCase.addResult(intent.result);
+    final response = await addResultUseCase.addResult(intent.result);
     switch (response) {
       case Success():
         {
@@ -125,6 +130,7 @@ class QuestionsCubit extends Cubit<QuestionsState> {
         }
     }
   }
+
   _checkAnswers() async {
     log("selectedAnswersMap: $selectedAnswersMap"); // طباعة محتويات الخريطة
     // تحويل البيانات إلى الهيكل المطلوب
@@ -145,8 +151,8 @@ class QuestionsCubit extends Cubit<QuestionsState> {
     switch (result) {
       case Success():
         {
-          wrongQuestions=result.data?.wrongQuestions;
-          correctQuestions=result.data?.correctQuestions;
+          wrongQuestions = result.data?.wrongQuestions;
+          correctQuestions = result.data?.correctQuestions;
           emit(CheckAnswersSuccessState(qestionsResultResponse: result.data));
         }
       case Error():

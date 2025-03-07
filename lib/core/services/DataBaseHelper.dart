@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/core/Di/di.dart';
+import 'package:online_exam_app/core/services/user_service.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -7,9 +9,12 @@ import 'package:path/path.dart';
 @singleton
 class DatabaseHelper {
   static Database? _database;
+  final UserService userService;
+
+  String? get userId => userService.getCurrentUser()?.id;
 
   @factoryMethod
-  DatabaseHelper();
+  DatabaseHelper(this.userService);
 
   /// Returns the database instance, initializing it if necessary.
   Future<Database> get database async {
@@ -49,10 +54,10 @@ class DatabaseHelper {
   }
 
   /// Inserts an exam result for a specific user.
-  Future<int> insertResult(String userId, ResultModel result) async {
+  Future<int> insertResult(ResultModel result) async {
     final db = await database;
-    await createUserTable(userId);
-
+    await createUserTable(userId ?? "");
+    print("$userId 😂❤️❤️🌋💕😍❤️💕");
     // Use the toDatabaseJson method from ResultModel
     final Map<String, dynamic> resultJson = result.toJson();
 
@@ -67,9 +72,9 @@ class DatabaseHelper {
   }
 
   /// Retrieves all exam results for a specific user.
-  Future<List<ResultModel>> getResults(String userId) async {
+  Future<List<ResultModel>> getResults() async {
     final db = await database;
-    await createUserTable(userId);
+    await createUserTable(userId ?? "");
 
     try {
       final List<Map<String, dynamic>> maps = await db.query('results_$userId');
@@ -92,9 +97,9 @@ class DatabaseHelper {
   }
 
   /// Retrieves a specific exam result by its ID for a given user.
-  Future<ResultModel?> getResultById(String userId, String examId) async {
+  Future<ResultModel?> getResultById(String examId) async {
     final db = await database;
-    await createUserTable(userId);
+    await createUserTable(userId ?? "");
 
     try {
       final List<Map<String, dynamic>> maps = await db.query(
@@ -120,7 +125,7 @@ class DatabaseHelper {
   }
 
   /// Deletes an exam result by its ID for a given user.
-  Future<int> deleteResult(String userId, String examId) async {
+  Future<int> deleteResult(String examId) async {
     final db = await database;
     return await db.delete(
       'results_$userId',

@@ -5,7 +5,9 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/domain/common/result.dart';
-import 'package:online_exam_app/domain/use_cases/GetResults.dart';
+import 'package:online_exam_app/domain/use_cases/Results/Delete%20Result.dart';
+import 'package:online_exam_app/domain/use_cases/Results/GetResults.dart';
+import 'package:online_exam_app/domain/use_cases/Results/GetResultsByIdUseCase.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';
 
 part 'result_state.dart';
@@ -13,9 +15,13 @@ part 'result_state.dart';
 @injectable
 class ResultCubit extends Cubit<ResultState> {
   @factoryMethod
-  GetResultsUseCase useCase;
+  GetResultsUseCase getResultsUseCase;
+  GetResultsByIdUseCase getResultsByIdUseCase;
+  DeleteResultUseCase deleteResultUseCase;
 
-  ResultCubit(this.useCase) : super(ResultInitial());
+  ResultCubit(this.deleteResultUseCase, this.getResultsByIdUseCase,
+      this.getResultsUseCase)
+      : super(ResultInitial());
 
   static ResultCubit get(BuildContext context) => BlocProvider.of(context);
 
@@ -38,7 +44,7 @@ class ResultCubit extends Cubit<ResultState> {
 
   _getResultById({required getResultByIdIntent intent}) async {
     emit(GetResultByIdStateLoading());
-    final response = await useCase.getResultById(
+    final response = await getResultsByIdUseCase.getResultById(
       examId: intent.examId,
     );
     switch (response) {
@@ -55,7 +61,7 @@ class ResultCubit extends Cubit<ResultState> {
   }
   _GetResults() async {
     emit(GetResultsStateLoading());
-    final response = await useCase.fetchResults();
+    final response = await getResultsUseCase.fetchResults();
     switch (response) {
       case Success():
         {
@@ -71,7 +77,7 @@ class ResultCubit extends Cubit<ResultState> {
 
   _deleteResult({required deleteResultIntent intent}) async {
     emit(DeleteResultStateLoading());
-    final response = await useCase.deleteResult(
+    final response = await deleteResultUseCase.deleteResult(
       id: intent.examId,
     );
     switch (response) {

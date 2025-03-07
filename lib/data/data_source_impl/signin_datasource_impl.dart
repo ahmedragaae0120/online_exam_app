@@ -5,6 +5,7 @@ import 'package:online_exam_app/core/api/api_endpoints.dart';
 import 'package:online_exam_app/core/api/api_excuter.dart';
 import 'package:online_exam_app/core/api/api_manager.dart';
 import 'package:online_exam_app/core/services/token_storage_service.dart';
+import 'package:online_exam_app/core/services/user_service.dart';
 import 'package:online_exam_app/data/data_source_contract/signin_datasource.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
 import 'package:online_exam_app/domain/common/result.dart';
@@ -13,8 +14,10 @@ import 'package:online_exam_app/domain/common/result.dart';
 class SigninDatasourceImpl implements SignInDataSourceContract {
   final ApiManager apiManager;
   final TokenStorageService tokenStorageService;
+  final UserService userService;
   @factoryMethod
-  SigninDatasourceImpl(this.apiManager, this.tokenStorageService);
+  SigninDatasourceImpl(
+      this.apiManager, this.tokenStorageService, this.userService);
 
   @override
   Future<Result<UserResponse>> signIn(
@@ -35,6 +38,7 @@ class SigninDatasourceImpl implements SignInDataSourceContract {
 
         var response = UserResponse.fromJson(apiResponse.data ?? {});
         await tokenStorageService.saveToken(response.token ?? "", rememberMe);
+        userService.setCurrentUser(response.user);
         return response;
       },
     );

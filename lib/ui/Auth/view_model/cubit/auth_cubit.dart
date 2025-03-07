@@ -152,20 +152,5 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  _login({
-    required SignInIntent intent,
-  }) async {
-    emit(LoginLoadingState());
 
-    final result = await signinUsecase.invoke(
-        email: intent.email,
-        password: intent.password,
-        rememberMe: intent.rememberMe);
-
-    if (result is Success<UserResponse>) {
-      emit(LoginSuccessState(userResponse: result.data));
-    } else if (result is Error<UserResponse>) {
-      emit(LoginErrorState(message: result.exception.toString()));
-    }
-  }
 }
