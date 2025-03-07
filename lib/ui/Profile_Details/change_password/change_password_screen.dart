@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_exam_app/Shared/widgets/Validator.dart';
 import 'package:online_exam_app/Shared/widgets/custom_button.dart';
 import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
-import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/ui/Profile_Details/change_password/viewmodel/change_password_cubit.dart';
 import 'package:online_exam_app/ui/Profile_Details/change_password/viewmodel/change_password_intent.dart';
@@ -30,9 +29,10 @@ class ChangePasswordScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is ChangePasswordSuccessState) {
             Fluttertoast.showToast(msg: "Password changed successfully");
-            Navigator.pushReplacementNamed(
+            Navigator.pushNamedAndRemoveUntil(
               context,
-              AppStrings.profileDetailsScreenRoute,
+              AppStrings.homeScreenRoute,
+              (route) => false,
             );
           } else if (state is ChangePasswordErrorState) {
             Fluttertoast.showToast(msg: state.message);
@@ -43,9 +43,10 @@ class ChangePasswordScreen extends StatelessWidget {
             appBar: AppBar(
               leading: IconButton(
                 icon: Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => Navigator.pushReplacementNamed(
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
                   context,
-                  AppStrings.profileDetailsScreenRoute,
+                  AppStrings.homeScreenRoute,
+                  (route) => false,
                 ),
               ),
               title: Text(
