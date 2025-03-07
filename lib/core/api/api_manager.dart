@@ -1,75 +1,42 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/core/constants/constants.dart';
+import 'package:online_exam_app/core/services/token_storage_service.dart';
 import 'package:online_exam_app/core/services/token_storage_service.dart';
 
 @singleton
 class ApiManager {
   late Dio dio;
-  final TokenStorageService tokenStorage;
+  final TokenStorageService _tokenStorageService;
 
-  ApiManager(this.tokenStorage) {
+  ApiManager(this._tokenStorageService) {
     init();
   }
 
   void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: "https://exam.elevateegy.com/",
+        baseUrl: Constants.baseUrl,
         connectTimeout: Duration(seconds: 60),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        validateStatus: (status) {
-          return status! < 500;
-        },
       ),
     );
-
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          final token = await tokenStorage.getToken();
-          print('Using token: $token');
-          if (token != null && token.isNotEmpty) {
-            // Try different header format
-            options.headers = {
-              ...options.headers,
-              'Authorization': 'Bearer $token',
-              // Add token directly as well
-              'token': token,
-            };
-            print('Request URL: ${options.uri}');
-            print('Request Headers: ${options.headers}');
-          }
-          return handler.next(options);
-        },
-        onError: (error, handler) async {
-          print('Error Response: ${error.response?.data}');
-          print('Error Status Code: ${error.response?.statusCode}');
-          print('Error Headers: ${error.response?.headers}');
-          if (error.response?.statusCode == 401) {
-            await tokenStorage.clearToken();
-          }
-          return handler.next(error);
-        },
-        onResponse: (response, handler) {
-          print('Response Status: ${response.statusCode}');
-          print('Response Data: ${response.data}');
-          print('Response Headers: ${response.headers}');
-          return handler.next(response);
-        },
-      ),
-    );
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async{
+      String? token = await _tokenStorageService.getToken();
+      if (token != null) {
+        options.headers['token'] = token;
+      }
+      return handler.next(options);
+    }));
   }
 
   Future<Response> getRequest({
     required String endPoint,
     Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers
   }) async {
     var response = await dio.get(
       endPoint,
-      queryParameters: queryParameters,
+      queryParameters: queryParameters, options: Options(headers: headers)
     );
     return response;
   }

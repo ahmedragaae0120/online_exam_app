@@ -10,13 +10,11 @@ class SigninRepoImpl implements SignInRepoContract {
   @factoryMethod
   SigninRepoImpl(this.signInDataSourceContract);
   @override
-  Future<Result<UserResponse>> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<Result<UserResponse>> signIn(
+      {required String email,
+      required String password,
+     }) async {
     return signInDataSourceContract.signIn(
-      email: email,
-      password: password,
-    );
+        email: email, password: password);
   }
 }

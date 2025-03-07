@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/Validator.dart';
@@ -95,6 +97,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         onChanged: (bool? value) {
                           setState(() {
                             isChecked = value!;
+                            log(isChecked.toString());
                           });
                         },
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -6,7 +7,12 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Explore Screen'),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, AppStrings.examScreenRoute);
+        },
+        child: Text('Explore Screen'),
+      ),
     );
   }
 }
