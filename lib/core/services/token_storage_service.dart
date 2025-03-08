@@ -5,9 +5,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TokenStorageService {
   final SharedPreferences _prefs;
   static const String _tokenKey = 'auth_token';
+  static const String _userIdKey = 'user_id';
   static const String _rememberMeKey = 'remember_me';
 
   TokenStorageService(this._prefs);
+
+  Future<void> saveUserId(String userId) async {
+    try {
+      await _prefs.setString(_userIdKey, userId);
+    } catch (e) {
+      print('Error saving token: $e');
+    }
+  }
+
+  Future<String?> getUserId() async {
+    return _prefs.getString(_userIdKey);
+  }
 
   Future<void> saveToken(String token) async {
     try{await _prefs.setString(_tokenKey, token);

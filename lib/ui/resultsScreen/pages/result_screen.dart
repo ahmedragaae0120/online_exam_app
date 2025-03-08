@@ -2,52 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 import 'package:online_exam_app/core/Di/di.dart';
-import 'package:online_exam_app/core/services/user_service.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_cubit.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';
 import 'package:online_exam_app/ui/resultsScreen/widgets/ExamCard.dart';
 
-class ResultScreen extends StatefulWidget {
+class ResultScreen extends StatelessWidget {
   const ResultScreen({super.key});
 
   @override
-  State<ResultScreen> createState() => _ResultScreenState();
-}
-
-class _ResultScreenState extends State<ResultScreen> {
-  final UserService userService = getIt<UserService>();
-
-  String? get userId => userService.getCurrentUser()?.id;
-
-  @override
   Widget build(BuildContext context) {
-    final cubit = ResultCubit.get(context);
+    final cubit = BlocProvider.of<ResultCubit>(
+        context); // Ensure cubit is provided before use
 
-    return BlocProvider(
-      create: (context) => getIt<ResultCubit>()..doIntent(GetResultsIntent()),
-      child: BlocConsumer<ResultCubit, ResultState>(
-        listener: (context, state) {
-          if (state is GetResultsStateError) {
-            toastMessage(
-                message: state.message, tybeMessage: TybeMessage.negative);
-          }
-          // Refresh after deletion
-          if (state is DeleteResultStateSuccess) {
-            cubit.doIntent(GetResultsIntent());
-          }
-        },
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(title: const Text("Results")),
-            body: state is GetResultsStateSuccess
-                ? state.result.isNotEmpty
-                    ? _buildGroupedResults(state.result, cubit)
-                    : _buildNoResultsMessage() // Show a message when no results exist
-                : const Center(child: CircularProgressIndicator()),
-          );
-        },
-      ),
+    return BlocConsumer<ResultCubit, ResultState>(
+      listener: (context, state) {
+        if (state is GetResultsStateError) {
+          toastMessage(
+              message: state.message, tybeMessage: TybeMessage.negative);
+        }
+        if (state is DeleteResultStateSuccess) {
+          cubit.doIntent(GetResultsIntent()); // Refresh results after deletion
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(title: const Text("Results")),
+          body: state is GetResultsStateSuccess
+              ? state.result.isNotEmpty
+                  ? _buildGroupedResults(state.result, cubit)
+                  : _buildNoResultsMessage() // Show message when no results exist
+              : const Center(child: CircularProgressIndicator()),
+        );
+      },
     );
   }
 
@@ -72,13 +59,15 @@ class _ResultScreenState extends State<ResultScreen> {
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            ...entry.value.map((result) => ExamCard(
-                  onDelete: () {
-                    cubit.doIntent(deleteResultIntent(
-                      examId: result.examId ?? "",
-                    ));
-                  },
-                  result: result,
+            ...entry.value.map((result) => BlocProvider.value(
+                  value: cubit,
+                  child: ExamCard(
+                    onDelete: () {
+                      cubit.doIntent(
+                          deleteResultIntent(examId: result.examId ?? ""));
+                    },
+                    result: result,
+                  ),
                 )),
           ],
         );
@@ -89,7 +78,7 @@ class _ResultScreenState extends State<ResultScreen> {
   Widget _buildNoResultsMessage() {
     return const Center(
       child: Text(
-        "No  results available",
+        "No results available",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
       ),
     );

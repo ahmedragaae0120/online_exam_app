@@ -39,11 +39,21 @@ class ResultChoiceWidget extends StatelessWidget {
                 onChanged: null,
                 side: BorderSide(color: AppColors.blue_base),
               )
-            : Icon(
-                choiceType == ChoiceType.correct ? Icons.check : Icons.close,
-                color: choiceType == ChoiceType.correct
-                    ? AppColors.success
-                    : AppColors.error,
+            : Container(
+                height: 24,
+                width: 24,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    color: _getBackgroundColor(choiceType),
+                    border: Border.all(
+                      color: _getBackgroundColor(choiceType),
+                    )),
+                child: Icon(
+                    size: 18,
+                    choiceType == ChoiceType.correct
+                        ? Icons.check
+                        : Icons.close,
+                    color: Colors.white),
               ),
         title: Text(answerText ?? ""),
         contentPadding: const EdgeInsets.symmetric(horizontal: 10),
@@ -59,5 +69,11 @@ class ResultChoiceWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color _getBackgroundColor(ChoiceType choiceType) {
+    return choiceType == ChoiceType.correct
+        ? AppColors.success
+        : AppColors.error;
   }
 }

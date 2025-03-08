@@ -95,7 +95,9 @@ class AuthCubit extends Cubit<AuthState> {
         if (result.data?.token != null) {
           // Add ?. operator here
           await tokenStorage.saveToken(result.data!.token!);
+          await tokenStorage.saveUserId(result.data?.user?.id ?? "");
           print('Token saved: ${result.data!.token}');
+
           emit(LoginSuccessState(userResponse: result.data));
         }
         break;

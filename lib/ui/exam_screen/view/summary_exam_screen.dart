@@ -37,7 +37,8 @@ class SummaryExamScreen extends StatelessWidget {
               Icons.arrow_back_rounded,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, AppStrings.homeScreenRoute);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AppStrings.homeScreenRoute, (route) => false);
             },
           )),
       body: BlocBuilder<QuestionsCubit, QuestionsState>(

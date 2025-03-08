@@ -1,23 +1,24 @@
 import 'dart:convert';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/Di/di.dart';
-import 'package:online_exam_app/core/services/user_service.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+import 'token_storage_service.dart';
+
 @singleton
 class DatabaseHelper {
   static Database? _database;
-  final UserService userService;
-
-  String? get userId => userService.getCurrentUser()?.id;
+  final TokenStorageService _tokenStorageService;
+  late String userId;
 
   @factoryMethod
-  DatabaseHelper(this.userService);
+  DatabaseHelper(this._tokenStorageService);
 
   /// Returns the database instance, initializing it if necessary.
   Future<Database> get database async {
+    userId = (await _tokenStorageService.getUserId()) ?? "";
     if (_database != null) return _database!;
     _database = await _initDB();
     return _database!;
@@ -36,7 +37,8 @@ class DatabaseHelper {
   }
 
   /// Creates a table for storing exam results for a specific user.
-  Future<void> createUserTable(String userId) async {
+  Future<void> createUserTable() async {
+    String? userId = await _tokenStorageService.getUserId();
     final db = await database;
     await db.execute('''
       CREATE TABLE IF NOT EXISTS results_$userId (
@@ -56,8 +58,8 @@ class DatabaseHelper {
   /// Inserts an exam result for a specific user.
   Future<int> insertResult(ResultModel result) async {
     final db = await database;
-    await createUserTable(userId ?? "");
-    print("$userId 😂❤️❤️🌋💕😍❤️💕");
+    await createUserTable();
+
     // Use the toDatabaseJson method from ResultModel
     final Map<String, dynamic> resultJson = result.toJson();
 
@@ -74,7 +76,7 @@ class DatabaseHelper {
   /// Retrieves all exam results for a specific user.
   Future<List<ResultModel>> getResults() async {
     final db = await database;
-    await createUserTable(userId ?? "");
+    await createUserTable();
 
     try {
       final List<Map<String, dynamic>> maps = await db.query('results_$userId');
@@ -99,7 +101,7 @@ class DatabaseHelper {
   /// Retrieves a specific exam result by its ID for a given user.
   Future<ResultModel?> getResultById(String examId) async {
     final db = await database;
-    await createUserTable(userId ?? "");
+    await createUserTable();
 
     try {
       final List<Map<String, dynamic>> maps = await db.query(
