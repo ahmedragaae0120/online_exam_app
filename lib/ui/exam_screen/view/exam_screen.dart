@@ -5,10 +5,13 @@ import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/assets_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
-import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/desktop/exam_screen_Desktop_body.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/layout_builder.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/mobile/exam_screen_body.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/tablet/exam_screen_Tablet_body.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_intent.dart';
-import 'package:online_exam_app/ui/exam_screen/widgets/exam_screen_body.dart';
+import 'package:online_exam_app/ui/exam_screen/widgets/show_timeout_dialog.dart';
 
 class ExamScreen extends StatefulWidget {
   const ExamScreen({super.key});
@@ -45,7 +48,7 @@ class _ExamScreenState extends State<ExamScreen> {
           } else {
             Future.microtask(() {
               setState(() {
-                endTime = DateTime.now().add(Duration(seconds: 3));
+                endTime = DateTime.now().add(Duration(minutes: 1));
               });
             });
           }
@@ -78,17 +81,7 @@ class _ExamScreenState extends State<ExamScreen> {
                         ),
                         endTime: endTime,
                         onEnd: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BlocProvider.value(
-                                value: cubit..doIntent(CheckAnswersIntent()),
-                                child: SummaryExamScreen(
-                                  countOfQuestions: cubit.countOfQuestions,
-                                ),
-                              ),
-                            ),
-                          );
+                          showTimeoutDialog(context, cubit);
                         },
                       ),
                     ],
@@ -111,9 +104,13 @@ class _ExamScreenState extends State<ExamScreen> {
                 return Center(
                     child: Text("No Questions", style: AppTextStyle.regular25));
               } else {
-                return ExamScreenBody(
-                  getQuestionsSuccessState: state,
-                );
+                return LayoutBuilderWidget(
+                    mobileLayout: (context) =>
+                        ExamScreenBody(getQuestionsSuccessState: state),
+                    tabletLayout: (context) =>
+                        ExamScreenTabletBody(getQuestionsSuccessState: state),
+                    desktopLayout: (context) =>
+                        ExamScreenDesktopBody(getQuestionsSuccessState: state));
               }
             }
             if (state is GetQuestionsErrorState) {

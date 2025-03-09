@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/desktop/summary_exam_desktop_body.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/layout_builder.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/mobile/summary_exam_body.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
-import 'package:online_exam_app/ui/exam_screen/widgets/Score_Indicator.dart';
-import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SummaryExamScreen extends StatelessWidget {
   final int countOfQuestions;
@@ -17,9 +16,6 @@ class SummaryExamScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Config().init(context);
-    double area = (Config.screenHight! + Config.screenWidth!) * 2;
-
     return Scaffold(
       appBar: AppBar(
           title: Text(
@@ -51,75 +47,11 @@ class SummaryExamScreen extends StatelessWidget {
           }
 
           if (state is CheckAnswersSuccessState) {
-            String? totalString =
-                state.qestionsResultResponse?.total?.replaceAll("%", "");
-
-            double totalDouble = state.qestionsResultResponse?.total != "NaN%"
-                ? double.tryParse(totalString ?? "") ?? 0.0
-                : 0.0;
-            totalDouble = totalDouble / 100;
-            int totalInt = state.qestionsResultResponse?.total != "NaN%"
-                ? (double.tryParse(totalString ?? "")?.round() ?? 0)
-                : 0;
-
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                spacing: 24,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "Your score",
-                    style: AppTextStyle.medium20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: CircularPercentIndicator(
-                          radius: area * 0.03,
-                          lineWidth: 10,
-                          percent: totalDouble,
-                          center: Text(
-                            "$totalInt%",
-                            style: AppTextStyle.medium20,
-                          ),
-                          progressColor: Theme.of(context).colorScheme.primary,
-                          animation: true,
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              ScoreIndicator(
-                                  label: "Correct",
-                                  count: state.qestionsResultResponse?.correct
-                                          ?.toInt() ??
-                                      0,
-                                  isCorrect: true),
-                              ScoreIndicator(
-                                  label: "Incorrect",
-                                  count: state.qestionsResultResponse?.wrong
-                                          ?.toInt() ??
-                                      0,
-                                  isCorrect: false),
-                            ]),
-                      )
-                    ],
-                  ),
-                  OutlinedFilledButton(
-                      text: "Show results", onTap: () {}, borderSide: false),
-                  OutlinedFilledButton(
-                      text: "Start again",
-                      onTap: () {
-                        Navigator.pushReplacementNamed(
-                            context, AppStrings.examScreenRoute);
-                      },
-                      borderSide: true),
-                ],
-              ),
-            );
+            return LayoutBuilderWidget(
+                mobileLayout: (context) => SummaryExamBody(state: state),
+                tabletLayout: (context) => SummaryExamBody(state: state),
+                desktopLayout: (context) =>
+                    SummaryExamDesktopBody(state: state));
           }
           return Center(child: CircularProgressIndicator());
         },

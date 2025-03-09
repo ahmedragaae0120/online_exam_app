@@ -11,10 +11,10 @@ import 'package:online_exam_app/ui/exam_screen/widgets/LinearProgress_custom.dar
 import 'package:online_exam_app/ui/exam_screen/widgets/answer_builder.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.dart';
 
-class ExamScreenBody extends StatelessWidget {
+class ExamScreenTabletBody extends StatelessWidget {
   final GetQuestionsSuccessState getQuestionsSuccessState;
 
-  const ExamScreenBody({
+  const ExamScreenTabletBody({
     super.key,
     required this.getQuestionsSuccessState,
   });
