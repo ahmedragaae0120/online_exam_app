@@ -5,6 +5,10 @@ import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/assets_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
+import 'package:online_exam_app/data/model/Result/ResultModel.dart';
+import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
+import 'package:online_exam_app/data/model/questions_response/qestions_result_response/QuestionResultResponse.dart';
+import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/layouts/desktop/exam_screen_Desktop_body.dart';
 import 'package:online_exam_app/ui/exam_screen/layouts/layout_builder.dart';
 import 'package:online_exam_app/ui/exam_screen/layouts/mobile/exam_screen_body.dart';
@@ -21,7 +25,10 @@ class ExamScreen extends StatefulWidget {
 }
 
 class _ExamScreenState extends State<ExamScreen> {
+  QuestionResponse? questionResponse;
+  GetQuestionsSuccessState? resultSuccessState;
   late DateTime endTime = DateTime.now().add(Duration(seconds: 10));
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +48,7 @@ class _ExamScreenState extends State<ExamScreen> {
     return BlocListener<QuestionsCubit, QuestionsState>(
       listener: (context, state) {
         if (state is GetQuestionsSuccessState) {
+          questionResponse = state.questionResponse;
           if (state.questionResponse?.questions?.isEmpty ?? true) {
             setState(() {
               endTime = DateTime.now();
@@ -48,7 +56,10 @@ class _ExamScreenState extends State<ExamScreen> {
           } else {
             Future.microtask(() {
               setState(() {
-                endTime = DateTime.now().add(Duration(minutes: 1));
+                endTime = DateTime.now().add(Duration(
+                    minutes:
+                        state.questionResponse?.questions?[0].exam?.duration ??
+                            10));
               });
             });
           }
@@ -62,6 +73,9 @@ class _ExamScreenState extends State<ExamScreen> {
             actions: [
               BlocBuilder<QuestionsCubit, QuestionsState>(
                 builder: (context, state) {
+                  if (state is GetQuestionsSuccessState) {
+                    resultSuccessState = state;
+                  }
                   if (state is GetQuestionsLoadingState) {
                     return Text("loading please wait...",
                         style: AppTextStyle.regular25);
@@ -81,7 +95,11 @@ class _ExamScreenState extends State<ExamScreen> {
                         ),
                         endTime: endTime,
                         onEnd: () {
-                          showTimeoutDialog(context, cubit);
+                          showTimeoutDialog(
+                              context: context,
+                              cubit: cubit,
+                              getQuestionsSuccessState: resultSuccessState ??
+                                  GetQuestionsSuccessState());
                         },
                       ),
                     ],

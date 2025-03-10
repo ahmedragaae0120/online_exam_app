@@ -41,3 +41,17 @@ class CheckAnswersErrorState extends QuestionsState {
   String? message;
   CheckAnswersErrorState({this.message});
 }
+
+class AddResultStateSuccess extends QuestionsState {
+  final bool added;
+
+  AddResultStateSuccess({required this.added});
+}
+
+class AddResultStateError extends QuestionsState {
+  final String message;
+
+  AddResultStateError({required this.message});
+}
+
+class AddResultStateLoading extends QuestionsState {}

@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/Score_Indicator.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.dart';
+import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_cubit.dart';
+import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';
+import 'package:online_exam_app/ui/resultsScreen/pages/Answers%20Screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SummaryExamDesktopBody extends StatelessWidget {
   final CheckAnswersSuccessState state;
-  const SummaryExamDesktopBody({super.key, required this.state});
+  String examId;
+
+  SummaryExamDesktopBody(
+      {super.key, required this.examId, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +82,20 @@ class SummaryExamDesktopBody extends StatelessWidget {
           ),
           Config.spaceMedium,
           OutlinedFilledButton(
-              text: "Show results", onTap: () {}, borderSide: false),
+              text: "Show results",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => getIt<ResultCubit>()
+                        ..doIntent(getResultByIdIntent(examId: examId)),
+                      child: AnswersScreen(),
+                    ),
+                  ),
+                );
+              },
+              borderSide: false),
           OutlinedFilledButton(
               text: "Start again",
               onTap: () {

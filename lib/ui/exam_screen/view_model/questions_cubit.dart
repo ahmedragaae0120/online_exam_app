@@ -1,11 +1,14 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
+import 'package:online_exam_app/data/model/questions_response/qestions_result_response/CorrectQuestions.dart';
 import 'package:online_exam_app/data/model/questions_response/qestions_result_response/QuestionResultResponse.dart';
-import 'package:online_exam_app/data/model/questions_response/question_response.dart';
+import 'package:online_exam_app/data/model/questions_response/qestions_result_response/WrongQuestions.dart';
 import 'package:online_exam_app/domain/common/result.dart';
+import 'package:online_exam_app/domain/use_cases/Results/AddResultUseCase.dart';
+import 'package:online_exam_app/domain/use_cases/Results/GetResults.dart';
 import 'package:online_exam_app/domain/use_cases/check_answers_usecase.dart';
 import 'package:online_exam_app/domain/use_cases/get_questions_usecase.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_intent.dart';
@@ -17,7 +20,11 @@ class QuestionsCubit extends Cubit<QuestionsState> {
   @factoryMethod
   final GetQuestionsUseCase getQuestionsUseCase;
   final CheckAnswersUsecase checkAnswersUsecase;
-  QuestionsCubit(this.getQuestionsUseCase, this.checkAnswersUsecase)
+  final AddResultUseCase addResultUseCase;
+  GetResultsUseCase getResultsIseCase;
+
+  QuestionsCubit(this.addResultUseCase, this.getResultsIseCase,
+      this.getQuestionsUseCase, this.checkAnswersUsecase)
       : super(QuestionsInitial()) {
     log("🚀 GetQuestionsCubit Initialized! selectedAnswersMap: $selectedAnswersMap");
   }
@@ -44,12 +51,16 @@ class QuestionsCubit extends Cubit<QuestionsState> {
       case CheckAnswersIntent():
         _checkAnswers();
         break;
+      case addResultIntent():
+        _addResult(intent: intent);
+        break;
     }
   }
 
   int quesionCurrent = 1;
   int countOfQuestions = 0;
-
+  List<WrongQuestions>? wrongQuestions;
+  List<CorrectQuestions>? correctQuestions;
   final Map<String, String?> selectedAnswersMap = {}; // تخزين الإجابات الفردية
   final Map<String, List<String?>> multiSelectedAnswersMap =
       {}; // تخزين إجابات متعددة
@@ -104,6 +115,22 @@ class QuestionsCubit extends Cubit<QuestionsState> {
     }
   }
 
+  _addResult({required addResultIntent intent}) async {
+    emit(AddResultStateLoading());
+    final response = await addResultUseCase.addResult(intent.result);
+    switch (response) {
+      case Success():
+        {
+          emit(AddResultStateSuccess(added: response.data ?? false));
+        }
+      case Error():
+        {
+          emit(AddResultStateError(
+              message: (response.exception as Exception).toString()));
+        }
+    }
+  }
+
   _checkAnswers() async {
     log("selectedAnswersMap: $selectedAnswersMap"); // طباعة محتويات الخريطة
     // تحويل البيانات إلى الهيكل المطلوب
@@ -124,6 +151,8 @@ class QuestionsCubit extends Cubit<QuestionsState> {
     switch (result) {
       case Success():
         {
+          wrongQuestions = result.data?.wrongQuestions;
+          correctQuestions = result.data?.correctQuestions;
           emit(CheckAnswersSuccessState(qestionsResultResponse: result.data));
         }
       case Error():

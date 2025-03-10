@@ -1,3 +1,4 @@
+
 import 'question.dart';
 
 class QuestionResponse {
@@ -16,7 +17,7 @@ class QuestionResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'message': message,
-        'questions': questions?.map((e) => e.toJson()).toList(),
-      };
+    'message': message,
+    'questions': questions?.map((e) => e.toJson()).toList(),
+  };
 }

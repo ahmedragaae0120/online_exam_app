@@ -5,8 +5,9 @@ import 'package:online_exam_app/core/api/api_endpoints.dart';
 import 'package:online_exam_app/core/api/api_excuter.dart';
 import 'package:online_exam_app/core/api/api_manager.dart';
 import 'package:online_exam_app/data/data_source_contract/questions%20_datasource/questions_datasource_contract.dart';
+import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
 import 'package:online_exam_app/data/model/questions_response/qestions_result_response/QuestionResultResponse.dart';
-import 'package:online_exam_app/data/model/questions_response/question_response.dart';
+
 import 'package:online_exam_app/domain/common/result.dart';
 
 @Injectable(as: QuestionsDatasourceContract)
@@ -27,7 +28,7 @@ class QuestionsDatasourceImpl implements QuestionsDatasourceContract {
           },
         );
         QuestionResponse response =
-            QuestionResponse.fromJson(apiResponse.data ?? {});
+        QuestionResponse.fromJson(apiResponse.data ?? {});
         return response;
       },
     );

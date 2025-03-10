@@ -20,7 +20,6 @@ import 'package:online_exam_app/core/utils/string_manager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
-
   Bloc.observer = MyBlocObserver();
   final tokenStorage = getIt<TokenStorageService>();
   final token = await tokenStorage.getToken();

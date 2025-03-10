@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 
@@ -7,9 +8,9 @@ class SingleChoiceAnswerWidget extends StatelessWidget {
   final VoidCallback onSelect;
   const SingleChoiceAnswerWidget(
       {super.key,
-      required this.answerText,
-      required this.isSelected,
-      required this.onSelect});
+        required this.answerText,
+        required this.isSelected,
+        required this.onSelect});
 
   @override
   Widget build(BuildContext context) {

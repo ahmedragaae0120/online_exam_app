@@ -7,7 +7,9 @@ import 'package:online_exam_app/ui/Profile_Details/profile_details_screen.dart';
 import 'package:online_exam_app/Shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_cubit.dart';
 import 'package:online_exam_app/ui/explorescreen/explore_screen.dart';
-import 'package:online_exam_app/ui/resultscreen/result_screen.dart';
+import 'resultsScreen/VeiwModel/result_cubit.dart';
+import 'resultsScreen/VeiwModel/result_intent.dart';
+import 'resultsScreen/pages/result_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,7 +23,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     ExploreScreen(),
-    ResultScreen(),
+    BlocProvider(
+      create: (context) => getIt<ResultCubit>()
+        ..doIntent(GetResultsIntent()), // Fetch results on creation
+      child: const ResultScreen(),
+    ),
     BlocProvider(
       create: (context) => getIt<ProfileCubit>(),
       child: ProfileDetailsScreen(),

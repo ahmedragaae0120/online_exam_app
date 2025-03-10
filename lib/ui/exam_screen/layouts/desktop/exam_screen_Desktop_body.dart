@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
+import 'package:online_exam_app/data/model/Result/ResultModel.dart';
+import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
@@ -14,7 +16,7 @@ import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.da
 class ExamScreenDesktopBody extends StatelessWidget {
   final GetQuestionsSuccessState getQuestionsSuccessState;
 
-  const ExamScreenDesktopBody({
+  ExamScreenDesktopBody({
     super.key,
     required this.getQuestionsSuccessState,
   });
@@ -87,13 +89,15 @@ class ExamScreenDesktopBody extends StatelessWidget {
                                 : "Next",
                             onTap: () {
                               if (cubit.quesionCurrent == totalQuestions) {
+                                cubit.doIntent(CheckAnswersIntent());
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => BlocProvider.value(
-                                      value: cubit
-                                        ..doIntent(CheckAnswersIntent()),
+                                      value: cubit,
                                       child: SummaryExamScreen(
+                                        getQuestionsSuccessState:
+                                            getQuestionsSuccessState,
                                         countOfQuestions: totalQuestions,
                                       ),
                                     ),
