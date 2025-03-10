@@ -9,9 +9,13 @@ import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
 import 'package:online_exam_app/data/model/questions_response/qestions_result_response/QuestionResultResponse.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/desktop/exam_screen_Desktop_body.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/layout_builder.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/mobile/exam_screen_body.dart';
+import 'package:online_exam_app/ui/exam_screen/layouts/tablet/exam_screen_Tablet_body.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_intent.dart';
-import 'package:online_exam_app/ui/exam_screen/widgets/exam_screen_body.dart';
+import 'package:online_exam_app/ui/exam_screen/widgets/show_timeout_dialog.dart';
 
 class ExamScreen extends StatefulWidget {
   const ExamScreen({super.key});
@@ -52,10 +56,7 @@ class _ExamScreenState extends State<ExamScreen> {
           } else {
             Future.microtask(() {
               setState(() {
-                endTime = DateTime.now().add(Duration(
-                    minutes:
-                        state.questionResponse?.questions?[0].exam?.duration ??
-                            10));
+                endTime = DateTime.now().add(Duration(minutes: 1));
               });
             });
           }
@@ -81,55 +82,58 @@ class _ExamScreenState extends State<ExamScreen> {
                     children: [
                       Image.asset(AssetsManager.resourceClock),
                       TimerCountdown(
-                          enableDescriptions: false,
-                          format: CountDownTimerFormat.minutesSeconds,
-                          timeTextStyle: AppTextStyle.semiBold20.copyWith(
-                            color: AppColors.success,
-                          ),
-                          endTime: endTime,
-                          onEnd: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BlocProvider.value(
-                                  value: cubit..doIntent(CheckAnswersIntent()),
-                                  child: BlocListener<QuestionsCubit,
-                                      QuestionsState>(
-                                    listener: (context, state) {
-                                      if (state is CheckAnswersSuccessState) {
-                                        // Wait for checking to complete
-                                        cubit.doIntent(addResultIntent(
-                                          result: ResultModel(
-                                            correctQuestions:
-                                                cubit.correctQuestions,
-                                            selectedAnswersMap:
-                                                cubit.selectedAnswersMap,
-                                            wrongQuestions:
-                                                cubit.wrongQuestions,
-                                            subject: questionResponse
-                                                ?.questions![0].subject,
-                                            examId: questionResponse
-                                                ?.questions?[0].exam?.id,
-                                            message: questionResponse?.message,
-                                            questions:
-                                                questionResponse?.questions,
-                                            exam: questionResponse
-                                                ?.questions?[0].exam,
-                                          ),
-                                        ));
-                                      }
-                                    },
-                                    child: SummaryExamScreen(
-                                      examId: questionResponse
-                                              ?.questions?[0].exam?.id ??
-                                          "",
-                                      countOfQuestions: cubit.countOfQuestions,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
+                        enableDescriptions: false,
+                        format: CountDownTimerFormat.minutesSeconds,
+                        timeTextStyle: AppTextStyle.semiBold20.copyWith(
+                          color: AppColors.success,
+                        ),
+                        endTime: endTime,
+                        onEnd: () {
+                  // Navigator.push(
+                  // context,
+                  // MaterialPageRoute(
+                  // builder: (context) => BlocProvider.value(
+                  // value: cubit..doIntent(CheckAnswersIntent()),
+                  // child: BlocListener<QuestionsCubit,
+                  // QuestionsState>(
+                  // listener: (context, state) {
+                  // if (state is CheckAnswersSuccessState) {
+                  // // Wait for checking to complete
+                  // cubit.doIntent(addResultIntent(
+                  // result: ResultModel(
+                  // correctQuestions:
+                  // cubit.correctQuestions,
+                  // selectedAnswersMap:
+                  // cubit.selectedAnswersMap,
+                  // wrongQuestions:
+                  // cubit.wrongQuestions,
+                  // subject: questionResponse
+                  //     ?.questions![0].subject,
+                  // examId: questionResponse
+                  //     ?.questions?[0].exam?.id,
+                  // message: questionResponse?.message,
+                  // questions:
+                  // questionResponse?.questions,
+                  // exam: questionResponse
+                  //     ?.questions?[0].exam,
+                  // ),
+                  // ));
+                  // }
+                  // },
+                  // child: SummaryExamScreen(
+                  // examId: questionResponse
+                  //     ?.questions?[0].exam?.id ??
+                  // "",
+                  // countOfQuestions: cubit.countOfQuestions,
+                  // ),
+                  // ),
+                  // ),
+                  // ),
+                  // );
+                          showTimeoutDialog(context, cubit);
+                        },
+                      ),
+
                     ],
                   );
                 },
@@ -150,9 +154,13 @@ class _ExamScreenState extends State<ExamScreen> {
                 return Center(
                     child: Text("No Questions", style: AppTextStyle.regular25));
               } else {
-                return ExamScreenBody(
-                  getQuestionsSuccessState: state,
-                );
+                return LayoutBuilderWidget(
+                    mobileLayout: (context) =>
+                        ExamScreenBody(getQuestionsSuccessState: state),
+                    tabletLayout: (context) =>
+                        ExamScreenTabletBody(getQuestionsSuccessState: state),
+                    desktopLayout: (context) =>
+                        ExamScreenDesktopBody(getQuestionsSuccessState: state));
               }
             }
             if (state is GetQuestionsErrorState) {

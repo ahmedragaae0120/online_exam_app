@@ -26,14 +26,29 @@ class AnswerBuilder extends StatelessWidget {
     Config().init(context);
     final cubit = QuestionsCubit.get(context);
 
-    return ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: answers.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        String currentAnswer = answers[index].answer ?? '';
-        bool isSelected =
-            cubit.selectedAnswersMap[questionId] == answers[index].key;
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: Offset(1, 0),
+              end: Offset(0, 0),
+            ).animate(animation),
+            child: child,
+          ),
+        );
+      },
+      child: ListView.separated(
+        key: Key(questionId),
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: answers.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          String currentAnswer = answers[index].answer ?? '';
+          bool isSelected =
+              cubit.selectedAnswersMap[questionId] == answers[index].key;
 
         return answerType == AnswerType.single
             ? SingleChoiceAnswerWidget(
