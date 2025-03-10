@@ -26,7 +26,7 @@ class ExamScreen extends StatefulWidget {
 
 class _ExamScreenState extends State<ExamScreen> {
   QuestionResponse? questionResponse;
-
+  GetQuestionsSuccessState? resultSuccessState;
   late DateTime endTime = DateTime.now().add(Duration(seconds: 10));
 
   @override
@@ -56,7 +56,10 @@ class _ExamScreenState extends State<ExamScreen> {
           } else {
             Future.microtask(() {
               setState(() {
-                endTime = DateTime.now().add(Duration(minutes: 1));
+                endTime = DateTime.now().add(Duration(
+                    minutes:
+                        state.questionResponse?.questions?[0].exam?.duration ??
+                            10));
               });
             });
           }
@@ -70,6 +73,9 @@ class _ExamScreenState extends State<ExamScreen> {
             actions: [
               BlocBuilder<QuestionsCubit, QuestionsState>(
                 builder: (context, state) {
+                  if (state is GetQuestionsSuccessState) {
+                    resultSuccessState = state;
+                  }
                   if (state is GetQuestionsLoadingState) {
                     return Text("loading please wait...",
                         style: AppTextStyle.regular25);
@@ -78,27 +84,26 @@ class _ExamScreenState extends State<ExamScreen> {
                       (state.questionResponse?.questions?.isEmpty ?? true)) {
                     return SizedBox();
                   }
-                  return state is GetQuestionsSuccessState
-                      ? Row(
-                          children: [
-                            Image.asset(AssetsManager.resourceClock),
-                            TimerCountdown(
-                              enableDescriptions: false,
-                              format: CountDownTimerFormat.minutesSeconds,
-                              timeTextStyle: AppTextStyle.semiBold20.copyWith(
-                                color: AppColors.success,
-                              ),
-                              endTime: endTime,
-                              onEnd: () {
-                                showTimeoutDialog(
-                                    context: context,
-                                    cubit: cubit,
-                                    getQuestionsSuccessState: state);
-                              },
-                            ),
-                          ],
-                        )
-                      : SizedBox();
+                  return Row(
+                    children: [
+                      Image.asset(AssetsManager.resourceClock),
+                      TimerCountdown(
+                        enableDescriptions: false,
+                        format: CountDownTimerFormat.minutesSeconds,
+                        timeTextStyle: AppTextStyle.semiBold20.copyWith(
+                          color: AppColors.success,
+                        ),
+                        endTime: endTime,
+                        onEnd: () {
+                          showTimeoutDialog(
+                              context: context,
+                              cubit: cubit,
+                              getQuestionsSuccessState: resultSuccessState ??
+                                  GetQuestionsSuccessState());
+                        },
+                      ),
+                    ],
+                  );
                 },
               ),
             ]),
