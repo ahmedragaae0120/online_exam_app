@@ -4,6 +4,7 @@ import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
+import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
@@ -15,7 +16,7 @@ import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.da
 class ExamScreenTabletBody extends StatelessWidget {
   final GetQuestionsSuccessState getQuestionsSuccessState;
 
-  const ExamScreenTabletBody({
+  ExamScreenTabletBody({
     super.key,
     required this.getQuestionsSuccessState,
   });
@@ -91,59 +92,16 @@ class ExamScreenTabletBody extends StatelessWidget {
                               : "Next",
                           onTap: () {
                             if (cubit.quesionCurrent == totalQuestions) {
-                              cubit.doIntent(
-                                  CheckAnswersIntent()); // Just call it, don't wait
-
+                              cubit.doIntent(CheckAnswersIntent());
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => BlocProvider.value(
                                     value: cubit,
-                                    child: BlocListener<QuestionsCubit,
-                                        QuestionsState>(
-                                      listener: (context, state) {
-                                        if (state is CheckAnswersSuccessState) {
-                                          // Wait for checking to complete
-                                          cubit.doIntent(addResultIntent(
-                                            result: ResultModel(
-                                              correctQuestions:
-                                                  cubit.correctQuestions,
-                                              selectedAnswersMap:
-                                                  cubit.selectedAnswersMap,
-                                              wrongQuestions:
-                                                  cubit.wrongQuestions,
-                                              subject: getQuestionsSuccessState
-                                                  .questionResponse
-                                                  ?.questions![0]
-                                                  .subject,
-                                              examId: getQuestionsSuccessState
-                                                  .questionResponse
-                                                  ?.questions?[0]
-                                                  .exam
-                                                  ?.id,
-                                              message: getQuestionsSuccessState
-                                                  .questionResponse?.message,
-                                              questions:
-                                                  getQuestionsSuccessState
-                                                      .questionResponse
-                                                      ?.questions,
-                                              exam: getQuestionsSuccessState
-                                                  .questionResponse
-                                                  ?.questions?[0]
-                                                  .exam,
-                                            ),
-                                          ));
-                                        }
-                                      },
-                                      child: SummaryExamScreen(
-                                        examId: getQuestionsSuccessState
-                                                .questionResponse
-                                                ?.questions?[0]
-                                                .exam
-                                                ?.id ??
-                                            "",
-                                        countOfQuestions: totalQuestions,
-                                      ),
+                                    child: SummaryExamScreen(
+                                      getQuestionsSuccessState:
+                                          getQuestionsSuccessState,
+                                      countOfQuestions: totalQuestions,
                                     ),
                                   ),
                                 ),

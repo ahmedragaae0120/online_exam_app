@@ -78,64 +78,27 @@ class _ExamScreenState extends State<ExamScreen> {
                       (state.questionResponse?.questions?.isEmpty ?? true)) {
                     return SizedBox();
                   }
-                  return Row(
-                    children: [
-                      Image.asset(AssetsManager.resourceClock),
-                      TimerCountdown(
-                        enableDescriptions: false,
-                        format: CountDownTimerFormat.minutesSeconds,
-                        timeTextStyle: AppTextStyle.semiBold20.copyWith(
-                          color: AppColors.success,
-                        ),
-                        endTime: endTime,
-                        onEnd: () {
-                  // Navigator.push(
-                  // context,
-                  // MaterialPageRoute(
-                  // builder: (context) => BlocProvider.value(
-                  // value: cubit..doIntent(CheckAnswersIntent()),
-                  // child: BlocListener<QuestionsCubit,
-                  // QuestionsState>(
-                  // listener: (context, state) {
-                  // if (state is CheckAnswersSuccessState) {
-                  // // Wait for checking to complete
-                  // cubit.doIntent(addResultIntent(
-                  // result: ResultModel(
-                  // correctQuestions:
-                  // cubit.correctQuestions,
-                  // selectedAnswersMap:
-                  // cubit.selectedAnswersMap,
-                  // wrongQuestions:
-                  // cubit.wrongQuestions,
-                  // subject: questionResponse
-                  //     ?.questions![0].subject,
-                  // examId: questionResponse
-                  //     ?.questions?[0].exam?.id,
-                  // message: questionResponse?.message,
-                  // questions:
-                  // questionResponse?.questions,
-                  // exam: questionResponse
-                  //     ?.questions?[0].exam,
-                  // ),
-                  // ));
-                  // }
-                  // },
-                  // child: SummaryExamScreen(
-                  // examId: questionResponse
-                  //     ?.questions?[0].exam?.id ??
-                  // "",
-                  // countOfQuestions: cubit.countOfQuestions,
-                  // ),
-                  // ),
-                  // ),
-                  // ),
-                  // );
-                          showTimeoutDialog(context, cubit);
-                        },
-                      ),
-
-                    ],
-                  );
+                  return state is GetQuestionsSuccessState
+                      ? Row(
+                          children: [
+                            Image.asset(AssetsManager.resourceClock),
+                            TimerCountdown(
+                              enableDescriptions: false,
+                              format: CountDownTimerFormat.minutesSeconds,
+                              timeTextStyle: AppTextStyle.semiBold20.copyWith(
+                                color: AppColors.success,
+                              ),
+                              endTime: endTime,
+                              onEnd: () {
+                                showTimeoutDialog(
+                                    context: context,
+                                    cubit: cubit,
+                                    getQuestionsSuccessState: state);
+                              },
+                            ),
+                          ],
+                        )
+                      : SizedBox();
                 },
               ),
             ]),
