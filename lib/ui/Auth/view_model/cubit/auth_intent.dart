@@ -25,6 +25,8 @@ class SignUpIntent extends AuthIntent {
   });
 }
 
+class CheckAuthIntent extends AuthIntent {}
+
 /// =====================================================
 /// 🔑 LOGIN INTENT 🔑
 /// =====================================================
