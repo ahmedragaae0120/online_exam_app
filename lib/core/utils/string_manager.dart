@@ -95,4 +95,5 @@ number at least''';
   static const String ResultScreenRoute = '/ResultScreen';
   static const String examScreenRoute = "/exam-screen";
   static const String changePasswordScreenRoute = '/ChangePassword';
+  static const String exploreScreenRoute = '/exploreScreen';
 }

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
-import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
-import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_cubit.dart';
-import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';
 import 'package:online_exam_app/ui/resultsScreen/widgets/Answer%20Builder%20Result.dart';
 import 'package:online_exam_app/ui/resultsScreen/widgets/Result%20Choice%20Widget.dart';
 
@@ -16,7 +13,7 @@ class AnswersScreen extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    final cubit = ResultCubit.get(context);
+    ResultCubit.get(context);
 
     return Scaffold(
       appBar: AppBar(title: Text("Answers")),

@@ -1,5 +1,4 @@
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
-import 'package:online_exam_app/data/model/questions_response/Answers.dart';
 
 sealed class QuestionsIntent {}
 
@@ -35,7 +34,6 @@ class ResetIntent extends QuestionsIntent {
 class CheckAnswersIntent extends QuestionsIntent {
   CheckAnswersIntent();
 }
-
 
 class addResultIntent extends QuestionsIntent {
   ResultModel result;

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -31,8 +33,6 @@ class ExamCard extends StatelessWidget {
           ),
         );
       },
-
-
       child: Card(
         color: AppColors.white,
         elevation: 10,
@@ -67,11 +67,11 @@ class ExamCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   child: result.subject?.icon != null
                       ? Image.network(
-                    result.subject!.icon!,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  )
+                          result.subject!.icon!,
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        )
                       : Icon(Icons.image_not_supported_rounded, size: 80),
                 ),
                 SizedBox(width: 16),
@@ -90,8 +90,7 @@ class ExamCard extends StatelessWidget {
                           ),
                           Spacer(),
                           Text(
-                            "${result.exam?.duration.toString() ??
-                                "0"} Minutes",
+                            "${result.exam?.duration.toString() ?? "0"} Minutes",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[600],

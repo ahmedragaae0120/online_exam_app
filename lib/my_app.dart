@@ -13,6 +13,9 @@ import 'package:online_exam_app/ui/Profile_Details/change_password/change_passwo
 import 'package:online_exam_app/ui/Profile_Details/profile_details_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view/exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
+import 'package:online_exam_app/ui/explorescreen/explore_screen.dart';
+import 'package:online_exam_app/ui/explorescreen/viewmodel/cubit/explore_cubit.dart';
+import 'package:online_exam_app/ui/explorescreen/viewmodel/cubit/explore_intent.dart';
 import 'package:online_exam_app/ui/home_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -27,44 +30,49 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     print('Building app with token: $initialToken');
     return MaterialApp(
-        theme: MyThemeData.LightTheme,
-        debugShowCheckedModeBanner: false,
-        routes: {
-          AppStrings.homeScreenRoute: (context) => HomeScreen(),
-          AppStrings.loginScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: SignInScreen(),
-              ),
-          AppStrings.singUpScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: SignUpScreen(),
-              ),
-          AppStrings.enterEmailForgetPasswordScreenRoute: (context) =>
-              BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: EnterEmailForgetPassword(),
-              ),
-          AppStrings.emailVerificationScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: EmailVerification(),
-              ),
-          AppStrings.putNewPasswordScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<AuthCubit>(),
-                child: PutNewPassword(),
-              ),
-          AppStrings.examScreenRoute: (context) => BlocProvider(
-                create: (context) => getIt<QuestionsCubit>(),
-                child: ExamScreen(),
-              ),
-          // In the routes map, update the profile route:
-          AppStrings.profileDetailsScreenRoute: (context) =>
-              ProfileDetailsScreen(),
-          AppStrings.changePasswordScreenRoute: (context) =>
-          const ChangePasswordScreen(),
-        },
-        initialRoute: initialToken != null
-        ? AppStrings.homeScreenRoute // Navigate to home if token exists
-        : AppStrings.loginScreenRoute, // Navigate to login if no token);
+      theme: MyThemeData.LightTheme,
+      debugShowCheckedModeBanner: false,
+      routes: {
+        AppStrings.homeScreenRoute: (context) => HomeScreen(),
+        AppStrings.loginScreenRoute: (context) => BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: SignInScreen(),
+            ),
+        AppStrings.singUpScreenRoute: (context) => BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: SignUpScreen(),
+            ),
+        AppStrings.enterEmailForgetPasswordScreenRoute: (context) =>
+            BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: EnterEmailForgetPassword(),
+            ),
+        AppStrings.emailVerificationScreenRoute: (context) => BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: EmailVerification(),
+            ),
+        AppStrings.putNewPasswordScreenRoute: (context) => BlocProvider(
+              create: (context) => getIt<AuthCubit>(),
+              child: PutNewPassword(),
+            ),
+        AppStrings.examScreenRoute: (context) => BlocProvider(
+              create: (context) => getIt<QuestionsCubit>(),
+              child: ExamScreen(),
+            ),
+        // In the routes map, update the profile route:
+        AppStrings.profileDetailsScreenRoute: (context) =>
+            ProfileDetailsScreen(),
+        AppStrings.changePasswordScreenRoute: (context) =>
+            const ChangePasswordScreen(),
+        AppStrings.exploreScreenRoute: (context) => BlocProvider(
+              create: (context) =>
+                  getIt<ExploreCubit>()..doIntent(GetSubjectsIntent()),
+              child: const ExploreScreen(),
+            ),
+      },
+      initialRoute: initialToken != null
+          ? AppStrings.homeScreenRoute // Navigate to home if token exists
+          : AppStrings.loginScreenRoute, // Navigate to login if no token);
     );
   }
 }

@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
-import 'package:online_exam_app/data/model/Result/ResultModel.dart';
-import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';

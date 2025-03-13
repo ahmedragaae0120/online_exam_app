@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:injectable/injectable.dart';
-import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';

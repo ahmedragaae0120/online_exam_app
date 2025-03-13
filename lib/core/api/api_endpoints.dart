@@ -9,4 +9,5 @@ class ApiEndpoints {
   static const String profileDataEndpoint = 'api/v1/auth/profileData';
   static const String editProfileEndpoint = 'api/v1/auth/editProfile';
   static const String changePasswordEndpoint = 'api/v1/auth/changePassword';
+  static const String getAllSubjectsEndpoint = 'api/v1/subjects';
 }
