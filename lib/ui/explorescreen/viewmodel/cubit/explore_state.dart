@@ -1,3 +1,5 @@
+import 'package:online_exam_app/data/model/subject/subject.dart';
+
 sealed class ExploreState {}
 
 class ExploreInitial extends ExploreState {}
@@ -5,7 +7,7 @@ class ExploreInitial extends ExploreState {}
 class ExploreLoadingState extends ExploreState {}
 
 class ExploreLoadedState extends ExploreState {
-  final List<dynamic> subjects;
+  final List<Subject> subjects;
   ExploreLoadedState({required this.subjects});
 }
 

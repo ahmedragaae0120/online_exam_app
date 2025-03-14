@@ -11,6 +11,9 @@ import 'package:online_exam_app/ui/Auth/Sign_Up/sign_up_screen.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/ui/Profile_Details/change_password/change_password_screen.dart';
 import 'package:online_exam_app/ui/Profile_Details/profile_details_screen.dart';
+import 'package:online_exam_app/ui/all_exams_on_subject/all_exams_on_subject_screen.dart';
+import 'package:online_exam_app/ui/all_exams_on_subject/viewmodel/get_all_exams_on_subject_cubit.dart';
+import 'package:online_exam_app/ui/all_exams_on_subject/viewmodel/get_all_exams_on_subject_intent.dart';
 import 'package:online_exam_app/ui/exam_screen/view/exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
 import 'package:online_exam_app/ui/explorescreen/explore_screen.dart';
@@ -69,6 +72,18 @@ class MyApp extends StatelessWidget {
                   getIt<ExploreCubit>()..doIntent(GetSubjectsIntent()),
               child: const ExploreScreen(),
             ),
+        AppStrings.getAllExamsOnSubjectScreenRoute: (context) {
+          final args =
+              ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+          return BlocProvider(
+            create: (context) => getIt<AllExamsCubit>()
+              ..doIntent(GetAllExamsOnSubjectIntent(args['subjectId']!)),
+            child: AllExamsOnSubjectScreen(
+              subjectId: args['subjectId']!,
+              subjectName: args['subjectName']!,
+            ),
+          );
+        },
       },
       initialRoute: initialToken != null
           ? AppStrings.homeScreenRoute // Navigate to home if token exists

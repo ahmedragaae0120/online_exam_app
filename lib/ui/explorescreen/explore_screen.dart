@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/ui/explorescreen/viewmodel/cubit/explore_cubit.dart';
-import 'package:online_exam_app/ui/explorescreen/viewmodel/cubit/explore_intent.dart';
 import 'package:online_exam_app/ui/explorescreen/viewmodel/cubit/explore_state.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -78,7 +77,7 @@ class ExploreScreen extends StatelessWidget {
                                     width: 40,
                                     height: 40,
                                     child: Image.network(
-                                      subject['icon'],
+                                      subject.icon,
                                       errorBuilder:
                                           (context, error, stackTrace) {
                                         return Icon(Icons.subject, size: 30);
@@ -86,7 +85,7 @@ class ExploreScreen extends StatelessWidget {
                                     ),
                                   ),
                                   title: Text(
-                                    subject['name'],
+                                    subject.name,
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -95,8 +94,12 @@ class ExploreScreen extends StatelessWidget {
                                   onTap: () {
                                     Navigator.pushNamed(
                                       context,
-                                      AppStrings.examScreenRoute,
-                                      arguments: subject,
+                                      AppStrings
+                                          .getAllExamsOnSubjectScreenRoute,
+                                      arguments: {
+                                        'subjectId': subject.id,
+                                        'subjectName': subject.name,
+                                      },
                                     );
                                   },
                                 ),
@@ -117,19 +120,6 @@ class ExploreScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _getSubjectIcon(Map<String, dynamic> subject) {
-    return Container(
-      width: 40,
-      height: 100,
-      child: Image.network(
-        subject['icon'],
-        errorBuilder: (context, error, stackTrace) {
-          return Icon(Icons.subject, size: 30);
-        },
       ),
     );
   }
