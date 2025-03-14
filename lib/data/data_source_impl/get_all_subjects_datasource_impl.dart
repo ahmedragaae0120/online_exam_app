@@ -19,10 +19,6 @@ class GetAllSubjectsDatasourceImpl implements GetAllSubjectsDatasourceContract {
         endPoint: ApiEndpoints.getAllSubjectsEndpoint,
       );
 
-      if (response.data == null || response.data['subjects'] == null) {
-        return [];
-      }
-
       final subjects = response.data['subjects'] as List;
       return subjects.map((e) => Subject.fromJson(e)).toList();
     });

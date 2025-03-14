@@ -20,10 +20,6 @@ class GetAllExamsOnSubjectDatasourceImpl
         endPoint: ApiEndpoints.getExamsBySubjectEndpoint(subjectId),
       );
 
-      if (response.data == null || response.data['exams'] == null) {
-        return [];
-      }
-
       final exams = response.data['exams'] as List;
       return exams.map((e) => Exam.fromJson(e)).toList();
     });
