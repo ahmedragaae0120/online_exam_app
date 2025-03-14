@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,11 +25,19 @@ class TokenStorageService {
   }
 
   Future<void> saveToken(String token) async {
-    try{await _prefs.setString(_tokenKey, token);
-    }catch(e){
+    try {
+      await _prefs.setString(_tokenKey, token);
+    } catch (e) {
       print('Error saving token: $e');
     }
+  }
 
+  Future<void> saveRememberMe(bool rememberMe) async {
+    try {
+      await _prefs.setBool(_rememberMeKey, rememberMe);
+    } catch (e) {
+      print('Error saving token: $e');
+    }
   }
 
   Future<String?> getToken() async {
@@ -39,11 +49,15 @@ class TokenStorageService {
   }
 
   Future<void> clearToken() async {
-    try{
+    try {
       await _prefs.remove(_tokenKey);
       await _prefs.remove(_rememberMeKey);
-    } catch(e){
+      final token = await getToken();
+
+      log('✅✅✅ Token Deleted ✅✅✅');
+      log(token.toString());
+    } catch (e) {
       print('Error deleting token: $e');
     }
-    }
+  }
 }

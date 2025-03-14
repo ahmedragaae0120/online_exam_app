@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/services/token_storage_service.dart';
@@ -6,6 +8,7 @@ import 'package:online_exam_app/domain/common/result.dart';
 import 'package:online_exam_app/domain/use_cases/get_profile_usecase.dart.dart';
 import 'package:online_exam_app/domain/use_cases/update_profile_usecase.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_state.dart';
+
 import 'profile_intent.dart';
 
 @injectable
@@ -60,7 +63,10 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> logout() async {
     // Clear the stored token
+
     await tokenStorage.clearToken(); // Updated this line
+    await tokenStorage.saveRememberMe(false);
+    log("logout function called");
     emit(ProfileLogoutState());
   }
 

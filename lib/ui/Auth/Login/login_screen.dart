@@ -7,6 +7,8 @@ import 'package:online_exam_app/Shared/widgets/custom_button.dart';
 import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
+import 'package:online_exam_app/core/Di/di.dart';
+import 'package:online_exam_app/core/services/token_storage_service.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
@@ -36,6 +38,13 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final tokenService = getIt<TokenStorageService>();
+    tokenService.saveRememberMe(false);
   }
 
   @override
@@ -86,42 +95,44 @@ class _SignInScreenState extends State<SignInScreen> {
                   validator: Validator.password,
                 ),
 
-                  /* Remember Me & Forget Password */
-                  Row(
-                    children: [
-                      Checkbox(
-                        activeColor: Theme.of(context).primaryColor,
-                        value: isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isChecked = value!;
-                            log(isChecked.toString());
-                          });
+                /* Remember Me & Forget Password */
+                Row(
+                  children: [
+                    Checkbox(
+                      activeColor: Theme.of(context).primaryColor,
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value!;
+                          final tokenService = getIt<TokenStorageService>();
+                          tokenService.saveRememberMe(isChecked);
+                          log(isChecked.toString());
+                        });
+                      },
+                    ),
+                    Text(
+                      AppStrings.rememberMe,
+                      style: AppTextStyle.regular12,
+                    ),
+                    Spacer(),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context,
+                              AppStrings.enterEmailForgetPasswordScreenRoute);
                         },
+                        child: Text(AppStrings.forgetpassword,
+                            style: AppTextStyle.regular12),
                       ),
-                      Text(
-                        AppStrings.rememberMe,
-                        style: AppTextStyle.regular12,
-                      ),
-                      Spacer(),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context,
-                                AppStrings.enterEmailForgetPasswordScreenRoute);
-                          },
-                          child: Text(AppStrings.forgetpassword,
-                              style: AppTextStyle.regular12),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Config.spaceSmall,
-                  /* Login Button */
-                  CustomButton(
-                      onTap: () => _validateAndLogin(context),
-                      text: AppStrings.login),
+                    ),
+                  ],
+                ),
+                Config.spaceSmall,
+                /* Login Button */
+                CustomButton(
+                    onTap: () => _validateAndLogin(context),
+                    text: AppStrings.login),
 
                 /* Sign Up Option */
                 Row(

@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/services/token_storage_service.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
 import 'package:online_exam_app/domain/common/exceptions/server_error.dart';
 import 'package:online_exam_app/domain/common/result.dart';
@@ -49,10 +53,29 @@ class AuthCubit extends Cubit<AuthState> {
       case SignInIntent():
         _SignIn(intent: intent);
         break;
+      case CheckAuthIntent():
+        _CheekAuth();
+        break;
     }
   }
 
   static AuthCubit get(BuildContext context) => BlocProvider.of(context);
+
+  String? startRoute;
+  _CheekAuth() async {
+    log("CheekAuth");
+    final tokenService = getIt<TokenStorageService>();
+    String? token = await tokenService.getToken();
+    bool? isRememberMe = await tokenService.isRememberMe();
+    log("token: $token , isRememberMe: $isRememberMe");
+    if (token == null || isRememberMe == false) {
+      startRoute = AppStrings.loginScreenRoute;
+      log(startRoute.toString());
+    } else {
+      startRoute = AppStrings.homeScreenRoute;
+      log(startRoute.toString());
+    }
+  }
 
   _SignUp({required SignUpIntent intent}) async {
     emit(SignupLoadingState());
