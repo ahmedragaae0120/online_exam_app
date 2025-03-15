@@ -104,7 +104,10 @@ class SummaryExamDesktopBody extends StatelessWidget {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ExamScreen(examId: examId)));
+                        builder: (context) => BlocProvider(
+                              create: (context) => getIt<QuestionsCubit>(),
+                              child: ExamScreen(examId: examId),
+                            )));
               },
               borderSide: true),
         ],
