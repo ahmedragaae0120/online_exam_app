@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
-import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_cubit.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';

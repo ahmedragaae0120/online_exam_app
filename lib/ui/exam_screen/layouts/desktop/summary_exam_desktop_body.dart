@@ -1,9 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/utils/config.dart';
-import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
+import 'package:online_exam_app/ui/exam_screen/view/exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/Score_Indicator.dart';
 import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.dart';
@@ -99,8 +101,13 @@ class SummaryExamDesktopBody extends StatelessWidget {
           OutlinedFilledButton(
               text: "Start again",
               onTap: () {
-                Navigator.pushReplacementNamed(
-                    context, AppStrings.examScreenRoute);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                              create: (context) => getIt<QuestionsCubit>(),
+                              child: ExamScreen(examId: examId),
+                            )));
               },
               borderSide: true),
         ],

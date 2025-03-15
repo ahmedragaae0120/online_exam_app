@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/utils/assets_manager.dart';
-import 'package:online_exam_app/data/model/Result/ResultModel.dart';
-import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_intent.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
-import 'package:online_exam_app/ui/exam_screen/widgets/answer_builder.dart';
 
 enum ChoiceType { wrong, correct, empty }
 
@@ -8,7 +7,7 @@ class ResultChoiceWidget extends StatelessWidget {
   final String? answerText;
   final ChoiceType choiceType;
 
-  ResultChoiceWidget({
+  const ResultChoiceWidget({
     super.key,
     required this.choiceType,
     required this.answerText,
