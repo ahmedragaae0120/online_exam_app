@@ -73,7 +73,7 @@ class ExploreScreen extends StatelessWidget {
                                     horizontal: 16,
                                     vertical: 8,
                                   ),
-                                  leading: Container(
+                                  leading: SizedBox(
                                     width: 40,
                                     height: 40,
                                     child: Image.network(

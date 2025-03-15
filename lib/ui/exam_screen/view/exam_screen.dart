@@ -15,7 +15,8 @@ import 'package:online_exam_app/ui/exam_screen/view_model/questions_intent.dart'
 import 'package:online_exam_app/ui/exam_screen/widgets/show_timeout_dialog.dart';
 
 class ExamScreen extends StatefulWidget {
-  const ExamScreen({super.key});
+  final String examId;
+  const ExamScreen({super.key, required this.examId});
 
   @override
   State<ExamScreen> createState() => _ExamScreenState();
@@ -31,7 +32,7 @@ class _ExamScreenState extends State<ExamScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<QuestionsCubit>().doIntent(GetQuestionsIntent(
-            "670070a830a3c3c1944a9c63", // this id Contains questions
+            widget.examId, // this id Contains questions
             // "6700707030a3c3c1944a9c5d", // this id not Contains questions
           ));
     });

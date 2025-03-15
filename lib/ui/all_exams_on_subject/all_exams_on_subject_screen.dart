@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/ui/all_exams_on_subject/viewmodel/get_all_exams_on_subject_cubit.dart';
 import 'package:online_exam_app/ui/all_exams_on_subject/viewmodel/get_all_exams_on_subject_state.dart';
+import 'package:online_exam_app/ui/exam_screen/view/exam_screen.dart';
+import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
 
 class AllExamsOnSubjectScreen extends StatelessWidget {
   final String subjectId;
@@ -76,10 +81,18 @@ class AllExamsOnSubjectScreen extends StatelessWidget {
                         ),
                         onTap: () {
                           // Navigate to exam screen
-                          Navigator.pushNamed(
+                          log('Exam ID: ${exam.id}');
+                          Navigator.push(
                             context,
-                            '/exam',
-                            arguments: exam.id,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    BlocProvider<QuestionsCubit>(
+                                      create: (context) =>
+                                          getIt<QuestionsCubit>(),
+                                      child: ExamScreen(
+                                        examId: exam.id ?? '',
+                                      ),
+                                    )),
                           );
                         },
                       ),
