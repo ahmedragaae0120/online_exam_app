@@ -90,4 +90,5 @@ class AppStrings {
   static String get survey => "survey".tr();
   static String get logout => "logout".tr();
   static String get answers => "answers".tr();
+  static String get result => "result".tr();
 }
