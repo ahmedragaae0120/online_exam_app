@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
@@ -14,7 +15,7 @@ import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.da
 class ExamScreenTabletBody extends StatelessWidget {
   final GetQuestionsSuccessState getQuestionsSuccessState;
 
-  ExamScreenTabletBody({
+  const ExamScreenTabletBody({
     super.key,
     required this.getQuestionsSuccessState,
   });
@@ -48,7 +49,7 @@ class ExamScreenTabletBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Question ${cubit.quesionCurrent} of ${totalQuestions.toString()}",
+                "${AppStrings.question} ${cubit.quesionCurrent} ${AppStrings.of} ${totalQuestions.toString()}",
                 textAlign: TextAlign.center,
                 style: AppTextStyle.medium14.copyWith(color: AppColors.grey),
               ),
@@ -86,8 +87,8 @@ class ExamScreenTabletBody extends StatelessWidget {
                     Expanded(
                       child: OutlinedFilledButton(
                           text: cubit.quesionCurrent == totalQuestions
-                              ? "Submit"
-                              : "Next",
+                              ? AppStrings.submit
+                              : AppStrings.next,
                           onTap: () {
                             if (cubit.quesionCurrent == totalQuestions) {
                               cubit.doIntent(CheckAnswersIntent());

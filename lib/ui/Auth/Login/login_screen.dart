@@ -9,6 +9,7 @@ import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/services/token_storage_service.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
@@ -53,9 +54,10 @@ class _SignInScreenState extends State<SignInScreen> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is LoginSuccessState) {
-          Navigator.pushReplacementNamed(context, AppStrings.homeScreenRoute);
+          Navigator.pushReplacementNamed(context, AppRoutes.homeScreenRoute);
           toastMessage(
-              message: "Login Successfully", tybeMessage: TybeMessage.positive);
+              message: AppStrings.loginSuccessfully,
+              tybeMessage: TybeMessage.positive);
         }
         if (state is LoginErrorState) {
           toastMessage(
@@ -120,7 +122,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context,
-                              AppStrings.enterEmailForgetPasswordScreenRoute);
+                              AppRoutes.enterEmailForgetPasswordScreenRoute);
                         },
                         child: Text(AppStrings.forgetpassword,
                             style: AppTextStyle.regular12),
@@ -145,7 +147,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     TextButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(
-                            context, AppStrings.singUpScreenRoute);
+                            context, AppRoutes.singUpScreenRoute);
                       },
                       child: Text(
                         AppStrings.signUp,

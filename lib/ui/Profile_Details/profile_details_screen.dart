@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/custom_button.dart';
 import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_cubit.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_intent.dart';
@@ -35,7 +36,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile Details'),
+        title: Text(AppStrings.profile),
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
@@ -90,8 +91,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
 
                   // Form Fields
                   CustomTextField(
-                    label: 'Username',
-                    placeholder: 'Enter your username',
+                    label: AppStrings.userName,
+                    placeholder: AppStrings.enterUserName,
                     controller: _usernameController,
                   ),
                   // ... other widgets ...
@@ -100,14 +101,14 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomTextField(
-                        label: 'Firstname',
-                        placeholder: 'Enter your firstname',
+                        label: AppStrings.firstName,
+                        placeholder: AppStrings.enterYourFirstName,
                         controller: _firstNameController,
                       ),
                       SizedBox(width: 16),
                       CustomTextField(
-                        label: 'Lastname',
-                        placeholder: 'Enter your lastname',
+                        label: AppStrings.lastName,
+                        placeholder: AppStrings.enterYourLastName,
                         controller: _lastNameController,
                       ),
                     ],
@@ -115,15 +116,15 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   SizedBox(height: 16),
 
                   CustomTextField(
-                    label: 'Email',
-                    placeholder: 'Enter your e-mail',
+                    label: AppStrings.email,
+                    placeholder: AppStrings.enterYourEmail,
                     controller: _emailController,
                   ),
                   SizedBox(height: 16),
 
                   CustomTextField(
-                    label: 'Phone number',
-                    placeholder: 'Enter your phone number',
+                    label: AppStrings.phoneNumber,
+                    placeholder: AppStrings.enterYourPhoneNumber,
                     controller: _phoneController,
                   ),
                   SizedBox(height: 16),
@@ -132,7 +133,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                     alignment: Alignment.centerRight,
                     children: [
                       CustomPasswordField(
-                        label: 'Password',
+                        label: AppStrings.password,
                         controller: _passwordController,
                         placeholder: '******',
                       ),
@@ -142,14 +143,14 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                           onPressed: () {
                             print('Change Button Clicked');
                             Navigator.pushReplacementNamed(
-                                context, AppStrings.changePasswordScreenRoute);
+                                context, AppRoutes.changePasswordScreenRoute);
                           },
                           style: TextButton.styleFrom(
                             minimumSize: Size.zero,
                             padding: EdgeInsets.symmetric(horizontal: 8),
                           ),
                           child: Text(
-                            'Change',
+                            AppStrings.change,
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
@@ -161,7 +162,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   ),
                   SizedBox(height: 32),
                   CustomButton(
-                    text: 'Update',
+                    text: AppStrings.update,
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
                         final updateIntent = UpdateProfileIntent(
@@ -178,11 +179,11 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   ),
                   SizedBox(height: 16),
                   CustomButton(
-                    text: 'Logout',
+                    text: AppStrings.logout,
                     onTap: () {
                       context.read<ProfileCubit>().doIntent(LogoutIntent());
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                        AppStrings.loginScreenRoute,
+                        AppRoutes.loginScreenRoute,
                         (route) => false,
                       );
                     },

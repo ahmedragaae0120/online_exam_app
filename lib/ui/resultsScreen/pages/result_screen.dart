@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_cubit.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_intent.dart';
@@ -26,7 +27,7 @@ class ResultScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: const Text("Results")),
+          appBar: AppBar(title: Text(AppStrings.showResults)),
           body: state is GetResultsStateSuccess
               ? state.result.isNotEmpty
                   ? _buildGroupedResults(state.result, cubit)

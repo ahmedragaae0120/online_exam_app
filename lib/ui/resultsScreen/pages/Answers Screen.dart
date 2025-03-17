@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/ui/resultsScreen/VeiwModel/result_cubit.dart';
 import 'package:online_exam_app/ui/resultsScreen/widgets/Answer%20Builder%20Result.dart';
@@ -16,7 +17,7 @@ class AnswersScreen extends StatelessWidget {
     ResultCubit.get(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Answers")),
+      appBar: AppBar(title: Text(AppStrings.answers)),
       body: BlocConsumer<ResultCubit, ResultState>(
         listener: (context, state) {
           if (state is GetResultByIdStateLoading) {

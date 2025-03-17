@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 
 class CustomPasswordField extends StatefulWidget {
   final String label;
-  final String placeholder;
+  final String? placeholder;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
 
   const CustomPasswordField({
     super.key,
     required this.label,
-    this.placeholder = 'Enter password',
+    this.placeholder, // ❌ إزالة `tr()` هنا لأنه يحتاج `BuildContext`
     this.controller,
     this.validator,
   });
@@ -37,8 +38,9 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
           controller: widget.controller,
           validator: widget.validator,
           obscureText: _obscureText,
-          decoration:
-              getInputDecoration(context, widget.label, widget.placeholder),
+          decoration: getInputDecoration(context, widget.label,
+              widget.placeholder ?? AppStrings.enterPassword // ✅ الحل هنا
+              ),
         ),
       ),
     );
@@ -47,7 +49,6 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   InputDecoration getInputDecoration(
       BuildContext context, String label, String hint) {
     final inputTheme = Theme.of(context).inputDecorationTheme;
-
 
     return InputDecoration(
       labelText: label,

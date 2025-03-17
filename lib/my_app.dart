@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/theme/Theme%20app.dart';
-import 'package:online_exam_app/core/utils/string_manager.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/ui/Auth/Forget%20Password/EmailVerifecation.dart';
 import 'package:online_exam_app/ui/Auth/Forget%20Password/EnterEmailForPasswordReset.dart';
 import 'package:online_exam_app/ui/Auth/Forget%20Password/PutNewPassword.dart';
@@ -27,46 +28,49 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: context.locale, // ✅ اجعل التطبيق يستخدم اللغة المختارة
+      supportedLocales: context.supportedLocales, // ✅ تأكد من اللغات المدعومة
+      localizationsDelegates: context.localizationDelegates,
       theme: MyThemeData.LightTheme,
       debugShowCheckedModeBanner: false,
       routes: {
-        AppStrings.homeScreenRoute: (context) => HomeScreen(),
-        AppStrings.loginScreenRoute: (context) => BlocProvider(
+        AppRoutes.homeScreenRoute: (context) => HomeScreen(),
+        AppRoutes.loginScreenRoute: (context) => BlocProvider(
               create: (context) => getIt<AuthCubit>(),
               child: SignInScreen(),
             ),
-        AppStrings.singUpScreenRoute: (context) => BlocProvider(
+        AppRoutes.singUpScreenRoute: (context) => BlocProvider(
               create: (context) => getIt<AuthCubit>(),
               child: SignUpScreen(),
             ),
-        AppStrings.enterEmailForgetPasswordScreenRoute: (context) =>
+        AppRoutes.enterEmailForgetPasswordScreenRoute: (context) =>
             BlocProvider(
               create: (context) => getIt<AuthCubit>(),
               child: EnterEmailForgetPassword(),
             ),
-        AppStrings.emailVerificationScreenRoute: (context) => BlocProvider(
+        AppRoutes.emailVerificationScreenRoute: (context) => BlocProvider(
               create: (context) => getIt<AuthCubit>(),
               child: EmailVerification(),
             ),
-        AppStrings.putNewPasswordScreenRoute: (context) => BlocProvider(
+        AppRoutes.putNewPasswordScreenRoute: (context) => BlocProvider(
               create: (context) => getIt<AuthCubit>(),
               child: PutNewPassword(),
             ),
-        // AppStrings.examScreenRoute: (context) => BlocProvider(
+        // AppRoutes.examScreenRoute: (context) => BlocProvider(
         //       create: (context) => getIt<QuestionsCubit>(),
         //       child: ExamScreen(),
         //     ),
         // In the routes map, update the profile route:
-        AppStrings.profileDetailsScreenRoute: (context) =>
+        AppRoutes.profileDetailsScreenRoute: (context) =>
             ProfileDetailsScreen(),
-        AppStrings.changePasswordScreenRoute: (context) =>
+        AppRoutes.changePasswordScreenRoute: (context) =>
             const ChangePasswordScreen(),
-        AppStrings.exploreScreenRoute: (context) => BlocProvider(
+        AppRoutes.exploreScreenRoute: (context) => BlocProvider(
               create: (context) =>
                   getIt<ExploreCubit>()..doIntent(GetSubjectsIntent()),
               child: const ExploreScreen(),
             ),
-        AppStrings.getAllExamsOnSubjectScreenRoute: (context) {
+        AppRoutes.getAllExamsOnSubjectScreenRoute: (context) {
           final args =
               ModalRoute.of(context)!.settings.arguments as Map<String, String>;
           return BlocProvider(

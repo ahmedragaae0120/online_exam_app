@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/data/model/Result/ResultModel.dart';
@@ -24,7 +25,7 @@ class SummaryExamScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-            "Exam score",
+            AppStrings.examScore,
           ),
           leading: IconButton(
             icon: Icon(
@@ -32,7 +33,7 @@ class SummaryExamScreen extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.pushNamedAndRemoveUntil(
-                  context, AppStrings.homeScreenRoute, (route) => false);
+                  context, AppRoutes.homeScreenRoute, (route) => false);
             },
           )),
       body: BlocBuilder<QuestionsCubit, QuestionsState>(

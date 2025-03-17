@@ -4,6 +4,7 @@ import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/assets_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/data/model/questions_response/QuestionsResponse.dart';
 import 'package:online_exam_app/ui/exam_screen/layouts/desktop/exam_screen_Desktop_body.dart';
@@ -66,7 +67,7 @@ class _ExamScreenState extends State<ExamScreen> {
       child: Scaffold(
         appBar: AppBar(
             title: Text(
-              "Exam",
+              AppStrings.exam,
             ),
             actions: [
               BlocBuilder<QuestionsCubit, QuestionsState>(
@@ -75,7 +76,7 @@ class _ExamScreenState extends State<ExamScreen> {
                     resultSuccessState = state;
                   }
                   if (state is GetQuestionsLoadingState) {
-                    return Text("loading please wait...",
+                    return Text(AppStrings.loadingPleaseWait,
                         style: AppTextStyle.regular25);
                   }
                   if (state is GetQuestionsSuccessState &&
@@ -118,7 +119,8 @@ class _ExamScreenState extends State<ExamScreen> {
             if (state is GetQuestionsSuccessState) {
               if (state.questionResponse?.questions?.isEmpty ?? true) {
                 return Center(
-                    child: Text("No Questions", style: AppTextStyle.regular25));
+                    child: Text(AppStrings.noQuestions,
+                        style: AppTextStyle.regular25));
               } else {
                 return LayoutBuilderWidget(
                     mobileLayout: (context) =>
