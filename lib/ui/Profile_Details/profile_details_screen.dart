@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/custom_button.dart';
@@ -5,6 +6,7 @@ import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
 import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
+import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_cubit.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_intent.dart';
 import 'package:online_exam_app/ui/Profile_Details/viewmodel/cubit/profile_state.dart';
@@ -24,6 +26,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
+  int selectedLanguage = 0;
 
   @override
   void initState() {
@@ -36,7 +39,27 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppStrings.profile),
+        title: Text(
+          AppStrings.profile,
+          textAlign: TextAlign.left,
+          locale: Locale("en"),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (context.locale == Locale('en')) {
+                context.setLocale(Locale('ar'));
+              } else {
+                context.setLocale(Locale('en'));
+              }
+            },
+            child: Text(
+              context.locale == Locale('en') ? 'العربية' : 'English',
+              style: AppTextStyle.regular16,
+              textAlign: TextAlign.right,
+            ),
+          )
+        ],
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
