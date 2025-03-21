@@ -1,102 +1,94 @@
+import 'package:easy_localization/easy_localization.dart';
+
 class AppStrings {
-  /* -------------------------------------------------------------------------- */
-  /*                          APPLICATION TEXT STRINGS                          */
-  /* -------------------------------------------------------------------------- */
-  static const String login = "Login";
-  static const String email = "Email";
-  static const String enterYourEmail = "Enter your e-mail";
-  static const String password = "Password";
-  static const String rememberMe = "Remember me";
-  static const String forgetpassword = "Forget password?";
-  static const String dontHaveAccount = "Don't have account?";
-  /* -------------------------------------------------------------------------- */
-  /* -------------------------------------------------------------------------- */
-  static const String signUp = "Sign up";
-  static const String userName = "Username";
-  static const String enterUserName = "Enter your username";
-  static const String firstName = "Firstname";
-  static const String enterYourFirstName = "Enter your Firstname";
-  static const String lastName = "Lastname";
-  static const String enterYourLastName = "Enter your lastname";
-  static const String confirmPassword = "Confirm password";
-  static const String phoneNumber = "Phone number";
-  static const String enterYourPhoneNumber = "Enter your phone number";
-  static const String signUpSuccessfully = "Sign Up successful";
-  static const String alreadyHaveAnAccount = "Already have an account?";
-  static const String changePassword = "Reset Password";
-  static const String currentPassword = "Current Password";
-  /* -------------------------------------------------------------------------- */
-  /* -------------------------------------------------------------------------- */
-  static const String profile = "Profile";
-  static const String updatesDoneSucceffully =
-      "Updates has been done Successful";
-  static const String update = "Update";
-  /* -------------------------------------------------------------------------- */
-  /* -------------------------------------------------------------------------- */
-  static const String emailVerification = "Email verification";
-  static const String sendedCode = '''
-Please enter your code that send to your
- email address''';
-  static const String dontRecieveCode = "Don't recieved code?";
-  static const String resend = "Resend";
-  static const String pleaseEnterEmailsAssociatedToUrAccount =
-      ''' Please enter your email associated to
-your account''';
-  static const String continu = "Continue";
-  static const String newPassword = "New Password";
-  static const String passwordvalid =
-      '''Password must not be empty and must contain
-6 characters with an uppercase letter and one
-number at least''';
-  static const String resetPassword = "Reset password";
-
-  /* -------------------------------------------------------------------------- */
-  /*                               Validator Text                               */
-  /* -------------------------------------------------------------------------- */
-
-  static const String emailCantBeEmpty = "Email cannot be empty";
-  static const String thePinCodeIsWrong = "The Pin Code is Wrong";
-  static const String enterValidEmailAddress = "Enter a valid email address";
-  static const String passwordCantBeEmpty = "Password cannot be empty";
-  static const String passwordMustBeAtLeast6Characters =
-      "Password must be at least 6 characters";
-  static const String passwordMustContainAtLeastOneUppercaseLetter =
-      "Password must contain at least one uppercase letter";
-  static const String passwordMustContainAtLeastOneNumber =
-      "Password must contain at least one number";
-  static const String passwordsDoNotMatch = "Passwords do not match";
-  static const String userNameCannotBeEmpty = "User name cannot be empty";
-  static const String userNameCannotBeMoreThan20Characters =
-      "User name cannot be more than 20 characters";
-  static const String firstNameCannotBeEmpty = "First name cannot be empty";
-  static const String firstNameCannotBeMoreThan20Characters =
-      "First name cannot be more than 20 characters";
-  static const String lastNameCannotBeEmpty = "Last name cannot be empty";
-  static const String lastNameCannotBeMoreThan20Characters =
-      "Last name cannot be more than 20 characters";
-  static const String phoneNumberCannotBeEmpty = "Phone number cannot be empty";
-  static const String phoneNumberCannotBeMoreThan20Characters =
-      "Phone number cannot be more than 20 characters";
-
-  static const String passwordMustContainAtLeastOneSpecialCharacter =
-      "Password Must Contain At Least One Special Character";
-
-  /* -------------------------------------------------------------------------- */
-  /*                         APPLICATION ROUTES STRINGS                          */
-  /* -------------------------------------------------------------------------- */
-  static const String homeScreenRoute = '/Homescreen';
-  static const String loginScreenRoute = '/Login';
-  static const String singUpScreenRoute = '/SignUp';
-  static const String profileDetailsScreenRoute = '/ProfileDetails';
-  static const String enterEmailForgetPasswordScreenRoute =
-      '/EnterEmailForgetPassword';
-  static const String emailVerificationScreenRoute = '/EmailVerification';
-  static const String putNewPasswordScreenRoute = '/PutNewPassword';
-  static const String ResultScreenRoute = '/ResultScreen';
-  static const String examScreenRoute = "/exam-screen";
-  static const String changePasswordScreenRoute = '/ChangePassword';
-  static const String exploreScreenRoute = '/exploreScreen';
-  static const String getAllExamsOnSubjectScreenRoute =
-      '/getAllExamsOnSubjectScreen';
-  static const String startExamScreenRoute = '/exam-start-screen';
+  static String get login => "login".tr();
+  static String get loginSuccessfully => "loginSuccessfully".tr();
+  static String get email => "email".tr();
+  static String get enterYourEmail => "enterYourEmail".tr();
+  static String get password => "password".tr();
+  static String get enterPassword => "enterPassword".tr();
+  static String get rememberMe => "rememberMe".tr();
+  static String get forgetpassword => "forgetpassword".tr();
+  static String get dontHaveAccount => "dontHaveAccount".tr();
+  static String get signUp => "signUp".tr();
+  static String get registeredSuccessfully => "registeredSuccessfully".tr();
+  static String get userName => "userName".tr();
+  static String get enterUserName => "enterUserName".tr();
+  static String get firstName => "firstName".tr();
+  static String get enterYourFirstName => "enterYourFirstName".tr();
+  static String get lastName => "lastName".tr();
+  static String get enterYourLastName => "enterYourLastName".tr();
+  static String get confirmPassword => "confirmPassword".tr();
+  static String get phoneNumber => "phoneNumber".tr();
+  static String get enterYourPhoneNumber => "enterYourPhoneNumber".tr();
+  static String get signUpSuccessfully => "signUpSuccessfully".tr();
+  static String get alreadyHaveAnAccount => "alreadyHaveAnAccount".tr();
+  static String get changePassword => "changePassword".tr();
+  static String get currentPassword => "currentPassword".tr();
+  static String get profile => "profile".tr();
+  static String get updatesDoneSuccessfully => "updatesDoneSuccessfully".tr();
+  static String get update => "update".tr();
+  static String get emailVerification => "emailVerification".tr();
+  static String get sendedCode => "sendedCode".tr();
+  static String get dontRecieveCode => "dontRecieveCode".tr();
+  static String get resend => "resend".tr();
+  static String get pleaseEnterEmailsAssociatedToUrAccount =>
+      "pleaseEnterEmailsAssociatedToUrAccount".tr();
+  static String get continueText => "continue".tr();
+  static String get newPassword => "newPassword".tr();
+  static String get passwordvalid => "passwordvalid".tr();
+  static String get resetPassword => "resetPassword".tr();
+  static String get emailCantBeEmpty => "emailCantBeEmpty".tr();
+  static String get thePinCodeIsWrong => "thePinCodeIsWrong".tr();
+  static String get enterValidEmailAddress => "enterValidEmailAddress".tr();
+  static String get passwordCantBeEmpty => "passwordCantBeEmpty".tr();
+  static String get passwordMustBeAtLeast6Characters =>
+      "passwordMustBeAtLeast6Characters".tr();
+  static String get passwordMustContainAtLeastOneUppercaseLetter =>
+      "passwordMustContainAtLeastOneUppercaseLetter".tr();
+  static String get passwordMustContainAtLeastOneNumber =>
+      "passwordMustContainAtLeastOneNumber".tr();
+  static String get passwordsDoNotMatch => "passwordsDoNotMatch".tr();
+  static String get userNameCannotBeEmpty => "userNameCannotBeEmpty".tr();
+  static String get userNameCannotBeMoreThan20Characters =>
+      "userNameCannotBeMoreThan20Characters".tr();
+  static String get firstNameCannotBeEmpty => "firstNameCannotBeEmpty".tr();
+  static String get firstNameCannotBeMoreThan20Characters =>
+      "firstNameCannotBeMoreThan20Characters".tr();
+  static String get lastNameCannotBeEmpty => "lastNameCannotBeEmpty".tr();
+  static String get lastNameCannotBeMoreThan20Characters =>
+      "lastNameCannotBeMoreThan20Characters".tr();
+  static String get phoneNumberCannotBeEmpty => "phoneNumberCannotBeEmpty".tr();
+  static String get phoneNumberCannotBeMoreThan20Characters =>
+      "phoneNumberCannotBeMoreThan20Characters".tr();
+  static String get passwordMustContainAtLeastOneSpecialCharacter =>
+      "passwordMustContainAtLeastOneSpecialCharacter".tr();
+  static String get examScore => "exam_score".tr();
+  static String get next => "next".tr();
+  static String get back => "back".tr();
+  static String get change => "change".tr();
+  static String get invalidPassword => "invalid_password".tr();
+  static String get passwordNotMatched => "password_not_matched".tr();
+  static String get explore => "explore".tr();
+  static String get search => "search".tr();
+  static String get browseBySubject => "browse_by_subject".tr();
+  static String get startExam => "start_exam".tr();
+  static String get exam => "exam".tr();
+  static String get question => "question".tr();
+  static String get yourScore => "your_score".tr();
+  static String get correct => "correct".tr();
+  static String get incorrect => "incorrect".tr();
+  static String get showResults => "show_results".tr();
+  static String get startAgain => "start_again".tr();
+  static String get instructions => "instructions".tr();
+  static String get timeOut => "time_out".tr();
+  static String get viewScore => "view_score".tr();
+  static String get noQuestions => "noQuestions".tr();
+  static String get loadingPleaseWait => "loadingPleaseWait".tr();
+  static String get of => "of".tr();
+  static String get submit => "submit".tr();
+  static String get survey => "survey".tr();
+  static String get logout => "logout".tr();
+  static String get answers => "answers".tr();
+  static String get result => "result".tr();
 }

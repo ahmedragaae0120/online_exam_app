@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
+import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/ui/explorescreen/viewmodel/cubit/explore_cubit.dart';
 import 'package:online_exam_app/ui/explorescreen/viewmodel/cubit/explore_state.dart';
 
@@ -16,17 +18,11 @@ class ExploreScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Survey',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Text(AppStrings.survey, style: AppTextStyle.medium20),
               const SizedBox(height: 16),
               TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search',
+                  hintText: AppStrings.search,
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -34,13 +30,7 @@ class ExploreScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Browse by subject',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text(AppStrings.browseBySubject, style: AppTextStyle.medium18),
               const SizedBox(height: 16),
               Expanded(
                 child: BlocBuilder<ExploreCubit, ExploreState>(
@@ -84,18 +74,12 @@ class ExploreScreen extends StatelessWidget {
                                       },
                                     ),
                                   ),
-                                  title: Text(
-                                    subject.name,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
+                                  title: Text(subject.name,
+                                      style: AppTextStyle.medium16),
                                   onTap: () {
                                     Navigator.pushNamed(
                                       context,
-                                      AppStrings
-                                          .getAllExamsOnSubjectScreenRoute,
+                                      AppRoutes.getAllExamsOnSubjectScreenRoute,
                                       arguments: {
                                         'subjectId': subject.id,
                                         'subjectName': subject.name,

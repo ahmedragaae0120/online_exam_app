@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/Validator.dart';
@@ -7,6 +6,7 @@ import 'package:online_exam_app/Shared/widgets/custom_button.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
@@ -56,7 +56,7 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
           if (state.isSent) {
             Navigator.pushNamed(
               context,
-              AppStrings.emailVerificationScreenRoute,
+              AppRoutes.emailVerificationScreenRoute,
               arguments: emailController.text,
             );
           }
@@ -118,7 +118,7 @@ class _EnterEmailForgetPasswordState extends State<EnterEmailForgetPassword> {
                 /* Continue Button */
                 CustomButton(
                   onTap: _validateAndContinue,
-                  text: AppStrings.continu,
+                  text: AppStrings.continueText,
                 ),
               ],
             ),

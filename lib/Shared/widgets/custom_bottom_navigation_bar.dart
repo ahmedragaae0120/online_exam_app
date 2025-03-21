@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;
@@ -21,9 +22,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,
       items: [
-        _buildNavItem(Icons.home_outlined, "Explore", 0),
-        _buildNavItem(Icons.edit_note_outlined, "Result", 1),
-        _buildNavItem(Icons.person_outline, "Profile", 2),
+        _buildNavItem(Icons.home_outlined, AppStrings.explore, 0),
+        _buildNavItem(Icons.edit_note_outlined, AppStrings.result, 1),
+        _buildNavItem(Icons.person_outline, AppStrings.profile, 2),
       ],
     );
   }

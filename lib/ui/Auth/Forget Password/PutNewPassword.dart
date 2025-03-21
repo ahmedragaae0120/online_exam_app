@@ -1,5 +1,4 @@
 // ignore_for_file: file_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Shared/widgets/Validator.dart';
@@ -7,6 +6,7 @@ import 'package:online_exam_app/Shared/widgets/custom_button.dart';
 import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
@@ -62,7 +62,7 @@ class _PutNewPasswordState extends State<PutNewPassword> {
             // Wait for 2 seconds, then navigate to login
             Future.delayed(Duration(seconds: 2), () {
               Navigator.pop(context); // Close dialog
-              Navigator.pushNamed(context, AppStrings.loginScreenRoute);
+              Navigator.pushNamed(context, AppRoutes.loginScreenRoute);
             });
           }
         }
@@ -105,7 +105,7 @@ class _PutNewPasswordState extends State<PutNewPassword> {
                 ),
                 /* Password Field */
                 CustomPasswordField(
-                  label: AppStrings.continu,
+                  label: AppStrings.continueText,
                   controller: passwordController,
                   validator: Validator.password,
                 ),
@@ -121,7 +121,7 @@ class _PutNewPasswordState extends State<PutNewPassword> {
                 /* Continue Button */
                 CustomButton(
                   onTap: _validateAndUpdatePassword,
-                  text: AppStrings.continu,
+                  text: AppStrings.continueText,
                 ),
               ],
             ),

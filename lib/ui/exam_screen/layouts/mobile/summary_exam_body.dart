@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/utils/config.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/ui/exam_screen/view/exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
@@ -44,7 +45,7 @@ class SummaryExamBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            "Your score",
+            AppStrings.yourScore,
             style: AppTextStyle.medium20,
           ),
           Row(
@@ -68,13 +69,13 @@ class SummaryExamBody extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       ScoreIndicator(
-                          label: "Correct",
+                          label: AppStrings.correct,
                           count:
                               state.qestionsResultResponse?.correct?.toInt() ??
                                   0,
                           isCorrect: true),
                       ScoreIndicator(
-                          label: "Incorrect",
+                          label: AppStrings.incorrect,
                           count:
                               state.qestionsResultResponse?.wrong?.toInt() ?? 0,
                           isCorrect: false),
@@ -83,7 +84,7 @@ class SummaryExamBody extends StatelessWidget {
             ],
           ),
           OutlinedFilledButton(
-              text: "Show results",
+              text: AppStrings.showResults,
               onTap: () {
                 Navigator.push(
                   context,
@@ -98,7 +99,7 @@ class SummaryExamBody extends StatelessWidget {
               },
               borderSide: false),
           OutlinedFilledButton(
-              text: "Start again",
+              text: AppStrings.startAgain,
               onTap: () {
                 Navigator.pushReplacement(
                     context,

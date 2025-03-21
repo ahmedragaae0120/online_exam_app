@@ -1,0 +1,126 @@
+// DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
+
+// ignore_for_file: prefer_single_quotes, avoid_renaming_method_parameters, constant_identifier_names
+
+import 'dart:ui';
+
+import 'package:easy_localization/easy_localization.dart' show AssetLoader;
+
+class CodegenLoader extends AssetLoader{
+  const CodegenLoader();
+
+  @override
+  Future<Map<String, dynamic>?> load(String path, Locale locale) {
+    return Future.value(mapLocales[locale.toString()]);
+  }
+
+  static const Map<String,dynamic> _ar = {
+  "login": "تسجيل الدخول",
+  "loginSuccessfully": "تم تسجيل الدخول بنجاح",
+  "email": "البريد الإلكتروني",
+  "enterYourEmail": "أدخل بريدك الإلكتروني",
+  "password": "كلمة المرور",
+  "rememberMe": "تذكرني",
+  "forgetpassword": "نسيت كلمة المرور؟",
+  "dontHaveAccount": "ليس لديك حساب؟",
+  "signUp": "إنشاء حساب",
+  "registeredSuccessfully": "تم التسجيل بنجاح",
+  "userName": "اسم المستخدم",
+  "enterUserName": "أدخل اسم المستخدم",
+  "firstName": "الاسم الأول",
+  "enterYourFirstName": "أدخل اسمك الأول",
+  "lastName": "الاسم الأخير",
+  "enterYourLastName": "أدخل اسمك الأخير",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "phoneNumber": "رقم الهاتف",
+  "enterYourPhoneNumber": "أدخل رقم هاتفك",
+  "signUpSuccessfully": "تم التسجيل بنجاح",
+  "alreadyHaveAnAccount": "هل لديك حساب بالفعل؟",
+  "changePassword": "إعادة تعيين كلمة المرور",
+  "currentPassword": "كلمة المرور الحالية",
+  "profile": "الملف الشخصي",
+  "updatesDoneSuccessfully": "تمت التحديثات بنجاح",
+  "update": "تحديث",
+  "emailVerification": "تأكيد البريد الإلكتروني",
+  "sendedCode": "يرجى إدخال الرمز الذي تم إرساله إلى بريدك الإلكتروني",
+  "dontRecieveCode": "لم تستلم الرمز؟",
+  "resend": "إعادة الإرسال",
+  "pleaseEnterEmailsAssociatedToUrAccount": "يرجى إدخال البريد الإلكتروني المرتبط بحسابك",
+  "continue": "متابعة",
+  "newPassword": "كلمة مرور جديدة",
+  "passwordvalid": "يجب ألا تكون كلمة المرور فارغة ويجب أن تحتوي على 6 أحرف على الأقل، وحرف كبير، ورقم واحد على الأقل",
+  "resetPassword": "إعادة تعيين كلمة المرور",
+  "emailCantBeEmpty": "لا يمكن أن يكون البريد الإلكتروني فارغًا",
+  "thePinCodeIsWrong": "رمز التحقق غير صحيح",
+  "enterValidEmailAddress": "أدخل عنوان بريد إلكتروني صالح",
+  "passwordCantBeEmpty": "لا يمكن أن تكون كلمة المرور فارغة",
+  "passwordMustBeAtLeast6Characters": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+  "passwordMustContainAtLeastOneUppercaseLetter": "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل",
+  "passwordMustContainAtLeastOneNumber": "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل",
+  "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+  "userNameCannotBeEmpty": "لا يمكن أن يكون اسم المستخدم فارغًا",
+  "userNameCannotBeMoreThan20Characters": "لا يمكن أن يزيد اسم المستخدم عن 20 حرفًا",
+  "firstNameCannotBeEmpty": "لا يمكن أن يكون الاسم الأول فارغًا",
+  "firstNameCannotBeMoreThan20Characters": "لا يمكن أن يزيد الاسم الأول عن 20 حرفًا",
+  "lastNameCannotBeEmpty": "لا يمكن أن يكون الاسم الأخير فارغًا",
+  "lastNameCannotBeMoreThan20Characters": "لا يمكن أن يزيد الاسم الأخير عن 20 حرفًا",
+  "phoneNumberCannotBeEmpty": "لا يمكن أن يكون رقم الهاتف فارغًا",
+  "phoneNumberCannotBeMoreThan20Characters": "لا يمكن أن يزيد رقم الهاتف عن 20 رقمًا",
+  "passwordMustContainAtLeastOneSpecialCharacter": "يجب أن تحتوي كلمة المرور على حرف خاص واحد على الأقل"
+};
+static const Map<String,dynamic> _en = {
+  "login": "Login",
+  "loginSuccessfully": "Login Successfully",
+  "email": "Email",
+  "enterYourEmail": "Enter your e-mail",
+  "password": "Password",
+  "rememberMe": "Remember me",
+  "forgetpassword": "Forget password?",
+  "dontHaveAccount": "Don't have an account?",
+  "signUp": "Sign up",
+  "registeredSuccessfully": "Registered successfully",
+  "userName": "Username",
+  "enterUserName": "Enter your username",
+  "firstName": "Firstname",
+  "enterYourFirstName": "Enter your Firstname",
+  "lastName": "Lastname",
+  "enterYourLastName": "Enter your lastname",
+  "confirmPassword": "Confirm password",
+  "phoneNumber": "Phone number",
+  "enterYourPhoneNumber": "Enter your phone number",
+  "signUpSuccessfully": "Sign Up successful",
+  "alreadyHaveAnAccount": "Already have an account?",
+  "changePassword": "Reset Password",
+  "currentPassword": "Current Password",
+  "profile": "Profile",
+  "updatesDoneSuccessfully": "Updates have been done successfully",
+  "update": "Update",
+  "emailVerification": "Email verification",
+  "sendedCode": "Please enter your code that was sent to your email address",
+  "dontRecieveCode": "Didn't receive code?",
+  "resend": "Resend",
+  "pleaseEnterEmailsAssociatedToUrAccount": "Please enter your email associated with your account",
+  "continue": "Continue",
+  "newPassword": "New Password",
+  "passwordvalid": "Password must not be empty and must contain 6 characters with an uppercase letter and one number at least",
+  "resetPassword": "Reset password",
+  "emailCantBeEmpty": "Email cannot be empty",
+  "thePinCodeIsWrong": "The Pin Code is Wrong",
+  "enterValidEmailAddress": "Enter a valid email address",
+  "passwordCantBeEmpty": "Password cannot be empty",
+  "passwordMustBeAtLeast6Characters": "Password must be at least 6 characters",
+  "passwordMustContainAtLeastOneUppercaseLetter": "Password must contain at least one uppercase letter",
+  "passwordMustContainAtLeastOneNumber": "Password must contain at least one number",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "userNameCannotBeEmpty": "User name cannot be empty",
+  "userNameCannotBeMoreThan20Characters": "User name cannot be more than 20 characters",
+  "firstNameCannotBeEmpty": "First name cannot be empty",
+  "firstNameCannotBeMoreThan20Characters": "First name cannot be more than 20 characters",
+  "lastNameCannotBeEmpty": "Last name cannot be empty",
+  "lastNameCannotBeMoreThan20Characters": "Last name cannot be more than 20 characters",
+  "phoneNumberCannotBeEmpty": "Phone number cannot be empty",
+  "phoneNumberCannotBeMoreThan20Characters": "Phone number cannot be more than 20 characters",
+  "passwordMustContainAtLeastOneSpecialCharacter": "Password must contain at least one special character"
+};
+static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en};
+}

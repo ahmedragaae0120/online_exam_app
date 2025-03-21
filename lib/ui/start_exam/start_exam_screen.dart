@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/data/model/questions_response/exam.dart';
 
@@ -54,7 +55,7 @@ class StartExamScreen extends StatelessWidget {
                           Icon(Icons.question_answer, color: Colors.blue),
                           const SizedBox(width: 8),
                           Text(
-                            'Questions: ${exam.numberOfQuestions}',
+                            '${AppStrings.question}: ${exam.numberOfQuestions}',
                             style: TextStyle(fontSize: 16),
                           ),
                         ],
@@ -76,11 +77,11 @@ class StartExamScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      AppStrings.examScreenRoute,
+                      AppRoutes.examScreenRoute,
                       arguments: exam.id, // Pass just the exam ID
                     );
                   },
-                  child: Text('Start'),
+                  child: Text(AppStrings.startExam),
                 ),
               ),
             ],

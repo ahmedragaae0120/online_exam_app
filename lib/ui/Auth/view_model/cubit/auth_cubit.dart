@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/core/Di/di.dart';
 import 'package:online_exam_app/core/services/token_storage_service.dart';
-import 'package:online_exam_app/core/utils/string_manager.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/data/model/user_response/user_response.dart';
 import 'package:online_exam_app/domain/common/exceptions/server_error.dart';
 import 'package:online_exam_app/domain/common/result.dart';
@@ -69,10 +69,10 @@ class AuthCubit extends Cubit<AuthState> {
     bool? isRememberMe = await tokenService.isRememberMe();
     log("token: $token , isRememberMe: $isRememberMe");
     if (token == null || isRememberMe == false) {
-      startRoute = AppStrings.loginScreenRoute;
+      startRoute = AppRoutes.loginScreenRoute;
       log(startRoute.toString());
     } else {
-      startRoute = AppStrings.homeScreenRoute;
+      startRoute = AppRoutes.homeScreenRoute;
       log(startRoute.toString());
     }
   }

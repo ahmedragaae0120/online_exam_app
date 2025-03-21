@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/core/theme/colors_manager.dart';
 import 'package:online_exam_app/core/utils/config.dart';
+import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
-
 import 'package:online_exam_app/data/model/questions_response/question.dart';
 import 'package:online_exam_app/ui/exam_screen/view/summary_exam_screen.dart';
 import 'package:online_exam_app/ui/exam_screen/view_model/questions_cubit.dart';
@@ -15,7 +15,7 @@ import 'package:online_exam_app/ui/exam_screen/widgets/next&back_customButton.da
 class ExamScreenDesktopBody extends StatelessWidget {
   final GetQuestionsSuccessState getQuestionsSuccessState;
 
-  ExamScreenDesktopBody({
+  const ExamScreenDesktopBody({
     super.key,
     required this.getQuestionsSuccessState,
   });
@@ -63,7 +63,7 @@ class ExamScreenDesktopBody extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          "Question ${cubit.quesionCurrent} of ${totalQuestions.toString()}",
+                          "${AppStrings.question} ${cubit.quesionCurrent} ${AppStrings.of} ${totalQuestions.toString()}",
                           textAlign: TextAlign.center,
                           style: AppTextStyle.medium14
                               .copyWith(color: AppColors.grey),
@@ -73,7 +73,7 @@ class ExamScreenDesktopBody extends StatelessWidget {
                       Flexible(
                         fit: FlexFit.loose,
                         child: OutlinedFilledButton(
-                            text: "Back",
+                            text: AppStrings.back,
                             onTap: () {
                               cubit.doIntent(PreviousQuestionIntent());
                             },
@@ -84,8 +84,8 @@ class ExamScreenDesktopBody extends StatelessWidget {
                         fit: FlexFit.loose,
                         child: OutlinedFilledButton(
                             text: cubit.quesionCurrent == totalQuestions
-                                ? "Submit"
-                                : "Next",
+                                ? AppStrings.submit
+                                : AppStrings.next,
                             onTap: () {
                               if (cubit.quesionCurrent == totalQuestions) {
                                 cubit.doIntent(CheckAnswersIntent());

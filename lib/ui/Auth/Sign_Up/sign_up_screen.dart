@@ -6,12 +6,13 @@ import 'package:online_exam_app/Shared/widgets/Validator.dart';
 import 'package:online_exam_app/Shared/widgets/custom_button.dart';
 import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
 import 'package:online_exam_app/Shared/widgets/custom_text_field.dart';
+import 'package:online_exam_app/Shared/widgets/toast_message.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/config.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/core/utils/text_style_manger.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_cubit.dart';
 import 'package:online_exam_app/ui/Auth/view_model/cubit/auth_intent.dart';
-import 'package:online_exam_app/Shared/widgets/toast_message.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = "/sign_up_screen";
@@ -44,9 +45,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           : false,
       listener: (context, state) {
         if (state is SignupSuccessState) {
-          Navigator.pushNamed(context, AppStrings.loginScreenRoute);
+          Navigator.pushNamed(context, AppRoutes.loginScreenRoute);
           toastMessage(
-              message: "registered successfully",
+              message: AppStrings.signUpSuccessfully,
               tybeMessage: TybeMessage.positive);
         }
         if (state is SignupErrorState) {
@@ -151,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       onPressed: () {
                         Navigator.pushReplacementNamed(
-                            context, AppStrings.loginScreenRoute);
+                            context, AppRoutes.loginScreenRoute);
                       },
                     ),
                   ],

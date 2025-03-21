@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_it/get_it.dart';
 import 'package:online_exam_app/Shared/widgets/Validator.dart';
 import 'package:online_exam_app/Shared/widgets/custom_button.dart';
 import 'package:online_exam_app/Shared/widgets/custom_password_text_field.dart';
+import 'package:online_exam_app/core/utils/app_routes.dart';
 import 'package:online_exam_app/core/utils/string_manager.dart';
 import 'package:online_exam_app/ui/Profile_Details/change_password/viewmodel/change_password_cubit.dart';
 import 'package:online_exam_app/ui/Profile_Details/change_password/viewmodel/change_password_intent.dart';
 import 'package:online_exam_app/ui/Profile_Details/change_password/viewmodel/change_password_state.dart';
-import 'package:get_it/get_it.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
   const ChangePasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final TextEditingController currentPasswordController =
         TextEditingController();
     final TextEditingController newPasswordController = TextEditingController();
@@ -31,7 +32,7 @@ class ChangePasswordScreen extends StatelessWidget {
             Fluttertoast.showToast(msg: "Password changed successfully");
             Navigator.pushNamedAndRemoveUntil(
               context,
-              AppStrings.homeScreenRoute,
+              AppRoutes.homeScreenRoute,
               (route) => false,
             );
           } else if (state is ChangePasswordErrorState) {
@@ -45,7 +46,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 icon: Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () => Navigator.pushNamedAndRemoveUntil(
                   context,
-                  AppStrings.homeScreenRoute,
+                  AppRoutes.homeScreenRoute,
                   (route) => false,
                 ),
               ),
@@ -58,7 +59,7 @@ class ChangePasswordScreen extends StatelessWidget {
               children: [
                 Form(
                   // Wrap Column with Form
-                  key: _formKey,
+                  key: formKey,
                   child: Column(
                     children: [
                       const SizedBox(height: 30),
@@ -88,7 +89,7 @@ class ChangePasswordScreen extends StatelessWidget {
                       const SizedBox(height: 30),
                       CustomButton(
                         onTap: () {
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             final cubit = context.read<ChangePasswordCubit>();
                             cubit.doIntent(
                               UpdatePasswordIntent(
@@ -99,7 +100,7 @@ class ChangePasswordScreen extends StatelessWidget {
                             );
                           }
                         },
-                        text: 'Update Password',
+                        text: AppStrings.update,
                       ),
                     ],
                   ),
